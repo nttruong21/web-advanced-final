@@ -1,9 +1,18 @@
 const express = require("express");
 const { engine } = require("express-handlebars");
+const path = require("path");
+const morgan = require("morgan");
 require("dotenv").config();
 const credentials = require("./cookie/credentials");
 
 const app = express();
+
+// HTTP logger
+app.use(morgan("combined"));
+// app.use(morgan("dev"));
+
+// Use static folder
+app.use(express.static(path.join(__dirname, "public")));
 
 // Config template engine
 app.engine(
@@ -14,7 +23,7 @@ app.engine(
     })
 );
 app.set("view engine", "hbs");
-app.set("views", path.join(__dirname, "views"));
+app.set("views", path.join(__dirname, "resources", "views"));
 
 // Add middlewares  to get post request body
 app.use(
@@ -36,6 +45,11 @@ app.use(
         saveUninitialized: true,
     })
 );
+
+app.get("/", (req, res) => {
+    console.log(path.join(__dirname, "resources", "views"));
+    res.render("home");
+});
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {

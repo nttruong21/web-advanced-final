@@ -2,9 +2,10 @@
     "name": "web_advanced_final",
     "version": "1.0.0",
     "description": "",
-    "main": "server",
+    "main": "src/server",
     "scripts": {
         "start": "nodemon --inspect src/server.js",
+        "watch": "node-sass --watch src/resources/scss/app.scss src/public/css/app.css",
         "test": "echo \"Error: no test specified\" && exit 1"
     },
     "author": "",
@@ -14,9 +15,11 @@
         "dotenv": "^16.0.0",
         "express": "^4.18.0",
         "express-handlebars": "^6.0.5",
-        "express-session": "^1.17.2"
+        "express-session": "^1.17.2",
+        "node-sass": "^7.0.1"
     },
     "devDependencies": {
+        "morgan": "^1.10.0",
         "nodemon": "^2.0.15"
     }
 }
