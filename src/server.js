@@ -1,57 +1,29 @@
-const express = require("express");
-const { engine } = require("express-handlebars");
-const path = require("path");
-const morgan = require("morgan");
 require("dotenv").config();
-const credentials = require("./cookie/credentials");
 
-const app = express();
-
-// HTTP logger
-app.use(morgan("combined"));
-// app.use(morgan("dev"));
-
-// Use static folder
-app.use(express.static(path.join(__dirname, "public")));
-
-// Config template engine
-app.engine(
-    "hbs",
-    engine({
-        extname: "hbs",
-        defaultLayout: "main",
-    })
-);
-app.set("view engine", "hbs");
-app.set("views", path.join(__dirname, "resources", "views"));
-
-// Add middlewares  to get post request body
-app.use(
-    express.urlencoded({
-        extended: true,
-    })
-);
-
-app.use(express.json());
-
-// Cookie
-app.use(require("cookie-parser")(credentials.COOKIE_SECRET));
-
-// Session
-app.use(
-    require("express-session")({
-        secret: "keyboard cat",
-        resave: false,
-        saveUninitialized: true,
-    })
-);
-
-app.get("/", (req, res) => {
-    console.log(path.join(__dirname, "resources", "views"));
-    res.render("home");
+// Show lỗi hệ thống hỏng và ngắt kết nối
+process.on("uncaughtException", (err) => {
+  console.log(`Uncaught exception: ${err.message}`);
+  // Close server & exit process
+  process.exit(1);
 });
+// Ví dụ như
+// const x = 1;
+// x = 2;
+
+const app = require("./app");
+
+// Gọi kết nói database
+const db = require("./config/database/db");
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}.`);
+
+const server = app.listen(PORT, () => {
+  console.log(`App listening on port ${PORT}.`);
+});
+
+//  Lỗi khi kết nối database sai
+process.on("unhandledRejection", (err) => {
+  console.log(`Unhandled rejection: ${err.message}`);
+  //   Đóng server và thoát tiến trình
+  server.close(() => process.exit(1));
 });
