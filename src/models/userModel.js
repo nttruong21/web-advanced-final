@@ -41,14 +41,15 @@ const userSchema = mongoose.Schema({
     default: 0, // ( 0 - false, 1 - true),
   },
   username: {
-    type: String,
-    required: [true, "Please provide an username"],
+    type: Number,
+    enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   password: {
     type: String,
     required: [true, "Please provide an password"],
     //only 6 characters
     min: [6, "Password must be at least 6 characters"],
+    max: [6, "Password must be at most 6 characters"],
   },
   passwordConfirm: {
     type: String,

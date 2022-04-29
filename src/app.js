@@ -9,6 +9,8 @@ const app = express();
 const AppError = require("./utils/appError");
 const globalErrorHandler = require("./controllers/errorController");
 
+const userRouter = require("./routes/userRoute");
+
 // HTTP logger
 // app.use(morgan("combined"));
 app.use(morgan("dev"));
@@ -48,9 +50,12 @@ app.use(
   })
 );
 
-app.get("/", (req, res) => {
-  res.render("home");
-});
+// app.get("/", (req, res) => {
+//   res.render("home");
+// });
+
+app.use("/api/v1/users", userRouter);
+
 // Custom 404
 app.all("*", (req, res, next) => {
   // res.status(404).json({
