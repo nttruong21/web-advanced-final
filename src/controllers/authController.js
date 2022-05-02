@@ -8,7 +8,12 @@ const signToken = (id) =>
     expiresIn: process.env.JWT_EXPIRES_IN,
   });
 
-exports.login = catchAsync(async (req, res, next) => {});
+exports.login = catchAsync(async (req, res, next) => {
+  const { username, password } = req.body;
+  if (!username || !password) {
+    return next(new AppError("Please provide username and password", 400));
+  }
+});
 
 const randomPassword = (length) => {
   let result = "";

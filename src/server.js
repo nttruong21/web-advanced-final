@@ -3,7 +3,6 @@ require("dotenv").config();
 // Show lỗi hệ thống hỏng và ngắt kết nối
 process.on("uncaughtException", (err) => {
   console.log(`Uncaught exception: ${err.message}`);
-  // Close server & exit process
   process.exit(1);
 });
 // Ví dụ như

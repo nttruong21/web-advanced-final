@@ -54,6 +54,7 @@ app.use(
 //   res.render("home");
 // });
 
+//API
 app.use("/api/v1/users", userRouter);
 
 // Custom 404
@@ -65,7 +66,8 @@ app.all("*", (req, res, next) => {
 
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
+
 // Custom 500 error
 app.use(globalErrorHandler);
-// 4) Start server
+
 module.exports = app;

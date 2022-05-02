@@ -51,6 +51,7 @@ const userSchema = mongoose.Schema({
   },
   password: {
     type: String,
+    select: false,
   },
   balance: {
     type: Number,
