@@ -5,35 +5,35 @@ const bcrypt = require("bcryptjs");
 const userSchema = mongoose.Schema({
   phone: {
     type: String,
-    required: [true, "Please provide an phone number"],
+    required: [true, "Vui lòng cung cấp số điện thoại"],
     unique: true,
   },
   email: {
     type: String,
-    required: [true, "Please provide an email"],
+    required: [true, "Vui lòng cung cấp email"],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, "Please provide a valid email"],
+    validate: [validator.isEmail, "Vui lòng cung cấp email hợp lệ"],
   },
   name: {
     type: String,
-    required: [true, "Please provide an name"],
+    required: [true, "Vui lòng cung cấp tên"],
   },
   birthday: {
     type: Date,
-    required: [true, "Please provide an birthday"],
+    required: [true, "Vui lòng cung cấp ngày sinh"],
   },
   address: {
     type: String,
-    required: [true, "Please provide an address"],
+    required: [true, "Vui lòng cung cấp địa chỉ"],
   },
   idCardBack: {
     type: String,
-    required: [true, "Please provide an idCardBack"],
+    required: [true, "Vui lòng cung cấp chứng minh nhân dân mặt sau"],
   }, // hình ảnh Chứng minh nhân dân mặt sau
   idCardFront: {
     type: String,
-    required: [true, "Please provide an idCardFront"],
+    required: [true, "Vui lòng cung cấp chứng minh nhân dân mặt trước"],
   }, // hình ảnh Chứng minh nhân dân mặt trước
   status: {
     type: Number,
