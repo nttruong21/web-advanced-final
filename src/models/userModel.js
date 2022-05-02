@@ -1,5 +1,6 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
+const bcrypt = require("bcryptjs");
 
 const userSchema = mongoose.Schema({
   phone: {
@@ -22,6 +23,10 @@ const userSchema = mongoose.Schema({
     type: Date,
     required: [true, "Please provide an birthday"],
   },
+  address: {
+    type: String,
+    required: [true, "Please provide an address"],
+  },
   idCardBack: {
     type: String,
     required: [true, "Please provide an idCardBack"],
@@ -41,26 +46,11 @@ const userSchema = mongoose.Schema({
     default: 0, // ( 0 - false, 1 - true),
   },
   username: {
-    type: Number,
-    enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+    type: String,
+    // enum: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
   },
   password: {
     type: String,
-    required: [true, "Please provide an password"],
-    //only 6 characters
-    min: [6, "Password must be at least 6 characters"],
-    max: [6, "Password must be at most 6 characters"],
-  },
-  passwordConfirm: {
-    type: String,
-    required: [true, "Please confirm your password"],
-    validate: {
-      // This only works on SAVE
-      validator: function (el) {
-        return el === this.password;
-      },
-      message: "Passwords are not the same",
-    },
   },
   balance: {
     type: Number,
@@ -75,6 +65,17 @@ const userSchema = mongoose.Schema({
     default: "user",
     enum: ["user", "admin"],
   },
+});
+
+userSchema.pre("save", function (next) {
+  if (!this.password) {
+    next();
+  }
+  if (!this.isModified("password")) {
+    next();
+  }
+  this.password = bcrypt.hashSync(this.password, 10);
+  next();
 });
 
 const User = mongoose.model("User", userSchema);
