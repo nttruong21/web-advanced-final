@@ -4,6 +4,7 @@ const path = require("path");
 const morgan = require("morgan");
 require("dotenv").config();
 const credentials = require("./cookie/credentials");
+const route = require("./routes/index");
 
 const app = express();
 
@@ -46,12 +47,10 @@ app.use(
     })
 );
 
-app.get("/", (req, res) => {
-    console.log(path.join(__dirname, "resources", "views"));
-    res.render("home");
-});
+// Route
+route(app);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}.`);
+    console.log(`👉 App listening on port ${PORT}.`);
 });
