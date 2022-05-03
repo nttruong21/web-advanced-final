@@ -13,6 +13,19 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!username || !password) {
     return next(new AppError("Please provide username and password", 400));
   }
+  const user = await User.findOne({ username }).select("+password");
+  if (!user || !(await user.comparePassword(password, user.password))) {
+    return next(new AppError("Invalid username or password", 401));
+  }
+  user.password = undefined;
+  const token = signToken(user._id);
+  res.status(200).json({
+    status: "success",
+    token,
+    data: {
+      user,
+    },
+  });
 });
 
 const randomPassword = (length) => {

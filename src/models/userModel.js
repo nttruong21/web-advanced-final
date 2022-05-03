@@ -60,6 +60,7 @@ const userSchema = mongoose.Schema({
   isChangedPassword: {
     type: Boolean,
     default: false, // ( 0 - false, 1 - true),
+    select: false,
   },
   role: {
     type: String,
@@ -78,6 +79,10 @@ userSchema.pre("save", function (next) {
   this.password = bcrypt.hashSync(this.password, 10);
   next();
 });
+
+userSchema.methods.comparePassword = function (password) {
+  return bcrypt.compareSync(password, this.password);
+};
 
 const User = mongoose.model("User", userSchema);
 
