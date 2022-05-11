@@ -1,7 +1,7 @@
-const User = require("../models/userModel");
-const catchAsync = require("../utils/catchAsync");
+const Account = require("../models/account");
+const catchAsync = require("../../utils/catchAsync");
 const jwt = require("jsonwebtoken");
-const sendMail = require("../utils/email");
+const sendMail = require("../../utils/email");
 
 const signToken = (id) =>
   jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -13,7 +13,7 @@ exports.login = catchAsync(async (req, res, next) => {
   if (!username || !password) {
     return next(new AppError("Please provide username and password", 400));
   }
-  const user = await User.findOne({ username }).select("+password");
+  const user = await Account.findOne({ username }).select("+password");
   if (!user || !(await user.comparePassword(password, user.password))) {
     return next(new AppError("Invalid username or password", 401));
   }
@@ -41,7 +41,7 @@ const randomPassword = (length) => {
 exports.signup = catchAsync(async (req, res, next) => {
   if (req.body.username) req.body.username = undefined;
   if (req.body.password) req.body.password = undefined;
-  const newUser = await User.create(req.body);
+  const newUser = await Account.create(req.body);
 
   // random 10 number
   const username = Math.floor(Math.random() * 10000000000).toString();

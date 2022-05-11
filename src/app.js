@@ -7,9 +7,9 @@ const credentials = require("./cookie/credentials");
 
 const app = express();
 const AppError = require("./utils/appError");
-const globalErrorHandler = require("./controllers/errorController");
+const globalErrorHandler = require("./app/controllers/errorController");
 
-const userRouter = require("./routes/userRoute");
+const routes = require("./routes/index");
 
 // HTTP logger
 // app.use(morgan("combined"));
@@ -50,19 +50,14 @@ app.use(
   })
 );
 
-// app.get("/", (req, res) => {
-//   res.render("home");
-// });
-
-//API
-app.use("/api/v1/users", userRouter);
+routes(app);
 
 // Custom 404
 app.all("*", (req, res, next) => {
-  // res.status(404).json({
-  //     status: 'fail',
-  //     message: `Can't find ${req.originalUrl} on this server!`
-  // });
+  res.status(404).json({
+    status: "fail",
+    message: `Can't find ${req.originalUrl} on this server!`,
+  });
 
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
