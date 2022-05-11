@@ -54,10 +54,6 @@ exports.signup = catchAsync(async (req, res, next) => {
   Mật khẩu của bạn : ${password} \n
   Vui lòng truy cập : ${resetURL} để đăng nhập.\n`;
 
-  newUser.username = username;
-  newUser.password = password;
-  await newUser.save();
-
   try {
     await sendMail({
       email: newUser.email,
@@ -79,4 +75,7 @@ exports.signup = catchAsync(async (req, res, next) => {
       new AppError("Lỗi trong quá trình gửi mail . Vui lòng thử lại!", 500)
     );
   }
+  newUser.username = username;
+  newUser.password = password;
+  await newUser.save();
 });
