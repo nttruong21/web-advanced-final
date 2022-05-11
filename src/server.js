@@ -5,8 +5,11 @@ const morgan = require("morgan");
 require("dotenv").config();
 const credentials = require("./cookie/credentials");
 const route = require("./routes/index");
+const db = require("./config/database/db");
 
 const app = express();
+
+db.connect();
 
 // HTTP logger
 app.use(morgan("combined"));
