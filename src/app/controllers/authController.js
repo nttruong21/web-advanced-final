@@ -1,6 +1,7 @@
 const Account = require('../models/account');
 const catchAsync = require('../../utils/catchAsync');
 const { promisify } = require('util');
+const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 const sendMail = require('../../utils/email');
 
