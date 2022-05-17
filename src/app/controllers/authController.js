@@ -81,7 +81,9 @@ exports.signup = catchAsync(async (req, res, next) => {
       subject: 'Tài khoản và mật khẩu đăng nhập của bạn',
       message,
     });
-
+    newUser.username = username;
+    newUser.password = password;
+    await newUser.save();
     res.status(200).json({
       status: 'success',
       message: ' sent to email!',
@@ -97,7 +99,4 @@ exports.signup = catchAsync(async (req, res, next) => {
       message: 'Email could not be sent',
     });
   }
-  newUser.username = username;
-  newUser.password = password;
-  await newUser.save();
 });
