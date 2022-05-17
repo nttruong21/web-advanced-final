@@ -4,19 +4,19 @@ class SiteController {
   }
 
   login(req, res) {
-    res.render("login")
+    res.render("test");
   }
 
   registerUser(req, res) {
-    res.render("register")
+    res.render("register");
   }
 
   changePasswordFirst(req, res) {
-    res.render("change_password_first")
+    res.render("change_password_first");
   }
 
   resetPassword(req, res) {
-    res.render("reset_password")
+    res.render("reset_password");
   }
 }
 
