@@ -1,39 +1,37 @@
-const mongoose = require("mongoose");
-const validator = require("validator");
-const bcrypt = require("bcryptjs");
+const mongoose = require('mongoose');
+const validator = require('validator');
+const bcrypt = require('bcryptjs');
 
 const accountSchema = mongoose.Schema({
   phone: {
     type: String,
-    required: [true, "Vui lòng cung cấp số điện thoại"],
+    required: [true, 'Vui lòng cung cấp số điện thoại'],
     unique: true,
   },
   email: {
     type: String,
-    required: [true, "Vui lòng cung cấp email"],
+    required: [true, 'Vui lòng cung cấp email'],
     unique: true,
     lowercase: true,
-    validate: [validator.isEmail, "Vui lòng cung cấp email hợp lệ"],
+    validate: [validator.isEmail, 'Vui lòng cung cấp email hợp lệ'],
   },
   name: {
     type: String,
-    required: [true, "Vui lòng cung cấp tên"],
+    required: [true, 'Vui lòng cung cấp tên'],
   },
   birthday: {
     type: Date,
-    required: [true, "Vui lòng cung cấp ngày sinh"],
+    required: [true, 'Vui lòng cung cấp ngày sinh'],
   },
   address: {
     type: String,
-    required: [true, "Vui lòng cung cấp địa chỉ"],
+    required: [true, 'Vui lòng cung cấp địa chỉ'],
   },
   idCardBack: {
     type: String,
-    required: [true, "Vui lòng cung cấp chứng minh nhân dân mặt sau"],
   },
   idCardFront: {
     type: String,
-    required: [true, "Vui lòng cung cấp chứng minh nhân dân mặt trước"],
   },
   status: {
     type: Number,
@@ -62,16 +60,17 @@ const accountSchema = mongoose.Schema({
   },
   role: {
     type: String,
-    default: "user",
-    enum: ["user", "admin"],
+    default: 'user',
+    enum: ['user', 'admin'],
   },
 });
 
-accountSchema.pre("save", function (next) {
+accountSchema.pre('save', function (next) {
   if (!this.password) {
     next();
   }
-  if (!this.isModified("password")) {
+  // If này chỉ chạy khi password đã được thay đổi
+  if (!this.isModified('password')) {
     next();
   }
   this.password = bcrypt.hashSync(this.password, 10);
@@ -82,6 +81,6 @@ accountSchema.methods.comparePassword = function (password) {
   return bcrypt.compareSync(password, this.password);
 };
 
-const Account = mongoose.model("Account", accountSchema);
+const Account = mongoose.model('Account', accountSchema);
 
 module.exports = Account;
