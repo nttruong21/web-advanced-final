@@ -1,33 +1,33 @@
-const mongoose = require('mongoose');
-const validator = require('validator');
-const bcrypt = require('bcryptjs');
-const crypto = require('crypto');
+const mongoose = require("mongoose");
+const validator = require("validator");
+const bcrypt = require("bcryptjs");
+const crypto = require("crypto");
 
 const accountSchema = mongoose.Schema(
   {
     phone: {
       type: String,
-      required: [true, 'Vui lòng cung cấp số điện thoại'],
+      required: [true, "Vui lòng cung cấp số điện thoại"],
       unique: true,
     },
     email: {
       type: String,
-      required: [true, 'Vui lòng cung cấp email'],
+      required: [true, "Vui lòng cung cấp email"],
       unique: true,
       lowercase: true,
-      validate: [validator.isEmail, 'Vui lòng cung cấp email hợp lệ'],
+      validate: [validator.isEmail, "Vui lòng cung cấp email hợp lệ"],
     },
     name: {
       type: String,
-      required: [true, 'Vui lòng cung cấp tên'],
+      required: [true, "Vui lòng cung cấp tên"],
     },
     birthday: {
       type: Date,
-      required: [true, 'Vui lòng cung cấp ngày sinh'],
+      required: [true, "Vui lòng cung cấp ngày sinh"],
     },
     address: {
       type: String,
-      required: [true, 'Vui lòng cung cấp địa chỉ'],
+      required: [true, "Vui lòng cung cấp địa chỉ"],
     },
     idCardBack: {
       type: String,
@@ -62,8 +62,8 @@ const accountSchema = mongoose.Schema(
     },
     role: {
       type: String,
-      default: 'user',
-      enum: ['user', 'admin'],
+      default: "user",
+      enum: ["user", "admin"],
     },
     passwordChangeAt: {
       type: Date,
@@ -78,12 +78,12 @@ const accountSchema = mongoose.Schema(
   }
 );
 
-accountSchema.pre('save', function (next) {
+accountSchema.pre("save", function (next) {
   if (!this.password) {
     next();
   }
   // If này chỉ chạy khi password đã được thay đổi
-  if (!this.isModified('password')) {
+  if (!this.isModified("password")) {
     next();
   }
   this.password = bcrypt.hashSync(this.password, 10);
@@ -95,21 +95,21 @@ accountSchema.methods.comparePassword = function (password) {
 };
 
 accountSchema.methods.createPasswordResetToken = function () {
-  const resetToken = crypto.randomBytes(32).toString('hex');
+  const resetToken = crypto.randomBytes(32).toString("hex");
 
   // Hash token and set to resetPasswordToken field
   this.passwordResetToken = crypto
-    .createHash('sha256')
+    .createHash("sha256")
     .update(resetToken)
-    .digest('hex');
+    .digest("hex");
 
-  console.log({ resetToken }, this.passwordResetToken);
+  // console.log({ resetToken }, this.passwordResetToken);
 
   this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
 
   return resetToken;
 };
 
-const Account = mongoose.model('Account', accountSchema);
+const Account = mongoose.model("Account", accountSchema);
 
 module.exports = Account;
