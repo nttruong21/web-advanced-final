@@ -94,22 +94,22 @@
   color: #222;
   font-size: 18px;
   font-weight: 600;
-  margin: 0 0 35px 0;
   vertical-align: text-top;
+  text-decoration: none;
   display: inline-block; }
 
 .form-horizontal .signup a {
   color: #446dca;
-  text-decoration: underline;
-  margin: 0 0 0 25px; }
+  transition: all 0.3s ease 0s; }
 
 .form-horizontal .signup a:hover {
-  color: #000;
-  transition: all 0.3s ease 0s; }
+  color: #000; }
 
 .form-horizontal .forgot {
   color: #446dca;
-  text-decoration: underline;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 18px;
   display: block; }
 
 .form-horizontal .forgot a {

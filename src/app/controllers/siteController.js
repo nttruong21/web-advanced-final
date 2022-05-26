@@ -18,6 +18,10 @@ class SiteController {
   resetPassword(req, res) {
     res.render("reset_password");
   }
+
+  test(req, res) {
+    res.render("test");
+  }
 }
 
 module.exports = new SiteController();

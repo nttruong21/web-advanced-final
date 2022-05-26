@@ -7,5 +7,6 @@ route.get("/login", siteController.login);
 route.get("/register", siteController.registerUser);
 route.get("/changePasswordFirst", siteController.changePasswordFirst);
 route.get("/resetPassword", siteController.resetPassword);
+route.get("/test", siteController.test);
 
 module.exports = route;
