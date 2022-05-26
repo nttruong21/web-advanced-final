@@ -4,7 +4,7 @@ class SiteController {
   }
 
   login(req, res) {
-    res.render("test");
+    res.render("login");
   }
 
   registerUser(req, res) {
@@ -19,8 +19,8 @@ class SiteController {
     res.render("reset_password");
   }
 
-  test(req, res) {
-    res.render("test");
+  forgotPassword(req, res) {
+    res.render("forgotPassword");
   }
 }
 

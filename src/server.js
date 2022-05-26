@@ -1,16 +1,11 @@
-require('dotenv').config();
+require("dotenv").config();
 
-const app = require('./app');
+const app = require("./app");
 
-const db = require('./config/database/db');
+const db = require("./config/database/db");
 
 const PORT = process.env.PORT || 3000;
 
 const server = app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}.`);
 });
-
-// process.on("unhandledRejection", (err) => {
-//   console.log(`Unhandled rejection: ${err.message}`);
-//   server.close(() => process.exit(1));
-// });
