@@ -1,3 +1,93 @@
-.tin-lol {
-  color: red;
-  font-size: 15px; }
+:root {
+    --aside-text-color: #a6aab4;
+    --text-color: #333;
+    --header-height: 60px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #f5f6fa;
+}
+
+/* GENERAL */
+.pl-26-px {
+    padding-left: 26px;
+}
+
+.pl-12-px {
+    padding-left: 12px;
+}
+
+.px-32-px {
+    padding-left: 32px;
+    padding-right: 32px;
+}
+
+.pr-17-px {
+    padding-right: 17px;
+}
+
+.fs-14-px {
+    font-size: 14px;
+}
+
+.height-100-vh {
+    height: 100vh !important;
+}
+
+.height-100-percent {
+    height: 100%;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.text-color {
+    color: var(--text-color);
+}
+
+.font-size-16px {
+    font-size: 16px;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+li {
+    list-style: none;
+}
+
+.position-relative {
+    position: relative;
+}
+
+header {
+    height: var(--header-height);
+}
+
+/* SIDEBAR */
+.custom-badge {
+    background-color: #545b62;
+}
+
+.custom-badge:hover {
+    background-color: #6c757d;
+}
+
+.aside-text-color {
+    color: var(--aside-text-color);
+}
+
+/* RIGHT CONTENT */
+.list-content {
+    height: 360px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

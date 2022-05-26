@@ -13,9 +13,9 @@ const accountSchema = new Schema(
         balance: { type: Number },
         frontIdCard: { type: String },
         backIdCard: { type: String },
-        status: { type: String },
-        abnormalLogin: { type: String },
-        isChangedPassword: { type: String },
+        status: { type: Number },
+        abnormalLogin: { type: Number },
+        isChangedPassword: { type: Number },
     },
     {
         timestamps: true,

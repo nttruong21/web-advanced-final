@@ -3,15 +3,8 @@ const { Schema } = mongoose;
 
 const phoneServiceProviderSchema = new Schema(
     {
-        transactionType: { type: Number },
-        price: { type: Number },
-        status: { type: Number },
-        senderPhone: { type: String },
-        receiverPhone: { type: String },
-        message: { type: String },
-        phoneCardCode: { type: String },
-        phoneCardQuantity: { type: Number },
-        transactionFee: { type: String },
+        phoneServiceProviderCode: { type: String },
+        phoneServiceProviderName: { type: String },
     },
     {
         timestamps: true,
@@ -19,6 +12,6 @@ const phoneServiceProviderSchema = new Schema(
 );
 
 module.exports = mongoose.model(
-    "PhoneServiceProvider",
+    "phoneServiceProvider",
     phoneServiceProviderSchema
 );

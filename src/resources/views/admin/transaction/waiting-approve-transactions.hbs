@@ -1,0 +1,64 @@
+<div class="col-10">
+    <div class="container pt-5">
+        <!-- DANH SÁCH GIAO DỊCH ĐANG CHỜ DUYỆT-->
+        <div class="card card-table-border-none bg-white p-4" id="recent-orders">
+            <div class="card-header justify-content-between bg-white border-0">
+                <h4>GIAO DỊCH ĐANG CHỜ DUYỆT</h4>
+            </div>
+            <div class="card-body pt-0 col-12">
+                {{!-- HEADING --}}
+                <div class="row pr-17-px mb-3">
+                    <div class="col-3 font-weight-bold">
+                        Mã giao dịch
+                    </div>
+                    <div class="col-3 font-weight-bold">
+                        Người gửi
+                    </div>
+                    <div class="col-3 font-weight-bold">
+                        Người nhận
+                    </div>
+                    <div class="col-3 font-weight-bold">
+                        Số tiền
+                    </div>
+                </div>
+
+                {{!-- LIST ITEMS --}}
+                <div class="list-content">
+                    {{#each transactions}}
+                    <div class="row mb-2">
+                        <div class="col-3">
+                            {{this._id}}
+                        </div>
+                        <div class="col-3">
+                            {{this.senderPhone}}
+                        </div>
+                        <div class="col-3">
+                            {{this.receiverPhone}}
+                        </div>
+                        <div class="col-3">{{this.price}}</div>
+                        <div class="col-3">
+                            <div class="dropdown show d-inline-block widget-dropdown">
+                                <a class=" text-color dropdown-toggle icon-burger-mini" href=""
+                                    role="button" data-toggle="dropdown" aria-haspopup="true"
+                                    aria-expanded="false" data-display="static">Thao tác</a>
+                                <ul class="dropdown-menu dropdown-menu-right"
+                                    aria-labelledby="dropdown-recent-order1">
+                                    <li class="dropdown-item">
+                                        <a class="d-block"
+                                            href="/admin/accounts/account-detail/{{this._id}}">Chi
+                                            tiết</a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    {{else}}
+                    <div>
+                        Không có giao dịch nào đang chờ duyệt
+                    </div>
+                    {{/each}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

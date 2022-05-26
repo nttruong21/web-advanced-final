@@ -1,0 +1,149 @@
+<div class="col-10">
+    <div class="container pt-5">
+        <div class="card card-default">
+            <div class="card-header card-header-border-bottom d-flex justify-content-between">
+                <div class="d-flex">
+                    {{!-- NẾU LÀ TÀI KHOẢN ĐANG CHỜ KÍCH HOẠT --}}
+                    {{#if (isWaitingActiveAccount account.status)}}
+                    <button class="btn btn-primary mr-3" data-toggle="modal"
+                        data-target="#verify-account-modal" data-account-action="xác minh"
+                        data-status="1">Xác minh</button>
+                    <button class="btn btn-danger mr-3" data-toggle="modal"
+                        data-target="#verify-account-modal" data-account-action="hủy"
+                        data-status="2">Hủy</button>
+                    <button class="btn btn-info mr-3" data-toggle="modal"
+                        data-target="#verify-account-modal"
+                        data-account-action="yêu cầu bổ sung thông tin" data-status="3">Yêu cầu bổ
+                        sung
+                        thông
+                        tin</button>
+                    {{/if}}
+
+                    {{!-- NẾU LÀ TÀI KHOẢN ĐANG CHỜ BỊ KHÓA --}}
+                    {{#if (isLockingAccount account.status)}}
+                    <button class="btn btn-primary mr-3" data-toggle="modal"
+                        data-target="#verify-account-modal" data-account-action="mở khóa"
+                        data-status="1">Mở
+                        khóa</button>
+                    {{/if}}
+                </div>
+                {{{renderAccountStatus account.status}}}
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="name">Họ tên</label>
+                        <input type="text" value="{{account.name}}" name="name" id="name"
+                            class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="phone">Số điện thoại</label>
+                        <input type="number" value="{{account.phone}}" name="phone" id="phone"
+                            class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" value="{{account.address}}" name="address" id="address"
+                            class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="email">Email</label>
+                        <input type="text" value="{{account.email}}" name="email" id="email"
+                            class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="birthday">Ngày sinh</label>
+                        <input type="text" value="{{getDateFormat account.birthday}}"
+                            name="birthday" id="birthday" class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="balance">Số dư</label>
+                        <input type="number" value="{{account.balance}}" name="balance" id="balance"
+                            class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="front-id-card">Ảnh CMND mặt trước</label>
+                        <img src="{{account.frontIdCard}}" alt="" width="100%">
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="back-id-card">Ảnh CMND mặt sau</label>
+                        <img src="{{account.backIdCard}}" alt="" width="100%">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{{!-- Modal --}}
+<div class="modal fade" id="verify-account-modal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Xác minh tài khoản</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn chắc chắn với quyết định <strong id="verify-decision"></strong> cho tài
+                khoản
+                này?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy
+                    bỏ</button>
+                <button id="confirm-modal-btn" type="button" class="btn btn-primary"
+                    data-account-id="{{account._id}}" data-account-status="">Chắc
+                    chắn</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const comfirmModalBtn = document.getElementById("confirm-modal-btn");
+
+    $('#verify-account-modal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        console.log()
+        const status = button.data('status');
+        const accountAction = button.data('account-action');
+        const modal = $(this);
+        comfirmModalBtn.dataset.accountStatus = status;
+        modal.find('#verify-decision').text(accountAction);
+    });
+
+    comfirmModalBtn.addEventListener("click", (e) => {
+        const accountStatus = e.target.dataset.accountStatus;
+        const accountId = e.target.dataset.accountId;
+        const data = {
+            id: accountId,
+            status: accountStatus
+        };
+
+        fetch("http://localhost:3000/admin/accounts/verify-account", {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(data)
+        })
+            .then(res => res.json())
+            .then(json => {
+                if (json.code === 1) {
+                    location.reload();
+                } else {
+                    console.log(">>> Code 0 - Had error when change the account status")
+                }
+            })
+            .catch(error => console.log(">>> Had error when change the account status"))
+    })
+</script>
