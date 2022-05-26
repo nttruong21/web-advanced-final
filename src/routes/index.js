@@ -11,6 +11,7 @@ function route(app) {
 
     // Client
     app.use("/", siteRoute);
+    app.use("/api/accounts", accountRoute);
 
     // 404, 500
     app.use((req, res) => {

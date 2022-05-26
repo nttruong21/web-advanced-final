@@ -1,13 +1,9 @@
-const express = require("express");
-const { engine } = require("express-handlebars");
-const path = require("path");
-const morgan = require("morgan");
 require("dotenv").config();
 const credentials = require("./cookie/credentials");
 const route = require("./routes/index");
 const db = require("./config/database/db");
 
-const app = express();
+const app = require("./app");
 
 db.connect();
 
@@ -76,6 +72,7 @@ app.use(
 route(app);
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-    console.log(`>>> App listening on port ${PORT}`);
+
+const server = app.listen(PORT, () => {
+    console.log(`App listening on port ${PORT}.`);
 });
