@@ -1,10 +1,15 @@
+const express = require("express");
+const { engine } = require("express-handlebars");
+const path = require("path");
+const morgan = require("morgan");
 require("dotenv").config();
 const credentials = require("./cookie/credentials");
 const route = require("./routes/index");
 const db = require("./config/database/db");
 
-const app = require("./app");
+const app = express();
 
+// CONNECT TO DATABASE
 db.connect();
 
 // HTTP logger
@@ -73,6 +78,6 @@ route(app);
 
 const PORT = process.env.PORT || 3000;
 
-const server = app.listen(PORT, () => {
-    console.log(`App listening on port ${PORT}.`);
+app.listen(PORT, () => {
+    console.log(`>>> App listening on port ${PORT}.`);
 });

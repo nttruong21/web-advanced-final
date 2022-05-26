@@ -110,6 +110,4 @@ accountSchema.methods.createPasswordResetToken = function () {
     return resetToken;
 };
 
-const Account = mongoose.model("Account", accountSchema);
-
-module.exports = Account;
+module.exports = mongoose.model("Account", accountSchema);

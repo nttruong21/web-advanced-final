@@ -1,6 +1,7 @@
 const adminAccountRoute = require("./admin/account");
 const adminTransactionRoute = require("./admin/transaction");
 const siteRoute = require("./site");
+const accountRoute = require("./account");
 
 function route(app) {
     // Tương tự các route như account, ... sẽ khai báo ở đây

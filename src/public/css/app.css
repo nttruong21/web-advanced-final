@@ -1,3 +1,4 @@
+/* --------------------------------- ADMIN ------------------------------------- */
 :root {
     --aside-text-color: #a6aab4;
     --text-color: #333;
@@ -91,6 +92,8 @@ header {
     overflow-y: auto;
     overflow-x: hidden;
 }
+
+/* ------------------------------ CLIENT --------------------------------- */
 .form-container {
     font-family: "Roboto", sans-serif;
     padding: 0 20px 20px 0;
