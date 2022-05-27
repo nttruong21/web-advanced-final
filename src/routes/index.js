@@ -2,7 +2,8 @@ const adminAccountRoute = require("./admin/account");
 const adminTransactionRoute = require("./admin/transaction");
 const siteRoute = require("./site");
 const accountRoute = require("./account");
-
+const userAccountRoute = require("./user/account");
+const userTransactionRoute = require("./user/transaction");
 function route(app) {
     // Tương tự các route như account, ... sẽ khai báo ở đây
 
@@ -13,6 +14,10 @@ function route(app) {
     // Client
     app.use("/", siteRoute);
     app.use("/api/accounts", accountRoute);
+
+    // User
+    app.use("/user/accounts", userAccountRoute);
+    app.use("/user/transactions", userTransactionRoute);
 
     // 404, 500
     app.use((req, res) => {
