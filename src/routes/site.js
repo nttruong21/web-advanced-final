@@ -1,7 +1,7 @@
 const express = require("express");
 const route = express.Router();
-const siteController = require("../app/controllers/SiteController");
 const middleware = require("../middlewares/middleware");
+const siteController = require("../app/controllers/SiteController");
 
 route.get("/login", siteController.login);
 route.get("/signUp", siteController.signUpUser);
@@ -10,7 +10,5 @@ route.get("/resetPassword", siteController.resetPassword);
 
 route.use(middleware.isLoggedIn);
 route.get("/changePasswordFirst", siteController.changePasswordFirst);
-
-route.get("/", siteController.index);
 
 module.exports = route;
