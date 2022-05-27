@@ -5,22 +5,7 @@ const {
 } = require("../../../utils/mongoose");
 /* User */
 class AccountController {
-	//[GET] /user/accounts/template
-	template(req, res, next) {
-		res.render("user/account/index", {
-			layout: "user",
-		});
-	}
-
-	//[GET] /user/accounts
-	index(req, res, next) {
-		if (!req.session.account) {
-			return res.redirect("/login");
-		}
-		res.render("user/account/index", {
-			layout: "user",
-		});
-	}
+	
 }
 
 module.exports = new AccountController();
