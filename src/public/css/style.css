@@ -1,8 +1,13 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap");
 /* --------------------------------- ADMIN ------------------------------------- */
 :root {
     --aside-text-color: #a6aab4;
     --text-color: #333;
     --header-height: 60px;
+    /* User */
+    --offcanvas-width: 270px;
+    --topNavbarHeight: 56px;
+
 }
 
 * {
@@ -272,4 +277,43 @@ header {
     padding: 50px 0px;
     height: 100vh;
     background: radial-gradient(circle, #eeaeca 0%, #94bbe9 100%);
+}
+
+/* ------------------------------User template css---------------------------------- */
+
+body,
+button {
+  font-family: "Inter", sans-serif;
+}
+.sidebar-nav {
+  width: var(--offcanvas-width);
+}
+.sidebar-link {
+  display: flex;
+  align-items: center;
+}
+.sidebar-link .right-icon {
+  display: inline-flex;
+}
+.sidebar-link[aria-expanded="true"] .right-icon {
+  transform: rotate(180deg);
+}
+@media (min-width: 992px) {
+  body {
+    overflow: auto !important;
+  }
+  main {
+    margin-left: var(--offcanvas-width);
+  }
+  /* this is to remove the backdrop */
+  .offcanvas-backdrop::before {
+    display: none;
+  }
+  .sidebar-nav {
+    -webkit-transform: none;
+    transform: none;
+    visibility: visible !important;
+    height: calc(100% - var(--topNavbarHeight));
+    top: var(--topNavbarHeight);
+  }
 }
