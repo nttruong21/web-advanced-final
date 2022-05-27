@@ -46,6 +46,22 @@ app.engine(
                         return `<p class="text-warning font-weight-bold mb-0">Đang bị khóa</p>`;
                 }
             },
+            getDateString: function (lockDateTime) {
+                // return lockDateTime.toLocaleDateString("vi-VI");
+                var dateTimeString =
+                    lockDateTime.getUTCFullYear() +
+                    "/" +
+                    ("0" + (lockDateTime.getUTCMonth() + 1)).slice(-2) +
+                    "/" +
+                    ("0" + lockDateTime.getUTCDate()).slice(-2) +
+                    " " +
+                    ("0" + lockDateTime.getUTCHours()).slice(-2) +
+                    ":" +
+                    ("0" + lockDateTime.getUTCMinutes()).slice(-2) +
+                    ":" +
+                    ("0" + lockDateTime.getUTCSeconds()).slice(-2);
+                return dateTimeString;
+            },
         },
     })
 );

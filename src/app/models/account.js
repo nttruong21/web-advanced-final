@@ -70,6 +70,7 @@ const accountSchema = mongoose.Schema(
         },
         passwordResetToken: String,
         passwordResetExpires: Date,
+        lockedAt: { type: Date },
     },
     {
         timestamps: true,

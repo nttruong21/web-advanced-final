@@ -7,11 +7,13 @@ const transactionSchema = new Schema(
         price: { type: Number },
         status: { type: Number },
         senderPhone: { type: String },
+        senderName: { type: String },
         receiverPhone: { type: String },
         message: { type: String },
         phoneCardCode: { type: String },
         phoneCardQuantity: { type: Number },
         transactionFee: { type: String },
+        isFeeForSender: { type: Number },
     },
     {
         timestamps: true,

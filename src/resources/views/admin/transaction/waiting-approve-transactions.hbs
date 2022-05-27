@@ -7,18 +7,18 @@
             </div>
             <div class="card-body pt-0 col-12">
                 {{!-- HEADING --}}
-                <div class="row pr-17-px mb-3">
+                <div class="row mb-3">
                     <div class="col-3 font-weight-bold">
                         Mã giao dịch
                     </div>
                     <div class="col-3 font-weight-bold">
-                        Người gửi
-                    </div>
-                    <div class="col-3 font-weight-bold">
-                        Người nhận
+                        Người thực hiện
                     </div>
                     <div class="col-3 font-weight-bold">
                         Số tiền
+                    </div>
+                    <div class="col-3 font-weight-bold">
+                        Thao tác
                     </div>
                 </div>
 
@@ -30,12 +30,11 @@
                             {{this._id}}
                         </div>
                         <div class="col-3">
-                            {{this.senderPhone}}
+                            {{this.senderName}}
                         </div>
                         <div class="col-3">
-                            {{this.receiverPhone}}
+                            {{this.price}}
                         </div>
-                        <div class="col-3">{{this.price}}</div>
                         <div class="col-3">
                             <div class="dropdown show d-inline-block widget-dropdown">
                                 <a class=" text-color dropdown-toggle icon-burger-mini" href=""

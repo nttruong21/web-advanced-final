@@ -7,18 +7,21 @@
             </div>
             <div class="card-body pt-0 col-12">
                 {{!-- HEADING --}}
-                <div class="row pr-17-px mb-3">
+                <div class="row mb-3">
                     <div class="col-3 font-weight-bold">
                         Mã tài khoản
                     </div>
                     <div class="col-3 font-weight-bold">
                         Họ tên
                     </div>
-                    <div class="col-3 font-weight-bold">
+                    <div class="col-2 font-weight-bold">
                         Tên đăng nhập
                     </div>
-                    <div class="col-3 font-weight-bold">
-                        Status
+                    <div class="col-2 font-weight-bold">
+                        Bị khóa lúc
+                    </div>
+                    <div class="col-2 font-weight-bold">
+                        Thao tác
                     </div>
                 </div>
 
@@ -32,8 +35,9 @@
                         <div class="col-3">
                             {{this.name}}
                         </div>
-                        <div class="col-3">{{this.username}}</div>
-                        <div class="col-3">
+                        <div class="col-2">{{this.username}}</div>
+                        <div class="col-2">{{getDateString this.lockedAt}}</div>
+                        <div class="col-2">
                             <div class="dropdown show d-inline-block widget-dropdown">
                                 <a class=" text-color dropdown-toggle icon-burger-mini" href=""
                                     role="button" data-toggle="dropdown" aria-haspopup="true"
