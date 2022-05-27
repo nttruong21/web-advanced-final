@@ -18,7 +18,7 @@ class SiteController {
 	forgotPassword(req, res) {
 		res.render("forgotPassword");
 	}
-
+	//[GET] /user/transactions/deposit
 	deposit(req, res) {
 		res.render("user/transaction/deposit", {
 			layout: "user",

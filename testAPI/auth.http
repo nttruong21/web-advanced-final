@@ -1,4 +1,4 @@
-
+### POST dang ki
 POST http://localhost:3000/api/accounts/signup
 content-type: application/json
 
@@ -11,7 +11,7 @@ content-type: application/json
     "address": "Hanoi"
 
 }
-###
+### POST dang nhap
 POST  http://localhost:3000/api/accounts/login
 content-type: application/json
 
@@ -19,3 +19,9 @@ content-type: application/json
     "username": "5857549051",
     "password": "123456"
 }
+### GET accounts
+GET http://localhost:3000/accounts
+
+### 
+POST http://localhost:3000/transactions/deposit
+content-type: application/json

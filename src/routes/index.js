@@ -16,8 +16,8 @@ function route(app) {
     app.use("/api/accounts", accountRoute);
 
     // User
-    app.use("/user/accounts", userAccountRoute);
-    app.use("/user/transactions", userTransactionRoute);
+    //app.use("/user/accounts", userAccountRoute);
+    app.use("/transactions", userTransactionRoute);
 
     // 404, 500
     app.use((req, res) => {

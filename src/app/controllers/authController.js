@@ -60,7 +60,7 @@ exports.login = catchAsync(async (req, res, next) => {
 		httpOnly: true,
 		secure: true,
 	};
-
+	
 	// Nếu đăng nhập thành công thì gửi token vào cookie
 	res.cookie("jwt", token, cookieOptions);
 
@@ -70,7 +70,9 @@ exports.login = catchAsync(async (req, res, next) => {
 			message: "Bạn chưa đổi mật khẩu!",
 		});
 	}
+	
 	user.password = undefined;
+	req.session.account = user;
 	res.status(200).json({
 		status: "success",
 		token,
