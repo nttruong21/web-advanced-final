@@ -1,12 +1,4 @@
 class SiteController {
-	//   index(req, res) {
-	//     if (!req.session.account) {
-	//       return res.redirect("/login");
-	//     } else {
-	//       return res.render("home");
-	//     }
-	//   }
-
 	login(req, res) {
 		if (req.session.account) {
 			return res.redirect("/user/accounts");
