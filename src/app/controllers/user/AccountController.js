@@ -1,5 +1,8 @@
 const Account = require("../../models/Account");
-const { multipleMongooseToObject, mongooseToObject } = require("../../../utils/mongoose");
+const {
+	multipleMongooseToObject,
+	mongooseToObject,
+} = require("../../../utils/mongoose");
 /* User */
 class AccountController {
 	//[GET] /user/accounts/template
@@ -11,6 +14,9 @@ class AccountController {
 
 	//[GET] /user/accounts
 	index(req, res, next) {
+		if (!req.session.account) {
+			return res.redirect("/login");
+		}
 		res.render("user/account/index", {
 			layout: "user",
 		});
