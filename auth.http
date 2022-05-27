@@ -1,0 +1,21 @@
+
+POST http://localhost:3000/api/accounts/signup
+content-type: application/json
+
+{
+    "phone": "0927055639",
+    "email": "daudangson123@gmail.com",
+    "password": "123456",
+    "name": "Daudang Son",
+    "birthday": "1990-01-01",
+    "address": "Hanoi"
+
+}
+###
+POST  http://localhost:3000/api/accounts/login
+content-type: application/json
+
+{
+    "username": "5857549051",
+    "password": "l04V37"
+}
