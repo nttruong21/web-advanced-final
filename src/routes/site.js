@@ -3,10 +3,6 @@ const route = express.Router();
 const middleware = require("../middlewares/middleware");
 const siteController = require("../app/controllers/SiteController");
 
-route.get("/accounts", siteController.index);
-
-route.get("/accounts/template", siteController.template);
-
 route.get("/login", siteController.login);
 
 route.get("/signUp", siteController.signUpUser);
@@ -15,7 +11,11 @@ route.get("/forgotPassword", siteController.forgotPassword);
 
 route.get("/resetPassword", siteController.resetPassword);
 
+route.use(middleware.isLoggedIn);
 route.get("/changePasswordFirst", siteController.changePasswordFirst);
+route.get("/accounts", siteController.index);
+
+route.get("/accounts/template", siteController.template);
 
 route.get("/transactions/deposit", siteController.deposit);
 

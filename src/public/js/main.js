@@ -39,7 +39,7 @@ const login = async (username, password) => {
 				showConfirmButton: false,
 			});
 			window.setTimeout(() => {
-				location.assign("/user/accounts");
+				location.assign("/accounts");
 			}, 1500);
 		}
 	} catch (err) {
@@ -85,7 +85,7 @@ if (form_changePassword) {
 			if (res.data.status === "success") {
 				alert("success", "Thành công", "Đổi mật khẩu thành công");
 				window.setTimeout(() => {
-					location.assign("/user/accounts");
+					location.assign("/accounts");
 				}, 1500);
 			}
 		} catch (err) {
