@@ -1,8 +1,4 @@
-<div
-	class="offcanvas offcanvas-start sidebar-nav bg-dark"
-	tabindex="-1"
-	id="sidebar"
->
+<div class="offcanvas offcanvas-start sidebar-nav bg-dark" tabindex="-1" id="sidebar">
 	<div class="offcanvas-body p-0">
 		<nav class="navbar-dark">
 			<ul class="navbar-nav">
@@ -13,10 +9,7 @@
 				</li>
 				<li>
 					{{#if account}}
-						<a
-							href="/user/accounts"
-							class="nav-link nav-link-custom px-3 active"
-						>
+						<a href="/accounts" class="nav-link nav-link-custom px-3 active">
 							<span>Tên : {{account.name}}</span>
 						</a>
 					{{/if}}
@@ -30,49 +23,34 @@
 					</div>
 				</li>
 				<li class="nav-item">
-					<a
-						href="/user/transactions/deposit"
-						class="nav-link nav-link-custom px-3"
-					>
+					<a href="/transactions/deposit" class="nav-link nav-link-custom px-3">
 
 						<i class="fa-regular fa-credit-card"></i>
 						<span>Nạp tiền</span>
 					</a>
 				</li>
 				<li class="nav-item">
-					<a
-						href="/user/transactions/withdraw"
-						class="nav-link nav-link-custom px-3"
-					>
+					<a href="/transactions/withdraw" class="nav-link nav-link-custom px-3">
 
 						<i class="fa-solid fa-sack-dollar"></i>
 						<span>Rút tiền</span>
 					</a>
 				</li>
 				<li class="nav-item">
-					<a
-						href="/user/transactions/transfer"
-						class="nav-link nav-link-custom px-3"
-					>
+					<a href="/transactions/transfer" class="nav-link nav-link-custom px-3">
 						<i class="fa-solid fa-money-bill-transfer"></i>
 						<span>Chuyển tiền</span>
 					</a>
 				</li>
 				<li class="nav-item">
-					<a
-						href="/user/transactions/buy-phone-card"
-						class="nav-link nav-link-custom px-3"
-					>
+					<a href="/transactions/buy-phone-card" class="nav-link nav-link-custom px-3">
 
 						<i class="fa-solid fa-sim-card"></i>
 						<span>Mua thẻ điện thoại</span>
 					</a>
 				</li>
 				<li class="nav-item">
-					<a
-						href="/user/transactions/history"
-						class="nav-link nav-link-custom px-3"
-					>
+					<a href="/transactions/history" class="nav-link nav-link-custom px-3">
 						<i class="far fa-calendar-alt"></i>
 						<span>Lịch sử giao dịch</span>
 					</a>

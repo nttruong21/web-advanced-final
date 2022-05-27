@@ -3,7 +3,7 @@ const { Schema } = mongoose;
 
 const creditSchema = new Schema(
     {
-        cardNumber: { type: String },
+        cardNumber: { type: Number },
         cardExpirationDate: { type: Date },
         cvv: { type: String },
         note: { type: String },
