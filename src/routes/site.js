@@ -3,9 +3,9 @@ const route = express.Router();
 const middleware = require("../middlewares/middleware");
 const siteController = require("../app/controllers/SiteController");
 
-route.get("accounts/", siteController.index);
+route.get("/accounts", siteController.index);
 
-route.get("accounts/template", siteController.template);
+route.get("/accounts/template", siteController.template);
 
 route.get("/login", siteController.login);
 
