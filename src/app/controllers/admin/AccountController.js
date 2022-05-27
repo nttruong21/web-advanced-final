@@ -97,7 +97,7 @@ class AccountController {
         const id = req.body.id;
         const status = parseInt(req.body.status);
         if (id && status) {
-            Account.updateOne({ _id: id }, { status })
+            Account.updateOne({ _id: id }, { status, abnormalLogin: 0 })
                 .then(() => {
                     return res.json({ code: 1 });
                 })

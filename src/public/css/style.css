@@ -70,12 +70,13 @@ li {
     list-style: none;
 }
 
-.position-relative {
-    position: relative;
-}
-
 header {
     height: var(--header-height);
+}
+
+.container-fluid.content {
+    bottom: 0;
+    top: var(--header-height);
 }
 
 /* SIDEBAR */
