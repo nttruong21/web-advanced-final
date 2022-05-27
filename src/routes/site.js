@@ -9,7 +9,7 @@ route.get("/signUp", siteController.signUpUser);
 
 route.get("/forgotPassword", siteController.forgotPassword);
 
-route.get("/resetPassword", siteController.resetPassword);
+route.get("/resetPassword/:token", siteController.resetPassword);
 
 route.use(middleware.isLoggedIn);
 
