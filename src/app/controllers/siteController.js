@@ -8,6 +8,9 @@ class SiteController {
 	//   }
 
 	login(req, res) {
+		if (req.session.account) {
+			return res.redirect("/user/accounts");
+		}
 		res.render("login");
 	}
 
