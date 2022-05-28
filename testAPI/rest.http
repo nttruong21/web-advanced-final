@@ -45,7 +45,7 @@ content-type: application/json
     "cardNumber": "222222",
     "cardExpirationDate": "2022-11-11",
     "cvv": "443",
-    "price": "100000000"
+    "price": "100000"
 }
 
 ### POST deposit thẻ 333333

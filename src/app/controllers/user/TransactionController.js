@@ -24,9 +24,10 @@ class TransactionController {
 
 			const date = await new Date(cardExpirationDate);
 			const credit = await Credit.findOne({ cardNumber: cardNumber });
+
 			console.log(credit.cardExpirationDate.getDate());
 			console.log(date.getDate());
-
+			
 			if (credit.cardExpirationDate.getDate() === date.getDate()) {
 				checkDate = true;
 			}
@@ -106,10 +107,12 @@ class TransactionController {
 		} else {
 			const { cardNumber, cardExpirationDate, cvv, message, price } = req.body;
 			const acc = await Account.findOne({ _id: req.session.account._id });
+
 			let numberDepositTransactionToday = await Transaction.count({ phone: req.session.account.phone, createdAt: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) } })
 				.where("transactionType")
 				.equals(1);
 			console.log("Số giao dịch rút tiền hôm nay: " + numberDepositTransactionToday);
+			// Kiểm tra số giao dịch rút tiền hôm nay >= 2 thì không cho rút
 			if(numberDepositTransactionToday >= 2){
 				return res.status(400).json({
 					status: "fail",
@@ -123,7 +126,7 @@ class TransactionController {
 					message: "Số dư không đủ để thực hiện giao dịch",
 				});
 			}
-
+			// Khởi tạo giao dịch
 			let withdrawTransaction = await new Transaction({
 				transactionType: 1,
 				price: price,
@@ -164,11 +167,6 @@ class TransactionController {
 					message: "Giao dịch Rút tiền thành công",
 				});
 			});
-			/* 		return res.json({
-			success: true,
-			session: req.session.account,
-			req: req.body,
-		}); */
 		}
 	}
 	//[POST] /transactions/transfer
