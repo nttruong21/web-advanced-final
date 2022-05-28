@@ -12,15 +12,14 @@ const response = (res, statusCode, status, message) => {
 		message,
 	});
 };
-const signToken = (id) =>
+const signToken = id =>
 	jwt.sign({ id }, process.env.JWT_SECRET, {
 		expiresIn: process.env.JWT_EXPIRES_IN,
 	});
 
-const randomPassword = (length) => {
+const randomPassword = length => {
 	let result = "";
-	const characters =
-		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	const charactersLength = characters.length;
 	for (let i = 0; i < length; i++) {
 		result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -34,17 +33,10 @@ const randomPassword = (length) => {
 exports.login = catchAsync(async (req, res, next) => {
 	const { username, password } = req.body;
 	if (!username || !password) {
-		return response(
-			res,
-			400,
-			"fail",
-			"Vui lòng nhập đầy đủ thông tin đăng nhập"
-		);
+		return response(res, 400, "fail", "Vui lòng nhập đầy đủ thông tin đăng nhập");
 	}
 
-	const user = await Account.findOne({ username }).select(
-		"+password +isChangedPassword"
-	);
+	const user = await Account.findOne({ username }).select("+password +isChangedPassword");
 
 	if (!user || !(await user.comparePassword(password, user.password))) {
 		return response(res, 401, "fail", "Tài khoản hoặc mật khẩu không đúng!");
@@ -54,13 +46,11 @@ exports.login = catchAsync(async (req, res, next) => {
 	const token = signToken(user._id);
 
 	const cookieOptions = {
-		expires: new Date(
-			Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
-		),
+		expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
 		httpOnly: true,
 		secure: true,
 	};
-	
+
 	// Nếu đăng nhập thành công thì gửi token vào cookie
 	res.cookie("jwt", token, cookieOptions);
 
@@ -70,7 +60,7 @@ exports.login = catchAsync(async (req, res, next) => {
 			message: "Bạn chưa đổi mật khẩu!",
 		});
 	}
-	
+
 	user.password = undefined;
 	req.session.account = user;
 	res.status(200).json({
@@ -137,9 +127,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 	await account.save({ validateBeforeSave: false });
 
 	// 3) Send it to user's email
-	const resetURL = `${req.protocol}://${req.get(
-		"host"
-	)}/resetPassword/${resetToken}`;
+	const resetURL = `${req.protocol}://${req.get("host")}/resetPassword/${resetToken}`;
 
 	const message = `Bạn đã quên mật khẩu? Hãy gửi nhập lại mật khẩu của bạn mới tại đây: 
   ${resetURL}.\nNếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.`;
@@ -163,10 +151,7 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
 	// 1) Get user based on the token
-	const hashedToken = crypto
-		.createHash("sha256")
-		.update(req.params.token)
-		.digest("hex");
+	const hashedToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
 
 	const account = await Account.findOne({
 		passwordResetToken: hashedToken,
