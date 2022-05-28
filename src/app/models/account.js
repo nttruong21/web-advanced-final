@@ -75,6 +75,7 @@ const accountSchema = mongoose.Schema(
 		},
 		checkFailLogins: { type: Number, default: 0 },
 		openLogin: { type: Date },
+		passwordResetExpires: Date,
 		lockedAt: { type: Date },
 	},
 	{
@@ -136,6 +137,9 @@ accountSchema.methods.loginFailed = function () {
 		this.checkFailLogins = 0;
 		this.abnormalLogin++;
 	}
+	this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+	console.log(this.passwordResetExpires);
+	return resetToken;
 };
 
 module.exports = mongoose.model("Account", accountSchema);
