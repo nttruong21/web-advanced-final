@@ -46,9 +46,44 @@ exports.login = catchAsync(async (req, res, next) => {
 		"+password +isChangedPassword"
 	);
 
-	if (!user || !(await user.comparePassword(password, user.password))) {
+	if (!user) {
 		return response(res, 401, "fail", "Tài khoản hoặc mật khẩu không đúng!");
 	}
+	// checkPassWord and checkFailLogins
+	if (!(await user.comparePassword(password, user.password))) {
+		if (user.abnormalLogin >= 2 || user.lockAt) {
+			return response(
+				res,
+				401,
+				"lockAcc",
+				"Tài khoản đã bị khóa!Vui lòng liên hệ quản trị viên để mở khóa !"
+			);
+		}
+		user.loginFailed();
+		await user.save({ validateBeforeSave: false });
+		if (!user.openLogin || user.openLogin < Date.now()) {
+			return response(
+				res,
+				401,
+				"fail",
+				"Tài khoản hoặc mật khẩu không đúng!"
+			);
+		}
+	}
+
+	if (user.openLogin > Date.now()) {
+		let date = new Date(user.openLogin);
+		return res.status(401).json({
+			status: "fail",
+			message: `Do bạn nhập sai mật khẩu quá 3 lần , tài khoản khoản của bạn đã bị khóa trong 30s!`,
+			time: `${date.getTime()}`,
+		});
+	}
+
+	user.openLogin = undefined;
+	user.abnormalLogin = 0;
+	user.checkFailLogins = 0;
+	await user.save({ validateBeforeSave: false });
 
 	// Đăng ký token
 	const token = signToken(user._id);
@@ -60,7 +95,7 @@ exports.login = catchAsync(async (req, res, next) => {
 		httpOnly: true,
 		secure: true,
 	};
-	
+
 	// Nếu đăng nhập thành công thì gửi token vào cookie
 	res.cookie("jwt", token, cookieOptions);
 
@@ -70,7 +105,7 @@ exports.login = catchAsync(async (req, res, next) => {
 			message: "Bạn chưa đổi mật khẩu!",
 		});
 	}
-	
+
 	user.password = undefined;
 	req.session.account = user;
 	res.status(200).json({

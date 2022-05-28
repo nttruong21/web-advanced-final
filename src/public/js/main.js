@@ -43,7 +43,36 @@ const login = async (username, password) => {
 			}, 1500);
 		}
 	} catch (err) {
-		alert("error", "Đăng nhập thất bại", `${err.response.data.message}!!!`);
+		if (!err.response.data.time) {
+			alert(
+				"error",
+				"Đăng nhập thất bại",
+				`${err.response.data.message}!!!`
+			);
+		} else {
+			Swal.fire({
+				title: "Khóa tài khoản",
+				icon: "error",
+				html: `<strong>${err.response.data.message}</strong>`,
+			});
+			// hide button show message below button
+			document.querySelector(".btn_login").style.display = "none";
+			document.querySelector("#alert_message").style.display = "block";
+			let time = 30;
+			// setInterval time
+			const interval = setInterval(() => {
+				time--;
+				document.querySelector(
+					"#time_count"
+				).innerHTML = `<strong>${time}</strong>`;
+				if (time === 0) {
+					clearInterval(interval);
+					document.querySelector(".btn_login").style.display =
+						"inline-block";
+					document.querySelector("#alert_message").style.display = "none";
+				}
+			}, 1000);
+		}
 	}
 };
 if (form_login) {

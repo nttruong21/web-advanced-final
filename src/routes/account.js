@@ -8,7 +8,8 @@ router.post("/forgotPassword", authController.forgotPassword);
 
 router.post("/login", authController.login);
 router.post("/signup", authController.signup);
-router.use(middleware.protect);
+
 // API change password
+router.use(middleware.protect);
 router.patch("/changePassword", authController.changePassword);
 module.exports = router;
