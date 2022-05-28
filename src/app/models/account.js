@@ -2,8 +2,6 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
-const moment = require("moment-timezone");
-const dateVietNam = moment.tz(Date.now(), "Asia/Ho_Chi_Minh");
 
 const accountSchema = mongoose.Schema(
 	{
@@ -71,9 +69,7 @@ const accountSchema = mongoose.Schema(
 			type: Date,
 		},
 		passwordResetToken: String,
-		passwordResetExpires: {
-			type: Date,
-		},
+		passwordResetExpires: Date,
 		lockedAt: { type: Date },
 	},
 	{
@@ -110,10 +106,8 @@ accountSchema.methods.createPasswordResetToken = function () {
 
 	// console.log({ resetToken }, this.passwordResetToken);
 
-	// date vietnamese
-
-	this.passwordResetExpires = dateVietNam + 10 * 60 * 1000;
-
+	this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
+	console.log(this.passwordResetExpires);
 	return resetToken;
 };
 
