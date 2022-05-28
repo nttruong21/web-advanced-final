@@ -58,8 +58,6 @@ class SiteController {
 
 	//[GET] /user/accounts
 	index(req, res, next) {
-		console.log(req.session.account);
-		console.log(res.locals.account);
 		if (!req.session.account) {
 			return res.redirect("/login");
 		}

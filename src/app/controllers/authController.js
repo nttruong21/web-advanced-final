@@ -12,14 +12,15 @@ const response = (res, statusCode, status, message) => {
 		message,
 	});
 };
-const signToken = id =>
+const signToken = (id) =>
 	jwt.sign({ id }, process.env.JWT_SECRET, {
 		expiresIn: process.env.JWT_EXPIRES_IN,
 	});
 
-const randomPassword = length => {
+const randomPassword = (length) => {
 	let result = "";
-	const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	const characters =
+		"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 	const charactersLength = characters.length;
 	for (let i = 0; i < length; i++) {
 		result += characters.charAt(Math.floor(Math.random() * charactersLength));
@@ -33,20 +34,71 @@ const randomPassword = length => {
 exports.login = catchAsync(async (req, res, next) => {
 	const { username, password } = req.body;
 	if (!username || !password) {
-		return response(res, 400, "fail", "Vui lòng nhập đầy đủ thông tin đăng nhập");
+		return response(
+			res,
+			400,
+			"fail",
+			"Vui lòng nhập đầy đủ thông tin đăng nhập"
+		);
 	}
 
-	const user = await Account.findOne({ username }).select("+password +isChangedPassword");
+	const user = await Account.findOne({ username }).select(
+		"+password +isChangedPassword"
+	);
 
-	if (!user || !(await user.comparePassword(password, user.password))) {
+	if (!user) {
 		return response(res, 401, "fail", "Tài khoản hoặc mật khẩu không đúng!");
 	}
+	// checkPassWord and checkFailLogins
+
+	if (
+		!(await user.comparePassword(password, user.password)) ||
+		user.abnormalLogin >= 2
+	) {
+		if (user.abnormalLogin < 2) {
+			user.loginFailed();
+			await user.save({ validateBeforeSave: false });
+		}
+		if (user.abnormalLogin >= 2 || user.lockAt) {
+			return response(
+				res,
+				401,
+				"lockAcc",
+				"Tài khoản đã bị khóa!Vui lòng liên hệ quản trị viên để mở khóa !"
+			);
+		}
+
+		if (!user.openLogin || user.openLogin < Date.now()) {
+			return response(
+				res,
+				401,
+				"fail",
+				"Tài khoản hoặc mật khẩu không đúng!"
+			);
+		}
+	}
+
+	if (user.openLogin > Date.now()) {
+		let date = new Date(user.openLogin);
+		return res.status(401).json({
+			status: "fail",
+			message: `Do bạn nhập sai mật khẩu quá 3 lần , tài khoản khoản của bạn đã bị khóa trong 30s!`,
+			time: `${date.getTime()}`,
+		});
+	}
+
+	user.openLogin = undefined;
+	user.abnormalLogin = 0;
+	user.checkFailLogins = 0;
+	await user.save({ validateBeforeSave: false });
 
 	// Đăng ký token
 	const token = signToken(user._id);
 
 	const cookieOptions = {
-		expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000),
+		expires: new Date(
+			Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+		),
 		httpOnly: true,
 		secure: true,
 	};
@@ -127,7 +179,9 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 	await account.save({ validateBeforeSave: false });
 
 	// 3) Send it to user's email
-	const resetURL = `${req.protocol}://${req.get("host")}/resetPassword/${resetToken}`;
+	const resetURL = `${req.protocol}://${req.get(
+		"host"
+	)}/resetPassword/${resetToken}`;
 
 	const message = `Bạn đã quên mật khẩu? Hãy gửi nhập lại mật khẩu của bạn mới tại đây: 
   ${resetURL}.\nNếu bạn không yêu cầu đặt lại mật khẩu, vui lòng bỏ qua email này.`;
@@ -151,7 +205,10 @@ exports.forgotPassword = catchAsync(async (req, res, next) => {
 
 exports.resetPassword = catchAsync(async (req, res, next) => {
 	// 1) Get user based on the token
-	const hashedToken = crypto.createHash("sha256").update(req.params.token).digest("hex");
+	const hashedToken = crypto
+		.createHash("sha256")
+		.update(req.params.token)
+		.digest("hex");
 
 	const account = await Account.findOne({
 		passwordResetToken: hashedToken,

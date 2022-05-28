@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto");
+const moment = require("moment-timezone");
 
 const accountSchema = mongoose.Schema(
 	{
@@ -69,6 +70,11 @@ const accountSchema = mongoose.Schema(
 			type: Date,
 		},
 		passwordResetToken: String,
+		passwordResetExpires: {
+			type: Date,
+		},
+		checkFailLogins: { type: Number, default: 0 },
+		openLogin: { type: Date },
 		passwordResetExpires: Date,
 		lockedAt: { type: Date },
 	},
@@ -79,7 +85,7 @@ const accountSchema = mongoose.Schema(
 	}
 );
 
-accountSchema.pre("save", function (next) {
+accountSchema.pre("save", async function (next) {
 	if (!this.password) {
 		next();
 	}
@@ -87,7 +93,17 @@ accountSchema.pre("save", function (next) {
 	if (!this.isModified("password")) {
 		next();
 	}
-	this.password = bcrypt.hashSync(this.password, 10);
+	this.password = await bcrypt.hash(this.password, 10);
+
+	next();
+});
+accountSchema.pre("save", function (next) {
+	console.log(this.abnormalLogin, this.checkFailLogins);
+	if (this.abnormalLogin === 2 && this.checkFailLogins === 0) {
+		const dateVietNam = moment.tz(Date.now(), "Asia/Ho_Chi_Minh");
+		this.lockedAt = dateVietNam;
+		next();
+	}
 	next();
 });
 
@@ -104,11 +120,22 @@ accountSchema.methods.createPasswordResetToken = function () {
 		.update(resetToken)
 		.digest("hex");
 
-	// console.log({ resetToken }, this.passwordResetToken);
+	// date vietnamese
+	const dateVietNam = moment.tz(Date.now(), "Asia/Ho_Chi_Minh");
+	this.passwordResetExpires = dateVietNam + 10 * 60 * 1000;
 
-	this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
-	console.log(this.passwordResetExpires);
 	return resetToken;
+};
+
+accountSchema.methods.loginFailed = function () {
+	if (this.checkFailLogins < 3) {
+		this.checkFailLogins++;
+	} else if (this.checkFailLogins === 3) {
+		const dateVietNam = moment.tz(Date.now(), "Asia/Ho_Chi_Minh");
+		this.openLogin = dateVietNam + 30 * 1000;
+		this.checkFailLogins = 0;
+		this.abnormalLogin++;
+	}
 };
 
 module.exports = mongoose.model("Account", accountSchema);
