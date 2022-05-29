@@ -43,7 +43,7 @@ const accountSchema = mongoose.Schema(
 		},
 		abnormalLogin: {
 			type: Number,
-			default: 0, // ( 0 - false, 1 - true),
+			default: 0, // (0 - bình thường , 1 - khóa 1 phút , 2 - khóa vĩnh viễn),
 		},
 		username: {
 			type: String,
@@ -85,7 +85,7 @@ const accountSchema = mongoose.Schema(
 	}
 );
 
-accountSchema.pre("save", function (next) {
+accountSchema.pre("save", async function (next) {
 	if (!this.password) {
 		next();
 	}
@@ -93,11 +93,12 @@ accountSchema.pre("save", function (next) {
 	if (!this.isModified("password")) {
 		next();
 	}
-	this.password = bcrypt.hashSync(this.password, 10);
+	this.password = await bcrypt.hash(this.password, 10);
+
 	next();
 });
 accountSchema.pre("save", function (next) {
-	console.log(this.abnormalLogin, this.checkFailLogins);
+	// console.log(this.abnormalLogin, this.checkFailLogins);
 	if (this.abnormalLogin === 2 && this.checkFailLogins === 0) {
 		const dateVietNam = moment.tz(Date.now(), "Asia/Ho_Chi_Minh");
 		this.lockedAt = dateVietNam;
@@ -119,8 +120,6 @@ accountSchema.methods.createPasswordResetToken = function () {
 		.update(resetToken)
 		.digest("hex");
 
-	// console.log({ resetToken }, this.passwordResetToken);
-
 	// date vietnamese
 	const dateVietNam = moment.tz(Date.now(), "Asia/Ho_Chi_Minh");
 	this.passwordResetExpires = dateVietNam + 10 * 60 * 1000;
@@ -137,9 +136,6 @@ accountSchema.methods.loginFailed = function () {
 		this.checkFailLogins = 0;
 		this.abnormalLogin++;
 	}
-	this.passwordResetExpires = Date.now() + 10 * 60 * 1000;
-	console.log(this.passwordResetExpires);
-	return resetToken;
 };
 
 module.exports = mongoose.model("Account", accountSchema);

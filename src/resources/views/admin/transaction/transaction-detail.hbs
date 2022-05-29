@@ -1,0 +1,278 @@
+<div class="col-10">
+    <div class="container pt-5">
+        {{!-- NẾU LÀ GIAO DỊCH RÚT TIỀN --}}
+        {{#if (isWithdrawalTransaction transaction.transactionType)}}
+        <div class="card card-default">
+            <div
+                class="card-header card-header-border-bottom d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                    {{!-- NẾU LÀ GIAO DỊCH ĐANG CHỜ DUYỆT --}}
+                    {{#if (isWaitingApproveTransaction transaction.status)}}
+                    <button class="btn btn-primary mr-3" data-toggle="modal"
+                        data-target="#verify-transaction-modal" data-transaction-type="1"
+                        data-transaction-action="Duyệt" data-status="1">Duyệt</button>
+                    <button class="btn btn-danger mr-3" data-toggle="modal"
+                        data-target="#verify-transaction-modal" data-transaction-type="1"
+                        data-transaction-action="Hủy" data-status="2">Hủy</button>
+                    {{/if}}
+                </div>
+                {{{renderTransactionStatus transaction.status}}}
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="transactionType">Loại giao dịch</label>
+                        <input type="text"
+                            value="{{getTransactionTypeString transaction.transactionType}}"
+                            name="transactionType" id="transactionType"
+                            class="form-control font-weight-bold" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="senderName">Người thực hiện</label>
+                        <input type="text" value="{{transaction.senderName}}" name="senderName"
+                            id="senderName" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="senderPhone">Số điện thoại</label>
+                        <input type="number" value="{{transaction.senderPhone}}" name="senderPhone"
+                            id="senderPhone" class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="cardNumber">Số thẻ tín dụng</label>
+                        <input type="text" value="{{transaction.cardNumber}}" name="cardNumber"
+                            id="cardNumber" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="cardExpirationDate">Hạn thẻ tín dụng</label>
+                        <input type="text" value="{{getDateFormat transaction.cardExpirationDate}}"
+                            name="cardExpirationDate" id="cardExpirationDate" class="form-control"
+                            disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="cvv">Mã CVV</label>
+                        <input type="text" value="{{transaction.cvv}}" name="cvv" id="cvv"
+                            class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="message">Lời nhắn</label>
+                        <input type="text" value="{{transaction.message}}" name="message"
+                            id="message" class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="price">Số tiền</label>
+                        <input type="text" value="{{getPriceString transaction.price}}" name="price"
+                            id="price" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="transactionFee">Phí giao dịch</label>
+                        <input type="text" value="{{transaction.transactionFee}}%"
+                            name="transactionFee" id="transactionFee" class="form-control" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{else}}
+        {{!-- GIAO DỊCH CHUYỂN TIỀN --}}
+        <div class="card card-default">
+            <div
+                class="card-header card-header-border-bottom d-flex justify-content-between align-items-center">
+                <div class="d-flex">
+                    {{!-- NẾU LÀ GIAO DỊCH ĐANG CHỜ DUYỆT --}}
+                    {{#if (isWaitingApproveTransaction transaction.status)}}
+                    <button class="btn btn-primary mr-3" data-toggle="modal"
+                        data-target="#verify-transaction-modal" data-transaction-type="2"
+                        data-transaction-action="Duyệt" data-status="1">Duyệt</button>
+                    <button class="btn btn-danger mr-3" data-toggle="modal"
+                        data-target="#verify-transaction-modal" data-transaction-type="2"
+                        data-transaction-action="Hủy" data-status="2">Hủy</button>
+                    {{/if}}
+                </div>
+                {{{renderTransactionStatus transaction.status}}}
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="transactionType">Loại giao dịch</label>
+                        <input type="text"
+                            value="{{getTransactionTypeString transaction.transactionType}}"
+                            name="transactionType" id="transactionType"
+                            class="form-control font-weight-bold" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="price">Số tiền</label>
+                        <input type="text" value="{{getPriceString transaction.price}}" name="price"
+                            id="price" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="senderPhone">Số điện thoại người gửi</label>
+                        <input type="number" value="{{transaction.senderPhone}}" name="senderPhone"
+                            id="senderPhone" class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="senderName">Tên người gửi</label>
+                        <input type="text" value="{{transaction.senderName}}" name="senderName"
+                            id="senderName" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="receiverPhone">Số điện thoại người nhận</label>
+                        <input type="number" value="{{transaction.receiverPhone}}"
+                            name="receiverPhone" id="receiverPhone" class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="receiverName">Tên người nhận</label>
+                        <input type="text" value="{{transaction.receiverName}}" name="receiverName"
+                            id="receiverName" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="message">Lời nhắn</label>
+                        <input type="text" value="{{transaction.message}}" name="message"
+                            id="message" class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="transactionFee">Phí giao dịch</label>
+                        <input type="text" value="{{transaction.transactionFee}}%"
+                            name="transactionFee" id="transactionFee" class="form-control" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+    </div>
+</div>
+
+{{!-- Modal --}}
+<div class="modal fade" id="verify-transaction-modal" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Duyệt giao dịch</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Bạn chắc chắn với quyết định <strong id="verify-decision"></strong> cho giao dịch
+                này?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy
+                    bỏ</button>
+                <button id="confirm-modal-btn" type="button" class="btn btn-primary"
+                    data-transaction-id="{{transaction._id}}"
+                    data-transaction-type="{{transaction.transactionType}}"
+                    data-transaction-status=""
+                    data-transaction-senderPhone="{{transaction.senderPhone}}"
+                    data-transaction-receiverPhone="{{transaction.receiverPhone}}"
+                    data-transaction-price="{{transaction.price}}"
+                    data-transaction-transactionFee="{{transaction.transactionFee}}"
+                    data-transaction-isFeeForSender="{{transaction.isFeeForSender}}">Chắc
+                    chắn</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const comfirmModalBtn = document.getElementById("confirm-modal-btn");
+
+    $('#verify-transaction-modal').on('show.bs.modal', function (event) {
+        const button = $(event.relatedTarget);
+        console.log()
+        const status = button.data('status');
+        const transactionAction = button.data('transaction-action');
+        // const transactionType = button.data('transaction-type');
+        const modal = $(this);
+        comfirmModalBtn.dataset.transactionStatus = status;
+        // comfirmModalBtn.dataset.transactionType = transactionType;
+        modal.find('#verify-decision').text(transactionAction);
+    });
+
+    comfirmModalBtn.addEventListener("click", (e) => {
+        const transactionId = e.target.dataset.transactionId;
+        const transactionStatus = e.target.dataset.transactionStatus;
+        const transactionType = e.target.dataset.transactionType;
+        const transactionSenderPhone = e.target.dataset.transactionSenderphone;
+        const transactionReceiverPhone = e.target.dataset.transactionReceiverphone;
+        const transactionPrice = e.target.dataset.transactionPrice;
+        const transactionTransactionFee = e.target.dataset.transactionTransactionfee;
+        const isFeeForSender = e.target.dataset.transactionIsfeeforsender;
+        let data;
+        // NẾU LÀ RÚT TIỀN
+        if (parseInt(transactionType) === 1) {
+            data = {
+                id: transactionId,
+                status: transactionStatus,
+                senderPhone: transactionSenderPhone,
+                price: transactionPrice,
+                transactionFee: transactionTransactionFee
+            };
+            // console.log(data);
+            // FETCH
+            fetch("http://localhost:3000/admin/transactions/verify-withdrawal-transaction", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(json => {
+                    if (json.code === 1) {
+                        location.reload();
+                        console.log(json);
+                    } else {
+                        console.log(">>> Có lỗi ở dòng 239 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền");
+                    }
+                })
+                .catch(error => console.log(">>> Có lỗi ở dòng 242 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền"));
+        }
+        // NẾU LÀ CHUYỂN TIỀN 
+        else if (parseInt(transactionType) === 2) {
+            data = {
+                id: transactionId,
+                status: parseInt(transactionStatus),
+                senderPhone: transactionSenderPhone,
+                receiverPhone: transactionReceiverPhone,
+                price: parseInt(transactionPrice),
+                transactionFee: parseInt(transactionTransactionFee),
+                isFeeForSender: parseInt(isFeeForSender)
+            }
+            console.log(data);
+            // FETCH
+            fetch("http://localhost:3000/admin/transactions/verify-transfer-transaction", {
+                method: "POST",
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+                .then(res => res.json())
+                .then(json => {
+                    if (json.code === 1) {
+                        location.reload();
+                        console.log(json);
+                    } else {
+                        console.log(">>> Có lỗi ở dòng 239 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền");
+                    }
+                })
+                .catch(error => console.log(">>> Có lỗi ở dòng 242 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền"));
+        }
+
+
+    })
+</script>

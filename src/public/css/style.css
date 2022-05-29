@@ -275,8 +275,7 @@ header {
 
 .form-bg {
 	padding: 50px 0px;
-	height: 100%;
-	overflow: auto;
+	height: 100vh;
 	background: radial-gradient(circle, #eeaeca 0%, #94bbe9 100%);
 }
 
@@ -298,6 +297,42 @@ button {
 }
 .sidebar-link[aria-expanded="true"] .right-icon {
 	transform: rotate(180deg);
+}
+.headerText-tinn {
+	font-size: 2rem;
+	font-weight: 500;
+	margin-bottom: 2.5rem;
+}
+
+.bd-tinn {
+	position: relative;
+	padding-top: 3rem;
+	padding-bottom: 5rem;
+	padding-left: 5rem;
+	padding-right: 5rem;
+	margin: 1rem;
+	border-radius: 10px;
+	background-color: white;
+	box-shadow: 0 20px 27px 0 rgb(0 0 0 / 5%);
+}
+
+.card-tinn {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+	word-wrap: break-word;
+	background-color: #fff;
+	background-clip: border-box;
+	border: 0 solid rgba(0, 0, 0, 0.125);
+	border-radius: 1rem;
+	padding: 10px;
+}
+
+.py-4 {
+	/* margin-left: ; */
+	padding-top: 1.5rem !important;
+	padding-bottom: 1.5rem !important;
 }
 @media (min-width: 992px) {
 	body {

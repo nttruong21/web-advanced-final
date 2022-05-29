@@ -252,6 +252,26 @@ if (form_signup) {
 		}
 	});
 }
+
+// Đăng xuất
+const logout = document.querySelector("#logout");
+if (logout) {
+	logout.addEventListener("click", async (e) => {
+		e.preventDefault();
+		try {
+			const res = await axios({
+				method: "GET",
+				url: "/api/accounts/logout",
+			});
+			if (res.data.status === "success") {
+				location.assign("/login");
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	});
+}
+
 // ------------------------ End Authentication --------------------------------
 /* Data-table */
 $(document).ready(function () {

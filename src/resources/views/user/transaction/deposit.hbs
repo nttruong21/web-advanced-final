@@ -1,41 +1,73 @@
 <main class="mt-5 pt-3">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12 mb-3">
-				<div class="d-flex justify-content-center">
-					<div class="card col-md-8 col-xl-4 col-sm-12 col-xs-12">
-						<div class="card-header">
-							<span><i class="bi bi-table me-2"></i></span>
-							Nạp tiền vào tài khoản
-						</div>
-						<div class="card-body">
-							<form action="mb-3" action="/transactions/deposit" method="POST">
-								<div class="mb-3">
-									<label for="exampleFormControlInput1" class="form-label">Số thẻ tín dụng</label>
-									<input type="email" class="form-control" placeholder="" />
-								</div>
-								<div class="mb-3">
-									<label for="exampleFormControlInput1" class="form-label">Ngày hết hạn</label>
-									<input type="date" class="form-control" />
-								</div>
-								<div class="mb-3">
-									<label for="exampleFormControlInput1" class="form-label">Mã CVV</label>
-									<input type="password" class="form-control" placeholder="" />
-								</div>
-								<div class="mb-3">
-									<label for="exampleFormControlInput1" class="form-label">Số tiền nạp</label>
-									<input type="number" class="form-control" value="0" min="0" />
-								</div>
-								<div class="mb-3">
+	<div class="mt-5 container-fluid py-4">
+		<div class="col-12 col-lg-10 col-xxl-8 mx-auto">
+			<div class="bd-wrap-tinn">
 
-									<button type="submit" class="btn btn-primary">Nạp tiền</button>
-								</div>
-							</form>
+				<div class="bd-tinn">
+					<h2 class="headerText-tinn">Nạp tiền</h2>
+					<form action="/transactions/deposit" method="post">
+						<div class="mb-3">
+							<label for="userName" class="form-label">Họ và tên</label>
+							<input
+								type="email"
+								class="form-control"
+								id="userName"
+								placeholder=""
+							/>
 						</div>
-					</div>
+						<div class="row g-3 mb-3">
+							<div class="col-sm-6">
+								<label for="cardNumber" class="form-label">Số thẻ</label>
+								<input
+									type="email"
+									class="form-control"
+									id="cardNumber"
+									{{! aria-label="City" }}
+								/>
+							</div>
+							<div class="col-sm">
+								<label for="cardDate" class="form-label">Ngày hết hạn</label>
+
+								<input
+									type="date"
+									id="cardDate"
+									class="form-control"
+									{{! aria-label="State" }}
+								/>
+							</div>
+							<div class="col-sm">
+								<label for="cardCCV" class="form-label">CCV</label>
+
+								<input
+									type="text"
+									class="form-control"
+									id="cardCCV"
+									{{! aria-label="Zip" }}
+								/>
+							</div>
+							<div class="mb-3">
+								<label for="userName" class="form-label">Số tiền</label>
+								<input
+									type="number"
+									class="form-control"
+									id="userName"
+									placeholder=""
+								/>
+							</div>
+						</div>
+						<div class="d-grid gap-2">
+							<button
+								class="btn btn-primary"
+								type="submit"
+								value="Submit"
+							>Hoàn tất</button>
+						</div>
+					</form>
 
 				</div>
 			</div>
 		</div>
+
 	</div>
+
 </main>
