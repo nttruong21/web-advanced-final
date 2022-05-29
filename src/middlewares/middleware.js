@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
 const { promisify } = require("util");
 const Account = require("../app/models/Account");
+const { reverse } = require("dns");
 
 const response = (res, statusCode, status, message) => {
 	return res.status(statusCode).json({
@@ -52,3 +53,11 @@ exports.isLoggedIn = catchAsync(async (req, res, next) => {
 	}
 	next();
 });
+// Kiểm tra đăng nhập với session
+exports.checkAuth = catchAsync(async (req, res, next) => {
+	if (req.session.account) {
+		return next();
+	}
+	return res.redirect("/login");
+});
+

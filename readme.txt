@@ -31,11 +31,11 @@ cvv: mã thẻ
 price: số tiền rút
 message: ghi chú
 
--------- Tài khoản--
+----- Tài khoản-----
 trừ tiền nếu < 5tr, còn lại đéo trừ ( chờ duyệt)
 TH: Nếu tài khoản đã rút hết tiền và vẫn còn lệnh chờ duyệt rút tiền --> auto hủy
-Chưa xử lí giới hạn 2 lần rút tiền mỗi ngày
--- ----
+
+--------- ----
 transactionType:
 price:
 status
@@ -46,6 +46,7 @@ transactionFee:
 cardNumber:
 cardExpirationDate:
 cvv:
+
 ------ Nạp tiền
 ------ Giao dịch nạp tiền
 transactionType
@@ -56,3 +57,25 @@ senderName
 cardNumber
 cardExpirationDate
 cvv
+
+
+------- Chuyển tiền -------
+-------POST chuyển tiền -------
+receiverPhone: sdt người nhận
+message: tin nhắn
+price: số tiền
+isFeeForSender: 
+- 0 là người gửi chịu price * 1.05
+- 1 là nguời nhận chiu5 price * 0.95
+--------Giao dịch chuyển tiền------
+transactionType: 2
+price
+status: 0
+senderPhone
+senderName
+receiverPhone
+message
+transactionFee
+isFeeForSender
+
+Chưa gửi mail tới người nhận khi giao dịch thành công
