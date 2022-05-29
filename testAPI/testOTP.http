@@ -1,0 +1,47 @@
+
+### POST dang nhap
+POST  http://localhost:3000/api/accounts/login
+content-type: application/json
+
+{
+    "username": "5857549051",
+    "password": "123456"
+}
+
+
+### POST transfer
+POST http://localhost:3000/transactions/transfer
+content-type: application/json
+
+{
+    "receiverPhone" :"0927055637",
+    "message": "Test gửi tiền",
+    "price": "5000000",
+    "isFeeForSender": "0"
+
+}
+
+### POST get-otp
+POST http://localhost:3000/transactions/send-otp
+content-type: application/json
+
+{
+    "receiverPhone" :"0927055637",
+    "message": "Test gửi tiền",
+    "price": "5000000",
+    "isFeeForSender": "0"
+
+}
+###
+
+POST http://localhost:3000/transactions/transfer
+content-type: application/json
+
+{
+    "otp" :  "172633",
+    "receiverPhone" :"0927055637",
+    "message": "Test gửi tiền",
+    "price": "1000",
+    "isFeeForSender": "0"
+
+}

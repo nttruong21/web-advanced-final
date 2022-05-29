@@ -3,10 +3,10 @@ POST http://localhost:3000/api/accounts/signup
 content-type: application/json
 
 {
-    "phone": "0927055639",
-    "email": "daudangson123@gmail.com",
+    "phone": "0927055637",
+    "email": "daudangson321@gmail.com",
     "password": "123456",
-    "name": "Daudang Son",
+    "name": "Acc test chuyển tiền 2",
     "birthday": "1990-01-01",
     "address": "Hanoi"
 
@@ -66,7 +66,7 @@ content-type: application/json
     "cardNumber": "111111",
     "cardExpirationDate": "2022-10-10",
     "cvv": "411",
-    "price": "50000",
+    "price": "450000",
     "message": "test"
 }
 
@@ -81,3 +81,4 @@ content-type: application/json
     "price": "50000",
     "message": "test"
 }
+

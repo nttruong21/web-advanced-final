@@ -2,9 +2,9 @@ const Transaction = require("../../models/Transaction");
 const Credit = require("../../models/Credit");
 const PhoneCard = require("../../models/PhoneCard");
 const Account = require("../../models/Account");
-
+const OTP = require("../../models/OTP");
 const { validationResult } = require("express-validator");
-
+const sendMail = require("../../../utils/email");
 class TransactionController {
 	//[POST] /transactions/deposit
 	async deposit(req, res) {
@@ -27,7 +27,7 @@ class TransactionController {
 
 			console.log(credit.cardExpirationDate.getDate());
 			console.log(date.getDate());
-			
+
 			if (credit.cardExpirationDate.getDate() === date.getDate()) {
 				checkDate = true;
 			}
@@ -49,7 +49,7 @@ class TransactionController {
 						cardExpirationDate: credit.cardExpirationDate,
 						cvv: credit.cvv,
 					});
-					acc.balance += price;
+					acc.balance = Number(acc.balance) + Number(price);
 					// Thẻ 333333
 					if (credit.cardNumber === "333333") {
 						return res.status(400).json({
@@ -113,11 +113,11 @@ class TransactionController {
 				.equals(1);
 			console.log("Số giao dịch rút tiền hôm nay: " + numberDepositTransactionToday);
 			// Kiểm tra số giao dịch rút tiền hôm nay >= 2 thì không cho rút
-			if(numberDepositTransactionToday >= 2){
+			if (numberDepositTransactionToday >= 2) {
 				return res.status(400).json({
 					status: "fail",
-					message: "Mỗi ngày chỉ được thực hiện tối đa 2 giao dịch rút tiền."
-				})
+					message: "Mỗi ngày chỉ được thực hiện tối đa 2 giao dịch rút tiền.",
+				});
 			}
 			// Số dư < số tiền rút + phí giao dịch 5%
 			if (acc.balance < price * 1.05) {
@@ -140,18 +140,18 @@ class TransactionController {
 				cvv: cvv,
 			});
 			// Số tiền rút >= 5tr -> chờ
-			if (price >= 5000000) {
+			if (Number(price) >= 5000000) {
 				withdrawTransaction.status = 0;
 			} else {
 				withdrawTransaction.status = 1;
-				acc.balance -= price * 1.05;
+				acc.balance = Number(acc.balance) - Number(price) * 1.05;
 				await acc.save();
 			}
 			await withdrawTransaction.save((err, transaction) => {
 				if (err) {
 					return res.status(500).json({
 						status: "fail",
-						message: "Giao dịch Rút tiền không thành công",
+						message: "Giao dịch rút tiền không thành công",
 					});
 				}
 				// Nếu số tiền rút >= 5tr -> Chờ
@@ -170,11 +170,66 @@ class TransactionController {
 		}
 	}
 	//[POST] /transactions/transfer
-	transfer(req, res) {
-		res.json({
-			success: true,
-			session: req.session.account,
-		});
+	async transfer(req, res) {
+		const errors = await validationResult(req);
+		if (!errors.isEmpty()) {
+			console.log(req.body);
+			return res.status(422).json({
+				status: "fail",
+				//message: errors.array()[0].msg,
+				message: errors.array(),
+			});
+		} else {
+			const { receiverPhone, price, message, isFeeForSender } = await req.body;
+			const sender = await Account.findOne({ _id: req.session.account._id });
+			const receiver = await Account.findOne({ phone: receiverPhone });
+			const transferTransaction = await new Transaction({
+				transactionType: 2,
+				price: price,
+				status: 0,
+				senderPhone: sender.phone,
+				senderName: sender.name,
+				receiverPhone: receiver.phone,
+				message: message,
+				transactionFee: 5,
+				isFeeForSender: isFeeForSender,
+			});
+
+			if (price >= 5000000) {
+				transferTransaction.status = 0;
+			} else {
+				transferTransaction.status = 1;
+				if (isFeeForSender === 0) {
+					sender.balance = Number(sender.balance) - Number(price) * 1.05;
+					receiver.balance = Number(receiver.balance) + Number(price);
+				} else {
+					sender.balance = Number(sender.balance) - Number(price);
+					receiver.balance = Number(receiver.balance) + Number(price) * 0.95;
+				}
+				await sender.save();
+				await receiver.save();
+			}
+			await transferTransaction.save((err, transaction) => {
+				if (err) {
+					return res.status(500).json({
+						status: "fail",
+						message: "Giao dịch chuyển tiền không thành công",
+					});
+				}
+				// Nếu số tiền chuyển >= 5tr -> Chờ
+				if (transferTransaction.status === 0) {
+					return res.status(200).json({
+						status: "success",
+						message: "Giao dịch chuyển tiền của bạn đang được xử lý",
+					});
+				}
+				// Nếu số tiền chuyển < 5tr -> thành công
+				return res.status(200).json({
+					status: "success",
+					message: "Giao dịch chuyển tiền thành công",
+				});
+			});
+		}
 	}
 	//[POST] /transactions/buy-phone-card
 	buyPhoneCard(req, res) {
@@ -182,6 +237,81 @@ class TransactionController {
 			success: true,
 			session: req.session.account,
 		});
+	}
+
+	//[POST] /transactions/send-otp - gửi otp
+	async sendOTP(req, res) {
+		const errors = await validationResult(req);
+		if (!errors.isEmpty()) {
+			console.log(req.body);
+			return res.status(422).json({
+				status: "fail",
+				//message: errors.array()[0].msg,
+				message: errors.array(),
+			});
+		} else {
+			const generateOTP = await Math.floor(100000 + Math.random() * 900000);
+			const otp = await new OTP({
+				phone: req.session.account.phone,
+				otp: generateOTP,
+				status: 0,
+				email: req.session.account.email,
+			});
+			await otp.save();
+			req.session._id_otp = otp._id;
+			console.log(`Mã OTP của bạn là: ${generateOTP}`);
+			const message = `Mã OTP xác thực có hiệu lực trong vòng 1 phút.\nMã OTP của bạn là : ${generateOTP}.\n `;
+			await sendMail({
+				email: req.session.account.email,
+				subject: "Mã OTP xác thực giao dịch nạp tiền",
+				message,
+			});
+		}
+		res.json({
+			success: true,
+			req: req.body,
+			req: req.session,
+		});
+	}
+	//[POST] /transactions//transfer - midleware xác thực otp
+	async verifyOTP(req, res, next) {
+		const errors = await validationResult(req);
+		if (!errors.isEmpty()) {
+			console.log(req.body);
+			return res.status(422).json({
+				status: "fail",
+				//message: errors.array()[0].msg,
+				message: errors.array(),
+			});
+		} else {
+			const otp = await req.body.otp;
+			if (req.session._id_otp) {
+				const otp_db = await OTP.findOne({ _id: req.session._id_otp });
+				const current = await new Date();
+				const expire = await new Date(otp_db.expiredAt);
+				if (expire.getTime() < current.getTime() && otp_db.otp == otp) {
+					return res.status(422).json({
+						status: "fail",
+						message: "Mã OTP đã hết hạn. Nhấn gửi lại mã OTP để nhận mã OTP mới",
+					});
+				} else {
+					if (otp_db.otp == otp) {
+						req.session._id_otp = null;
+						return next();
+					} else {
+						return res.json({
+							status: "fail",
+							message: "Mã OTP không chính xác",
+						});
+					}
+				}
+			} else {
+				return res.json({
+					status: "fail",
+					message: "Bạn chưa gửi mã OTP. Vui lòng nhấn gửi mã OTP để nhận mã OTP mới",
+				});
+			}
+		}
 	}
 }
 
