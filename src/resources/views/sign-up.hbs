@@ -1,29 +1,84 @@
 <div class="form-bg">
-  <div class="container">
-    <div class="row text-center justify-content-center align-self-center">
-      <div class="col-lg-6 col-md-offset-3 col-md-8 col-sm-offset-2 col-sm-10">
-        <div class="form-container">
-          <form class="form-horizontal">
-            <h3 class="title mb-3">Đăng kí</h3>
-            <div class="form-group">
-              <input class="form-control" type="tel" placeholder="Phone" name="phone"/>
-            </div>
-            <div class="form-group">
-              <input class="form-control" type="email" placeholder="Email" name="email"/>
-            </div>
-            <div class="form-group">
-              <input class="form-control" type="text" placeholder="Name" name="name"/>
-            </div>
-             <div class="form-group">
-              <input class="form-control" type="date" placeholder="Birthday" name="birthday"/>
-            </div>
-             <div class="form-group">
-              <input class="form-control" type="text" placeholder="Address" name="address"/>
-            </div>
-            <button class="btn signin">Register</button>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
+	<div class="container">
+		<div class="row justify-content-center align-self-center">
+			<div
+				class="col-lg-6 col-md-offset-3 col-md-8 col-sm-offset-2 col-sm-10"
+			>
+				<div class="form-container">
+					<form
+						class="form-horizontal form_signup"
+						enctype="multipart/form-data"
+					>
+						<h3 class="title mb-3 text-center">Đăng kí</h3>
+						<div class="form-group">
+							<input
+								class="form-control"
+								type="tel"
+								placeholder="Phone"
+								name="phone"
+								id="phone"
+							/>
+						</div>
+						<div class="form-group">
+							<input
+								class="form-control"
+								type="email"
+								placeholder="Email"
+								name="email"
+								id="email"
+							/>
+						</div>
+						<div class="form-group">
+							<input
+								class="form-control"
+								type="text"
+								placeholder="Name"
+								name="name"
+								id="name"
+							/>
+						</div>
+						<div class="form-group">
+							<input
+								class="form-control"
+								type="date"
+								placeholder="Birthday"
+								name="birthday"
+								id="birthday"
+							/>
+						</div>
+						<div class="form-group">
+							<input
+								class="form-control"
+								type="text"
+								placeholder="Address"
+								name="address"
+								id="address"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="file1">Chứng minh nhân dân mặt trước:</label>
+							<input
+								type="file"
+								name="frontIdCard"
+								id="frontIdCard"
+								required
+								class="form-control"
+							/>
+						</div>
+						<div class="form-group">
+							<label for="file2">Chứng minh nhân dân mặt sau:</label>
+							<input
+								type="file"
+								name="backIdCard"
+								id="backIdCard"
+								required
+								class="form-control"
+							/>
+						</div>
+						<button class="btn signin">Register</button>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
 </div>

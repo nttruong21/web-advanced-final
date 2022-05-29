@@ -3,6 +3,7 @@ const catchAsync = require("../../utils/catchAsync");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 const sendMail = require("../../utils/email");
+const { validationResult } = require("express-validator");
 
 // Các hàm sử dụng
 // -------------------------------------------------------------------------
@@ -60,6 +61,8 @@ exports.login = catchAsync(async (req, res, next) => {
 			await user.save({ validateBeforeSave: false });
 		}
 		if (user.abnormalLogin >= 2 || user.lockAt) {
+			user.status = 5;
+			await user.save({ validateBeforeSave: false });
 			return response(
 				res,
 				401,
@@ -126,8 +129,18 @@ exports.login = catchAsync(async (req, res, next) => {
 
 // Đăng ký
 exports.signup = catchAsync(async (req, res, next) => {
+	if (req.files.frontIdCard)
+		req.body.frontIdCard = req.files.frontIdCard[0].filename;
+	if (req.files.backIdCard)
+		req.body.backIdCard = req.files.backIdCard[0].filename;
+	const errors = validationResult(req);
+	if (!errors.isEmpty()) {
+		return res.status(422).json({ errors: errors.array()[0].msg });
+	}
+
 	if (req.body.username) req.body.username = undefined;
 	if (req.body.password) req.body.password = undefined;
+
 	const newUser = await Account.create(req.body);
 
 	// random 10 number
@@ -138,9 +151,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 	const resetURL = `${req.protocol}://${req.get("host")}/login`;
 
-	const message = `Tài khoản của bạn : ${username} \n
-  Mật khẩu của bạn : ${password} \n
-  Vui lòng truy cập : ${resetURL} để đăng nhập.\n`;
+	const message = `Tài khoản của bạn : ${username} \nMật khẩu của bạn : ${password} \nVui lòng truy cập : ${resetURL} để đăng nhập.\n`;
 
 	try {
 		await sendMail({

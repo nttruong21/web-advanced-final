@@ -1,7 +1,6 @@
 const {check, body} = require("express-validator");
 const Account = require("../app/models/Account");
 
-
 exports.depositValidator = [
     check("cardNumber")
         .exists().withMessage("Vui lòng nhập số thẻ")
@@ -9,24 +8,36 @@ exports.depositValidator = [
         .isLength({min: 6, max: 6}).withMessage("Số thẻ phải có 6 chữ số")
         .isIn(["111111","222222","333333"]).withMessage("Thẻ này không được hỗ trợ"),
 
-    check("cardExpirationDate")
-        .exists().withMessage("Vui lòng nhập ngày hết hạn thẻ")
-        .notEmpty().withMessage("Vui lòng nhập ngày hết hạn thẻ")
-        .isDate().withMessage("Ngày hết hạn thẻ không hợp lệ")
-        .isIn(["2022-10-10", "2022-11-11", "2022-12-12"]).withMessage("Ngày hết hạn thẻ không chính xác"),  
-    check("cvv")
-        .exists().withMessage("Vui lòng nhập mã CVV")
-        .notEmpty().withMessage("Vui lòng nhập mã CVV")
-        .isLength({min: 3, max: 3}).withMessage("Mã CVV phải có 3 chữ số")
-        .isNumeric().withMessage("Mã CVV không hợp lệ")
-        .isIn([411,443,577]).withMessage("Mã CVV không chính xác"),
+	check("cardExpirationDate")
+		.exists()
+		.withMessage("Vui lòng nhập ngày hết hạn thẻ")
+		.notEmpty()
+		.withMessage("Vui lòng nhập ngày hết hạn thẻ")
+		.isDate()
+		.withMessage("Ngày hết hạn thẻ không hợp lệ")
+		.isIn(["2022-10-10", "2022-11-11", "2022-12-12"])
+		.withMessage("Ngày hết hạn thẻ không chính xác"),
+	check("cvv")
+		.exists()
+		.withMessage("Vui lòng nhập mã CVV")
+		.notEmpty()
+		.withMessage("Vui lòng nhập mã CVV")
+		.isLength({ min: 3, max: 3 })
+		.withMessage("Mã CVV phải có 3 chữ số")
+		.isNumeric()
+		.withMessage("Mã CVV không hợp lệ")
+		.isIn([411, 443, 577])
+		.withMessage("Mã CVV không chính xác"),
 
-    check("price")
-        .exists().withMessage("Vui lòng nhập số tiền nạp")
-        .notEmpty().withMessage("Vui lòng nhập số tiền nạp")
-        .isNumeric().withMessage("Số tiền nạp không hợp lệ (Phải là số nguyên)")
-        .isInt({min: 1000}).withMessage("Số tiền nạp tối thiểu là 1000 vnđ"),
-
+	check("price")
+		.exists()
+		.withMessage("Vui lòng nhập số tiền nạp")
+		.notEmpty()
+		.withMessage("Vui lòng nhập số tiền nạp")
+		.isNumeric()
+		.withMessage("Số tiền nạp không hợp lệ (Phải là số nguyên)")
+		.isInt({ min: 1000 })
+		.withMessage("Số tiền nạp tối thiểu là 1000 vnđ"),
 ];
 
 exports.withdrawValidator = [
@@ -151,4 +162,25 @@ exports.otpValidator = [
         .isLength({min: 6, max: 6}).withMessage("Mã otp phải có 6 số")
         .isNumeric().withMessage("Mã otp không hợp lệ"),
 
+];
+	
+// check đăng ký
+exports.registerValidator = [
+	body("phone")
+		.exists()
+		.withMessage("Vui lòng nhập số điện thoại")
+		.isLength({ min: 10, max: 10 })
+		.withMessage("Số điện thoại không hợp lệ"),
+	body("email")
+		.isEmail()
+		.withMessage("Email không hợp lệ")
+		.exists()
+		.withMessage("Vui lòng nhập email"),
+	body("name").exists().withMessage("Vui lòng nhập tên"),
+	body("birthday")
+		.exists()
+		.withMessage("Vui lòng nhập ngày sinh")
+		.isDate()
+		.withMessage("Ngày sinh không hợp lệ"),
+	body("address").exists().withMessage("Vui lòng nhập địa chỉ"),
 ];
