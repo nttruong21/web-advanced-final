@@ -98,7 +98,7 @@ accountSchema.pre("save", async function (next) {
 	next();
 });
 accountSchema.pre("save", function (next) {
-	console.log(this.abnormalLogin, this.checkFailLogins);
+	// console.log(this.abnormalLogin, this.checkFailLogins);
 	if (this.abnormalLogin === 2 && this.checkFailLogins === 0) {
 		const dateVietNam = moment.tz(Date.now(), "Asia/Ho_Chi_Minh");
 		this.lockedAt = dateVietNam;
