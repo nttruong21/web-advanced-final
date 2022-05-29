@@ -198,6 +198,60 @@ if (form_resetPass) {
 	});
 }
 
+// Đăng ký
+const form_signup = document.querySelector(".form_signup");
+if (form_signup) {
+	form_signup.addEventListener("submit", async (e) => {
+		e.preventDefault();
+		const phone = document.querySelector("#phone").value;
+		const email = document.querySelector("#email").value;
+		const name = document.querySelector("#name").value;
+		const birthday = document.querySelector("#birthday").value;
+		const address = document.querySelector("#address").value;
+		// value file
+		const frontIdCard = document.querySelector("#frontIdCard").files[0];
+		const backIdCard = document.querySelector("#backIdCard").files[0];
+		// if (!frontIdCard || !backIdCard) {
+		// 	return alert(
+		// 		"error",
+		// 		"Lỗi",
+		// 		"Hãy upload đầy đủ các chứng minh nhân dân trước và sau"
+		// 	);
+		// }
+		// form data
+		const formData = new FormData();
+		formData.append("phone", phone);
+		formData.append("email", email);
+		formData.append("name", name);
+		formData.append("birthday", birthday);
+		formData.append("address", address);
+		formData.append("frontIdCard", frontIdCard);
+		formData.append("backIdCard", backIdCard);
+
+		try {
+			const res = await axios({
+				method: "POST",
+				url: "/api/accounts/signup",
+				data: formData,
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+			if (res.data.status === "success") {
+				alert(
+					"success",
+					"Thành công",
+					"Đăng ký thành công.Vui lòng kiểm tra email để lấy tài khoản và mật khẩu"
+				);
+				window.setTimeout(() => {
+					location.assign("/login");
+				}, 1500);
+			}
+		} catch (err) {
+			alert("error", "Đăng ký thất bại", `${err.response.data.errors}!!!`);
+		}
+	});
+}
 // ------------------------ End Authentication --------------------------------
 /* Data-table */
 $(document).ready(function () {

@@ -129,51 +129,52 @@ exports.login = catchAsync(async (req, res, next) => {
 
 // Đăng ký
 exports.signup = catchAsync(async (req, res, next) => {
-	console.log(req.body);
+	if (req.files.frontIdCard)
+		req.body.frontIdCard = req.files.frontIdCard[0].filename;
+	if (req.files.backIdCard)
+		req.body.backIdCard = req.files.backIdCard[0].filename;
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(422).json({ errors: errors.array()[0].msg });
 	}
+
 	if (req.body.username) req.body.username = undefined;
 	if (req.body.password) req.body.password = undefined;
-	// const { phone, email, name, birthday, address } = req.body;
 
 	const newUser = await Account.create(req.body);
 
-	// 	// random 10 number
-	// 	const username = Math.floor(Math.random() * 10000000000).toString();
-	// 	const password = randomPassword(6);
-	// 	console.log(password);
-	// 	// 3) Send it to user's email
+	// random 10 number
+	const username = Math.floor(Math.random() * 10000000000).toString();
+	const password = randomPassword(6);
+	console.log(password);
+	// 3) Send it to user's email
 
-	// 	const resetURL = `${req.protocol}://${req.get("host")}/login`;
+	const resetURL = `${req.protocol}://${req.get("host")}/login`;
 
-	// 	const message = `Tài khoản của bạn : ${username} \n
-	//   Mật khẩu của bạn : ${password} \n
-	//   Vui lòng truy cập : ${resetURL} để đăng nhập.\n`;
+	const message = `Tài khoản của bạn : ${username} \nMật khẩu của bạn : ${password} \nVui lòng truy cập : ${resetURL} để đăng nhập.\n`;
 
-	// 	try {
-	// 		await sendMail({
-	// 			email: newUser.email,
-	// 			subject: "Tài khoản và mật khẩu đăng nhập của bạn",
-	// 			message,
-	// 		});
+	try {
+		await sendMail({
+			email: newUser.email,
+			subject: "Tài khoản và mật khẩu đăng nhập của bạn",
+			message,
+		});
 
-	// 		res.status(200).json({
-	// 			status: "success",
-	// 			message: " sent to email!",
-	// 			newUser,
-	// 		});
-	// 	} catch (err) {
-	// 		newUser.username = undefined;
-	// 		newUser.password = undefined;
-	// 		await newUser.save({ validateBeforeSave: false });
+		res.status(200).json({
+			status: "success",
+			message: " sent to email!",
+			newUser,
+		});
+	} catch (err) {
+		newUser.username = undefined;
+		newUser.password = undefined;
+		await newUser.save({ validateBeforeSave: false });
 
-	// 		return response(res, 500, "fail", "Không thể gửi mail");
-	// 	}
-	// 	newUser.username = username;
-	// 	newUser.password = password;
-	// 	await newUser.save();
+		return response(res, 500, "fail", "Không thể gửi mail");
+	}
+	newUser.username = username;
+	newUser.password = password;
+	await newUser.save();
 });
 
 // forgot password

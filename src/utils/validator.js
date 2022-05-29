@@ -130,6 +130,4 @@ exports.registerValidator = [
 		.isDate()
 		.withMessage("Ngày sinh không hợp lệ"),
 	body("address").exists().withMessage("Vui lòng nhập địa chỉ"),
-	body("frontIdCard").isEmpty().withMessage("Ảnh CMND không được để trống"),
-	body("backIdCard").isEmpty().withMessage("Ảnh CMND không được để trống"),
 ];
