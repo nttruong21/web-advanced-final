@@ -15,7 +15,7 @@
                         Người thực hiện
                     </div>
                     <div class="col-3 font-weight-bold">
-                        Số tiền
+                        Loại giao dịch
                     </div>
                     <div class="col-3 font-weight-bold">
                         Thao tác
@@ -33,7 +33,7 @@
                             {{this.senderName}}
                         </div>
                         <div class="col-3">
-                            {{this.price}}
+                            {{getTransactionTypeString this.transactionType}}
                         </div>
                         <div class="col-3">
                             <div class="dropdown show d-inline-block widget-dropdown">
@@ -44,7 +44,7 @@
                                     aria-labelledby="dropdown-recent-order1">
                                     <li class="dropdown-item">
                                         <a class="d-block"
-                                            href="/admin/accounts/account-detail/{{this._id}}">Chi
+                                            href="/admin/transactions/transaction-detail/{{this._id}}">Chi
                                             tiết</a>
                                     </li>
                                 </ul>
