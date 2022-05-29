@@ -43,7 +43,7 @@ const accountSchema = mongoose.Schema(
 		},
 		abnormalLogin: {
 			type: Number,
-			default: 0, // ( 0 - false, 1 - true),
+			default: 0, // (0 - bình thường , 1 - khóa 1 phút , 2 - khóa vĩnh viễn),
 		},
 		username: {
 			type: String,
