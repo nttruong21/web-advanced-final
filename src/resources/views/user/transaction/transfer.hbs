@@ -1,0 +1,51 @@
+<main class="mt-5 pt-3">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 mb-3">
+				<div class="d-flex justify-content-center">
+					<div class="card col-md-8 col-xl-4 col-sm-12 col-xs-12">
+						<div class="card-header">
+							<span><i class="bi bi-table me-2"></i></span>
+							Chuyển tiền
+						</div>
+						<div class="card-body">
+							<form action="mb-3" method="POST">
+								<div class="mb-3">
+									<label for="exampleDataList" class="form-label">Số điện thoại người nhận</label>
+                                    <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Số điện thoại người nhận">
+                                    <datalist id="datalistOptions">
+                                        <option value="0123456789 Trường">
+                                        <option value="0123456789 Tín">
+                                        <option value="0123456789 Nhân">
+                                        <option value="0123456789 Tuấn">
+
+                                    </datalist>
+								</div>
+								<div class="mb-3">
+									<label for="" class="form-label">Số tiền chuyển</label>
+									<input type="number" class="form-control" value="0" min="0" />
+								</div>s
+                                <div class="mb-3">
+                                    <label for="" class="form-label">Phí giao dịch</label>
+                                    <select class="form-select" aria-label="Phí giao dịch">
+                                        <option value="0" selected >Người chuyển trả</option>
+                                        <option value="1">Người nhận trả</option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+									<label  class="form-label">Ghi chú</label>
+									<textarea class="form-control"  rows="4"></textarea>
+								</div>
+								<div class="mb-3">
+									<button type="submit" class="btn btn-primary">Chuyển tiền</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</main>

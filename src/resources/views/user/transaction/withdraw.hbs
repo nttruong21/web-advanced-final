@@ -1,0 +1,40 @@
+<main class="mt-5 pt-3">
+	<div class="container-fluid">
+		<div class="row">
+			<div class="col-md-12 mb-3">
+				<div class="d-flex justify-content-center">
+					<div class="card col-md-8 col-xl-4 col-sm-12 col-xs-12">
+						<div class="card-header">
+							<span><i class="bi bi-table me-2"></i></span>
+							Rút tiền về thẻ tín dụng
+						</div>
+						<div class="card-body">
+							<form  method="POST" action="/transactions/withdraw">
+								<div class="mb-3">
+									<label  class="form-label">Số thẻ tín dụng</label>
+									<input type="text" class="form-control" placeholder="" />
+								</div>
+								<div class="mb-3">
+									<label class="form-label">Ngày hết hạn</label>
+									<input type="date" class="form-control" />
+								</div>
+								<div class="mb-3">
+									<label  class="form-label">Mã CVV</label>
+									<input type="password" class="form-control" placeholder="" />
+								</div>
+								<div class="mb-3">
+									<label  class="form-label">Ghi chú</label>
+									<textarea class="form-control"  rows="4"></textarea>
+								</div>
+								<div class="mb-3">
+									<button type="submit" class="btn btn-primary">Rút tiền</button>
+								</div>
+							</form>
+						</div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</main>

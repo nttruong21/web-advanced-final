@@ -1,0 +1,84 @@
+### POST dang ki
+POST http://localhost:3000/api/accounts/signup
+content-type: application/json
+
+{
+    "phone": "0927055637",
+    "email": "daudangson321@gmail.com",
+    "password": "123456",
+    "name": "Acc test chuyển tiền 2",
+    "birthday": "1990-01-01",
+    "address": "Hanoi"
+
+}
+
+### POST dang nhap
+POST  http://localhost:3000/api/accounts/login
+content-type: application/json
+
+{
+    "username": "5857549051",
+    "password": "123456"
+}
+
+
+### GET accounts view
+GET http://localhost:3000/accounts
+
+
+### POST deposit thẻ 1111111
+POST http://localhost:3000/transactions/deposit
+content-type: application/json
+
+{
+    "cardNumber": "111111",
+    "cardExpirationDate": "2022-10-10",
+    "cvv": "411",
+    "price": "1000"
+}
+
+### POST deposit thẻ 2222222
+POST http://localhost:3000/transactions/deposit
+content-type: application/json
+
+{
+    "cardNumber": "222222",
+    "cardExpirationDate": "2022-11-11",
+    "cvv": "443",
+    "price": "100000"
+}
+
+### POST deposit thẻ 333333
+POST http://localhost:3000/transactions/deposit
+content-type: application/json
+
+{
+    "cardNumber": "333333",
+    "cardExpirationDate": "2022-12-12",
+    "cvv": "577",
+    "price": "1000"
+}
+### POST withdraw 
+POST http://localhost:3000/transactions/withdraw
+content-type: application/json
+
+{
+    "cardNumber": "111111",
+    "cardExpirationDate": "2022-10-10",
+    "cvv": "411",
+    "price": "450000",
+    "message": "test"
+}
+
+### POST withdraw
+POST http://localhost:3000/transactions/withdraw
+content-type: application/json
+
+{
+    "cardNumber": "222222",
+    "cardExpirationDate": "10/10/2022",
+    "cvv": "441",
+    "price": "50000",
+    "message": "test"
+}
+
