@@ -255,3 +255,14 @@ exports.changePassword = catchAsync(async (req, res, next) => {
 
 	return response(res, 200, "success", "Đổi mật khẩu thành công");
 });
+
+//  Đăng xuất
+exports.logout = catchAsync(async (req, res, next) => {
+	req.session.destroy();
+	res.cookie("jwt", "loggedout", {
+		expires: new Date(Date.now() + 10 * 1000),
+		httpOnly: true,
+	});
+
+	return response(res, 200, "success", "Đăng xuất thành công");
+});

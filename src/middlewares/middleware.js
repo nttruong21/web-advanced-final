@@ -53,26 +53,30 @@ exports.protect = catchAsync(async (req, res, next) => {
 });
 
 // check đã đăng nhập chưa
-exports.isLoggedIn = catchAsync(async (req, res, next) => {
+exports.isLoggedIn = async (req, res, next) => {
 	if (req.cookies.jwt) {
-		const decoded = await promisify(jwt.verify)(
-			req.cookies.jwt,
-			process.env.JWT_SECRET
-		);
-		const account = await Account.findById(decoded.id)
-			.lean()
-			.select("+isChangedPassword");
-		if (!account) {
+		try {
+			const decoded = await promisify(jwt.verify)(
+				req.cookies.jwt,
+				process.env.JWT_SECRET
+			);
+			const account = await Account.findById(decoded.id)
+				.lean()
+				.select("+isChangedPassword");
+			if (!account) {
+				return next();
+			}
+
+			res.locals.account = account;
+			req.session.account = account;
+
+			return next();
+		} catch (err) {
 			return next();
 		}
-
-		res.locals.account = account;
-		req.session.account = account;
-
-		return next();
 	}
 	next();
-});
+};
 // Kiểm tra đăng nhập với session
 exports.checkAuth = catchAsync(async (req, res, next) => {
 	if (req.session.account) {
@@ -80,7 +84,6 @@ exports.checkAuth = catchAsync(async (req, res, next) => {
 	}
 	return res.redirect("/login");
 });
-
 
 exports.bodyFile = (req, res, next) => {
 	req.body.frontIdCard = req.files.frontIdCard[0].filename;
