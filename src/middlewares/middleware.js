@@ -75,11 +75,12 @@ exports.isLoggedIn = async (req, res, next) => {
 			return next();
 		}
 	}
-	return res.redirect("/login");
+	// return res.redirect("/login");
+	next();
 };
 // Kiểm tra đăng nhập với session
 exports.checkAuth = catchAsync(async (req, res, next) => {
-	if (req.session.account) {
+	if (res.locals.account) {
 		return next();
 	}
 	return res.redirect("/login");
