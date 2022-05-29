@@ -129,8 +129,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
 // Đăng ký
 exports.signup = catchAsync(async (req, res, next) => {
-	req.body.frontIdCard = req.files.frontIdCard[0].filename;
-	req.body.backIdCard = req.files.backIdCard[0].filename;
+	console.log(req.body);
 	const errors = validationResult(req);
 	if (!errors.isEmpty()) {
 		return res.status(422).json({ errors: errors.array()[0].msg });

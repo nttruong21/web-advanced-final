@@ -11,6 +11,11 @@ router.post("/login", authController.login);
 router.post(
 	"/signup",
 	fileUpload,
+	function (req, res, next) {
+		req.body.frontIdCard = req.files.frontIdCard[0].filename;
+		req.body.backIdCard = req.files.backIdCard[0].filename;
+		next();
+	},
 	validator.registerValidator,
 	authController.signup
 );
