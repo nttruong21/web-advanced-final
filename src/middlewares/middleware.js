@@ -75,12 +75,27 @@ exports.isLoggedIn = async (req, res, next) => {
 			return next();
 		}
 	}
+	// return res.redirect("/login");
 	next();
 };
 // Kiểm tra đăng nhập với session
 exports.checkAuth = catchAsync(async (req, res, next) => {
-	if (req.session.account) {
+	if (res.locals.account && res.locals.account.status === 0) {
+		return res.render("warning");
+	}
+	if (res.locals.account && res.locals.account.status === 1) {
 		return next();
+	} else if (req.session.account && req.session.account.status === 0) {
+		return res.render("warning");
+	} else if (req.session.account && req.session.account.status === 1) {
+		return next();
+	}
+	return res.redirect("/login");
+});
+
+exports.checkAuthAdmin = catchAsync(async (req, res, next) => {
+	if (req.session.account) {
+		next();
 	}
 	return res.redirect("/login");
 });
@@ -90,6 +105,8 @@ exports.bodyFile = (req, res, next) => {
 	req.body.backIdCard = req.files.backIdCard[0].filename;
 	next();
 };
+
+
 
 // Buy Phone Card Validation
 
@@ -125,3 +142,11 @@ exports.buyPhoneCardValidation = catchAsync(async (req, res, next) => {
 	}
 	next();
 });
+
+exports.checkAdminAuth = (req, res, next) => {
+	console.log(">>> Role: ", req.session.role);
+	if (req.session.role !== undefined && req.session.role === 1) {
+		next();
+	}
+	return res.redirect("/not-permission");
+

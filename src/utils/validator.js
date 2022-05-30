@@ -52,9 +52,10 @@ exports.withdrawValidator = [
         .exists().withMessage("Vui lòng nhập ngày hết hạn thẻ")
         .notEmpty().withMessage("Vui lòng nhập ngày hết hạn thẻ")
         .isDate().withMessage("Ngày hết hạn thẻ không hợp lệ")
+        .isIn(["2022-10-10"]).withMessage("Ngày hết hạn thẻ không chính xác")
         .custom((value, {req}) => {
             const date1 = new Date(value);
-            const date2 = new Date("10/10/2022");
+            const date2 = new Date("10-10-2022");
             if(date1.getDate() === date2.getDate()){
                 return true;
             }

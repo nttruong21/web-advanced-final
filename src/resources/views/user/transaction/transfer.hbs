@@ -6,76 +6,36 @@
 				<div class="bd-tinn">
 					<h2 class="headerText-tinn">Chuyển tiền</h2>
 					<form action="/transactions/transfer" method="post">
-						<div class="mb-3">
-							<label for="userName" class="form-label">Họ và tên</label>
-							<input
-								type="email"
-								class="form-control"
-								id="userName"
-								placeholder=""
-							/>
-						</div>
 						<div class="row g-3 mb-3">
 							<div class="col-sm-6">
-								<label for="amount" class="form-label">Số điện thoại
-									người nhận</label>
-								<input
-									type="number"
-									class="form-control"
-									id="amount"
-									placeholder=""
-								/>
+								<label class="form-label">Số điện thoại người nhận</label>
+								<input type="text" class="form-control" id="receiverPhone" name="receiverPhone" placeholder="" />
 							</div>
-							<div class="col-sm">
-								<label for="feeTypesSelectd" class="form-label">Phí giao
-									dịch</label>
-								<select class="form-select" id="feeTypesSelectd">
-									<option selected></option>
-									<option value="0">Người chuyển trả</option>
+							<div class="col-sm-6">
+								<label class="form-label">Họ và tên người nhận</label>
+								<input type="text" class="form-control" id="name" placeholder="" disabled />
+							</div>
+						</div>
+						<div class="row g-3 mb-3">
+							<div class="col-sm col-lg-8">
+								<label for="userName" class="form-label">Số tiền</label>
+								<input type="number" class="form-control" id="price" name="price" placeholder="" />
+							</div>
+							<div class="col-sm col-lg-4">
+
+								<label for="feeTypesSelectd" class="form-label">Phí giao dịch (5%)</label>
+								<select class="form-select" id="isFeeForSender" name="isFeeForSender">
+									<option value="0" selected>Người chuyển trả</option>
 									<option value="1">Người nhận trả</option>
 								</select>
 							</div>
 						</div>
-
-						<div class="row g-3 mb-3">
-							<div class="col-sm-6">
-								<label for="cardNumber" class="form-label">Số thẻ</label>
-								<input
-									type="number"
-									class="form-control"
-									id="cardNumber"
-									{{! aria-label="City" }}
-								/>
-							</div>
-							<div class="col-sm">
-								<label for="userName" class="form-label">Số tiền</label>
-								<input
-									type="number"
-									class="form-control"
-									id="userName"
-									placeholder=""
-								/>
-							</div>
-
-						</div>
-
 						<div class="mb-4">
-							<label
-								for="exampleFormControlTextarea1"
-								class="form-label"
-							>Ghi chú</label>
-							<textarea
-								class="form-control"
-								id="exampleFormControlTextarea1"
-								rows="4"
-							></textarea>
+							<label class="form-label">Ghi chú</label>
+							<textarea class="form-control" id="message" name="message" rows="4"></textarea>
 						</div>
 						<div class="d-grid gap-2">
-							<button
-								class="btn btn-primary"
-								type="submit"
-								value="Submit"
-							>Hoàn tất</button>
+							<button class="btn btn-primary" type="submit" id="btn-transfer" value="Submit">Hoàn tất</button>
 						</div>
 					</form>
 

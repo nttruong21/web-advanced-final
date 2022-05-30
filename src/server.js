@@ -40,9 +40,25 @@ app.engine(
 			isWaitingApproveTransaction: function (status) {
 				return status === 0;
 			},
+			// KIỂM TRA CÓ PHẢI GIAO DỊCH NẠP TIỀN
+			isRechargeTransaction: function (type) {
+				return type === 0;
+			},
 			// KIỂM TRA CÓ PHẢI GIAO DỊCH RÚT TIỀN
 			isWithdrawalTransaction: function (type) {
 				return type === 1;
+			},
+			// KIỂM TRA CÓ PHẢI GIAO DỊCH CHUYỂN TIỀN
+			isTransferTransaction: function (type) {
+				return type === 2;
+			},
+			// KIỂM TRA CÓ PHẢI GIAO DỊCH MUA THẺ ĐIỆN THOẠI
+			isByPhoneCardTransaction: function (type) {
+				return type === 4;
+			},
+			// KIỂM TRA CÓ PHẢI GIAO DỊCH TRÊN 5.000.000
+			isHasToApproveTransaction: function (price) {
+				return parseInt(price) >= 5000000 ? true : false;
 			},
 			// RENDER TRẠNG THÁI TÀI KHOẢN
 			renderAccountStatus: function (status) {
@@ -68,7 +84,7 @@ app.engine(
 						return `<p class="text-danger font-weight-bold mb-0">Đã hủy</p>`;
 				}
 			},
-			getDateString: function (lockDateTime) {
+			getDateTimeString: function (lockDateTime) {
 				// return lockDateTime.toLocaleDateString("vi-VI");
 				var dateTimeString =
 					lockDateTime.getUTCFullYear() +
@@ -103,6 +119,13 @@ app.engine(
 					style: "currency",
 					currency: "VND",
 				});
+			},
+			// Helpers if equal
+			ifEqual: function (value1, value2, options) {
+				if (value1 === value2) {
+					return options.fn(this);
+				}
+				return options.inverse(this);
 			},
 		},
 	})

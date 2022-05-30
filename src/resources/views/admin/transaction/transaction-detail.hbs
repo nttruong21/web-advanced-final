@@ -1,5 +1,58 @@
 <div class="col-10">
     <div class="container pt-5">
+        {{!-- NẾU LÀ GIAO DỊCH NẠP TIỀN --}}
+        {{#if (isRechargeTransaction transaction.transactionType)}}
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="transactionType">Loại giao dịch</label>
+                        <input type="text"
+                            value="{{getTransactionTypeString transaction.transactionType}}"
+                            name="transactionType" id="transactionType"
+                            class="form-control font-weight-bold" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="price">Số tiền</label>
+                        <input type="text" value="{{getPriceString transaction.price}}" name="price"
+                            id="price" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label>Họ tên</label>
+                        <input type="text" value="{{transaction.senderName}}" class="form-control"
+                            disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Số điện thoại</label>
+                        <input type="text" value="{{transaction.senderPhone}}" class="form-control"
+                            disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label>Số thẻ tín dụng</label>
+                        <input type="text" value="{{transaction.cardNumber}}" class="form-control"
+                            disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Thời hạn thẻ</label>
+                        <input type="text" value="{{getDateFormat transaction.cardExpirationDate}}"
+                            class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label>Mã cvv</label>
+                        <input type="text" value="{{transaction.cvv}}" class="form-control"
+                            disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
+
         {{!-- NẾU LÀ GIAO DỊCH RÚT TIỀN --}}
         {{#if (isWithdrawalTransaction transaction.transactionType)}}
         <div class="card card-default">
@@ -79,9 +132,12 @@
                 </div>
             </div>
         </div>
-        {{else}}
-        {{!-- GIAO DỊCH CHUYỂN TIỀN --}}
+        {{/if}}
+
+        {{!-- NẾU LÀ GIAO DỊCH CHUYỂN TIỀN --}}
+        {{#if (isTransferTransaction transaction.transactionType)}}
         <div class="card card-default">
+            {{#if (isHasToApproveTransaction transaction.price)}}
             <div
                 class="card-header card-header-border-bottom d-flex justify-content-between align-items-center">
                 <div class="d-flex">
@@ -97,6 +153,7 @@
                 </div>
                 {{{renderTransactionStatus transaction.status}}}
             </div>
+            {{/if}}
             <div class="card-body">
                 <div class="row">
                     <div class="form-group col-6">
@@ -151,6 +208,47 @@
             </div>
         </div>
         {{/if}}
+
+        {{!-- NẾU LÀ GIAO DỊCH MUA THẺ ĐIỆN THOẠI --}}
+        {{#if (isByPhoneCardTransaction transaction.transactionType)}}
+        <div class="card card-default">
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="transactionType">Loại giao dịch</label>
+                        <input type="text"
+                            value="{{getTransactionTypeString transaction.transactionType}}"
+                            name="transactionType" id="transactionType"
+                            class="form-control font-weight-bold" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="price">Số tiền</label>
+                        <input type="text" value="{{getPriceString transaction.price}}" name="price"
+                            id="price" class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label>Họ tên</label>
+                        <input type="text" value="{{transaction.senderName}}" class="form-control"
+                            disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label>Số điện thoại</label>
+                        <input type="text" value="{{transaction.senderPhone}}" class="form-control"
+                            disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label>Số lượng thẻ</label>
+                        <input type="text" value="{{transaction.phoneCardQuantity}}"
+                            class="form-control" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{/if}}
     </div>
 </div>
 
@@ -177,10 +275,14 @@
                     data-transaction-type="{{transaction.transactionType}}"
                     data-transaction-status=""
                     data-transaction-senderPhone="{{transaction.senderPhone}}"
+                    data-transaction-senderName="{{transaction.senderName}}"
+                    data-transaction-receiverName="{{transaction.receiverName}}"
                     data-transaction-receiverPhone="{{transaction.receiverPhone}}"
+                    data-transaction-receiverEmail="{{transaction.receiverEmail}}"
                     data-transaction-price="{{transaction.price}}"
                     data-transaction-transactionFee="{{transaction.transactionFee}}"
-                    data-transaction-isFeeForSender="{{transaction.isFeeForSender}}">Chắc
+                    data-transaction-isFeeForSender="{{transaction.isFeeForSender}}"
+                    data-transaction-message="{{transaction.message}}">Chắc
                     chắn</button>
             </div>
         </div>
@@ -207,10 +309,14 @@
         const transactionStatus = e.target.dataset.transactionStatus;
         const transactionType = e.target.dataset.transactionType;
         const transactionSenderPhone = e.target.dataset.transactionSenderphone;
+        const transactionSenderName = e.target.dataset.transactionSendername;
+        const transactionReceiverName = e.target.dataset.transactionReceivername;
         const transactionReceiverPhone = e.target.dataset.transactionReceiverphone;
+        const transactionReceiverEmail = e.target.dataset.transactionReceiveremail;
         const transactionPrice = e.target.dataset.transactionPrice;
         const transactionTransactionFee = e.target.dataset.transactionTransactionfee;
         const isFeeForSender = e.target.dataset.transactionIsfeeforsender;
+        const message = e.target.dataset.transactionMessage;
         let data;
         // NẾU LÀ RÚT TIỀN
         if (parseInt(transactionType) === 1) {
@@ -247,10 +353,14 @@
                 id: transactionId,
                 status: parseInt(transactionStatus),
                 senderPhone: transactionSenderPhone,
+                senderName: transactionSenderName,
+                receiverName: transactionReceiverName,
                 receiverPhone: transactionReceiverPhone,
+                receiverEmail: transactionReceiverEmail,
                 price: parseInt(transactionPrice),
                 transactionFee: parseInt(transactionTransactionFee),
-                isFeeForSender: parseInt(isFeeForSender)
+                isFeeForSender: parseInt(isFeeForSender),
+                message: message
             }
             console.log(data);
             // FETCH

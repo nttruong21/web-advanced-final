@@ -67,6 +67,11 @@ class SiteController {
 			layout: "user",
 		});
 	}
+
+	// [GET] /not-permission
+	getNotPermissionView(req, res) {
+		res.render("not-permission");
+	}
 }
 
 module.exports = new SiteController();
