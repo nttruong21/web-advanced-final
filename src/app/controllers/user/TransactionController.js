@@ -214,7 +214,7 @@ class TransactionController {
 				await sender.save();
 				await receiver.save();
 			}
-			await transferTransaction.save( async (err, transaction) => {
+			await transferTransaction.save(async (err, transaction) => {
 				if (err) {
 					return res.json({
 						status: "fail",
@@ -230,13 +230,10 @@ class TransactionController {
 				}
 				// Nếu số tiền chuyển < 5tr -> thành công
 				try {
-					const priceString = parseInt(price).toLocaleString(
-						"vi-VN",
-						{
-							style: "currency",
-							currency: "VND",
-						}
-					);
+					const priceString = parseInt(price).toLocaleString("vi-VN", {
+						style: "currency",
+						currency: "VND",
+					});
 					const emailMessage = `Biên lai chuyển tiền
 									\n Họ tên người gửi: ${sender.name}
 									\n Số điện thoại người gửi: ${sender.phone}
@@ -313,14 +310,13 @@ class TransactionController {
 			});
 		} else {
 			const otp = await req.body.otp;
-			console.log(req.session);
+			console.log(req.session._id_otp);
 			if (req.session._id_otp) {
 				const otp_db = await OTP.findOne({ _id: req.session._id_otp });
 				let current = await new Date();
 				const expire = await new Date(otp_db.expiredAt);
-				console.log(expire.getTime() < current.getTime())
-				console.log(current)
-				console.log(expire)
+				console.log(current);
+				console.log(expire);
 				if (expire.getTime() < current.getTime() && otp_db.otp == otp) {
 					return res.json({
 						status: "fail",
