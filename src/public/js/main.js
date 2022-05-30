@@ -58,7 +58,7 @@ const login = async (username, password) => {
 			// hide button show message below button
 			document.querySelector(".btn_login").style.display = "none";
 			document.querySelector("#alert_message").style.display = "block";
-			let time = 30;
+			let time = 60;
 			// setInterval time
 			const interval = setInterval(() => {
 				time--;
@@ -308,6 +308,46 @@ if (btn_js_changeIdCard) {
 		}
 	});
 }
+
+const btn_changePasswordMe = document.querySelector(".btn_changePasswordMe");
+if (btn_changePasswordMe) {
+	btn_changePasswordMe.addEventListener("click", async (e) => {
+		e.preventDefault();
+		const password = document.querySelector("#old_password").value;
+		const newPassword = document.querySelector("#newPassword").value;
+		const newPassword_confirm = document.querySelector(
+			"#newPassword_confirm"
+		).value;
+		if (!password || !newPassword || !newPassword_confirm) {
+			return alert("error", "Lỗi", "Hãy nhập đầy đủ thông tin mật khẩu");
+		}
+		if (newPassword !== newPassword_confirm) {
+			return alert("error", "Lỗi", "Mật khẩu mới không khớp");
+		}
+		try {
+			const res = await axios({
+				method: "PATCH",
+				url: "/api/accounts/changePasswordMe",
+				data: {
+					password,
+					newPassword,
+				},
+				headers: {
+					"Content-Type": "application/json",
+				},
+			});
+			if (res.data.status === "success") {
+				alert("success", "Thành công", "Thay đổi mật khẩu thành công");
+				document.querySelector("#old_password").value = "";
+				document.querySelector("#newPassword").value = "";
+				document.querySelector("#newPassword_confirm").value = "";
+			}
+		} catch (err) {
+			return alert("error", "Lỗi", `${err.response.data.message}!!!`);
+		}
+	});
+}
+
 // ------------------------ End Authentication -------------------------------------
 // Các hàm sử dụng ------------------------------------------------------------------
 const loadFile = function (event) {
@@ -340,10 +380,11 @@ if (btnDeposit) {
 			showDenyButton: true,
 			denyButtonText: `Hủy`,
 			confirmButtonText: "Xác nhận",
-		}).then(result => {
+		}).then((result) => {
 			if (result.isConfirmed) {
 				let cardNumber = document.getElementById("cardNumber").value;
-				let cardExpirationDate = document.getElementById("cardExpirationDate").value;
+				let cardExpirationDate =
+					document.getElementById("cardExpirationDate").value;
 				let cvv = document.getElementById("cvv").value;
 				let price = document.getElementById("price").value;
 
@@ -354,7 +395,7 @@ if (btnDeposit) {
 						cvv,
 						price,
 					})
-					.then(res => {
+					.then((res) => {
 						const dt = res.data;
 						if (dt.status === "success") {
 							document.getElementById("cardNumber").value = "";
@@ -367,7 +408,7 @@ if (btnDeposit) {
 							alert("error", "Thất bại", dt.message);
 						}
 					})
-					.catch(err => {
+					.catch((err) => {
 						alert("error", "Lỗi", `${err.response}!!!`);
 					});
 			} else if (result.isDenied) {
@@ -382,15 +423,16 @@ if (btnDeposit) {
 
 const priceWithdraw = document.getElementById("price");
 if (priceWithdraw && document.getElementById("fee")) {
-	priceWithdraw.addEventListener("keyup", e => {
-
-		document.getElementById("fee").value = Math.floor(Number(e.target.value) * 0.05);
+	priceWithdraw.addEventListener("keyup", (e) => {
+		document.getElementById("fee").value = Math.floor(
+			Number(e.target.value) * 0.05
+		);
 	});
 }
 
 const btnWithdraw = document.getElementById("btn-withdraw");
 if (btnWithdraw) {
-	btnWithdraw.addEventListener("click", async e => {
+	btnWithdraw.addEventListener("click", async (e) => {
 		e.preventDefault();
 		Swal.fire({
 			title: "Rút tiền về thẻ tín dụng",
@@ -400,10 +442,11 @@ if (btnWithdraw) {
 			showDenyButton: true,
 			denyButtonText: `Hủy`,
 			confirmButtonText: "Xác nhận",
-		}).then(result => {
+		}).then((result) => {
 			if (result.isConfirmed) {
 				let cardNumber = document.getElementById("cardNumber").value;
-				let cardExpirationDate = document.getElementById("cardExpirationDate").value;
+				let cardExpirationDate =
+					document.getElementById("cardExpirationDate").value;
 				let cvv = document.getElementById("cvv").value;
 				let price = document.getElementById("price").value;
 				let message = document.getElementById("message").value;
@@ -415,7 +458,7 @@ if (btnWithdraw) {
 						price,
 						message,
 					})
-					.then(res => {
+					.then((res) => {
 						const dt = res.data;
 						if (dt.status === "success") {
 							document.getElementById("cardNumber").value = "";
@@ -429,7 +472,7 @@ if (btnWithdraw) {
 							alert("error", "Thất bại", dt.message);
 						}
 					})
-					.catch(err => {
+					.catch((err) => {
 						alert("error", "Lỗi", `${err.response}!!!`);
 					});
 			}
@@ -442,10 +485,10 @@ if (btnWithdraw) {
 // Get name
 const receiverPhone = document.getElementById("receiverPhone");
 if (receiverPhone) {
-	receiverPhone.addEventListener("keyup", async e => {
+	receiverPhone.addEventListener("keyup", async (e) => {
 		const name = document.getElementById("name");
 		console.log(receiverPhone.value);
-		axios.post("/accounts/phone", { phone: e.target.value }).then(res => {
+		axios.post("/accounts/phone", { phone: e.target.value }).then((res) => {
 			if (res.data.status === "success") {
 				name.value = res.data.data;
 			} else {
@@ -457,20 +500,20 @@ if (receiverPhone) {
 
 const btnTransfer = document.getElementById("btn-transfer");
 if (btnTransfer) {
-	btnTransfer.addEventListener("click", async e => {
+	btnTransfer.addEventListener("click", async (e) => {
 		e.preventDefault();
 		const receiverPhone = document.getElementById("receiverPhone").value;
 		const name = document.getElementById("name").value;
 		const price = document.getElementById("price").value;
-		const isFeeForSender = document.getElementById("isFeeForSender").value; 
+		const isFeeForSender = document.getElementById("isFeeForSender").value;
 		const message = document.getElementById("message").value;
-		if(receiverPhone === "" || price <= 0 || message === ""){
+		if (receiverPhone === "" || price <= 0 || message === "") {
 			swal.fire({
 				title: "Thông báo",
 				text: "Vui lòng nhập đầy đủ thông tin",
 				icon: "warning",
 			});
-		} else{
+		} else {
 			Swal.fire({
 				title: "Giao dịch chuyển tiền",
 				icon: "info",
@@ -479,7 +522,7 @@ if (btnTransfer) {
 				text: `Bạn có muốn thực hiện giao dịch rút tiền này không ?. Người nhận: ${name}, số điện thoại người nhận: ${receiverPhone}.`,
 				denyButtonText: `Hủy`,
 				confirmButtonText: "Xác nhận",
-			}).then( async result => {
+			}).then(async (result) => {
 				if (result.isConfirmed) {
 					const res = await axios.post("/transactions/send-otp", {
 						receiverPhone,
@@ -489,35 +532,36 @@ if (btnTransfer) {
 					});
 					if (res.data.status === "success") {
 						Swal.fire({
-							position: 'center',
-							icon: 'success',
+							position: "center",
+							icon: "success",
 							title: res.data.message,
 							showConfirmButton: false,
-							timer: 3000
+							timer: 3000,
 						})
-						.then(() => {
-							localStorage.setItem("receiverPhone", receiverPhone);
-							localStorage.setItem("name", name);
-							localStorage.setItem("price", price);
-							localStorage.setItem("isFeeForSender", isFeeForSender);
-							localStorage.setItem("message", message);	
-							window.location.href = "/transactions/transfer/verify-otp";
-						}).catch(err => {	
-							alert("error", "Lỗi", `${err.response}!!!`);
-						});
-					}else {
+							.then(() => {
+								localStorage.setItem("receiverPhone", receiverPhone);
+								localStorage.setItem("name", name);
+								localStorage.setItem("price", price);
+								localStorage.setItem("isFeeForSender", isFeeForSender);
+								localStorage.setItem("message", message);
+								window.location.href =
+									"/transactions/transfer/verify-otp";
+							})
+							.catch((err) => {
+								alert("error", "Lỗi", `${err.response}!!!`);
+							});
+					} else {
 						alert("error", "Thất bại", `${res.data.message}!!!`);
 					}
 				}
 			});
-		} 
-		
+		}
 	});
 }
 
 const btnVerifyOTP = document.getElementById("btn-verify-otp");
 if (btnVerifyOTP) {
-	btnVerifyOTP.addEventListener("click", async e => {
+	btnVerifyOTP.addEventListener("click", async (e) => {
 		e.preventDefault();
 		const otp = document.getElementById("otp").value;
 		const receiverPhone = localStorage.getItem("receiverPhone");
@@ -525,16 +569,22 @@ if (btnVerifyOTP) {
 		const price = localStorage.getItem("price");
 		const isFeeForSender = localStorage.getItem("isFeeForSender");
 		const message = localStorage.getItem("message");
-		if(receiverPhone== null || name == null || price == null || isFeeForSender == null || message == null){
+		if (
+			receiverPhone == null ||
+			name == null ||
+			price == null ||
+			isFeeForSender == null ||
+			message == null
+		) {
 			window.location.href = "/transactions/transfer";
 		}
-		if(otp === ""){
+		if (otp === "") {
 			swal.fire({
 				title: "Thông báo",
 				text: "Vui lòng nhập mã OTP",
 				icon: "warning",
 			});
-		} else{
+		} else {
 			const res = await axios.post("/transactions/transfer", {
 				otp,
 				receiverPhone,
@@ -545,38 +595,37 @@ if (btnVerifyOTP) {
 			});
 			if (res.data.status === "success") {
 				await Swal.fire({
-					position: 'center',
-					icon: 'success',
+					position: "center",
+					icon: "success",
 					title: res.data.message,
 					showConfirmButton: false,
-					timer: 5000
-				  })
-				// clear localStorage	
+					timer: 5000,
+				});
+				// clear localStorage
 				localStorage.clear();
 				window.location.href = "/transactions/history";
 			} else {
 				alert("error", "Thất bại", res.data.message);
 			}
-
-		} 
+		}
 	});
 }
 
 btnSendOTP = document.getElementById("btn-send-otp");
 if (btnSendOTP) {
-	btnSendOTP.addEventListener("click", async e => {
-		const res = await axios.get("/transactions/get-otp")
+	btnSendOTP.addEventListener("click", async (e) => {
+		const res = await axios.get("/transactions/get-otp");
 		if (res.data.status === "success") {
 			Swal.fire({
-				position: 'center',
-				icon: 'success',
+				position: "center",
+				icon: "success",
 				title: res.data.message,
 				showConfirmButton: false,
-				timer: 3000
-			  })
+				timer: 3000,
+			});
 		} else {
 			alert("error", "Thất bại", res.data.message);
-		}	
+		}
 	});
 }
 

@@ -288,3 +288,22 @@ exports.changeIdCard = catchAsync(async (req, res, next) => {
 		data: account,
 	});
 });
+//change password me
+exports.changePasswordMe = catchAsync(async (req, res, next) => {
+	const { password, newPassword } = req.body;
+	console.log(password, newPassword);
+	const account = await Account.findById(req.account.id).select("+password");
+
+	// Check new password > 6 characters
+	if (req.body.newPassword < 6) {
+		return response(res, 400, "fail", "Mật khẩu phải có ít nhất 6 ký tự");
+	}
+	if (!(await account.comparePassword(password, account.password))) {
+		return response(res, 400, "fail", "Mật khẩu hiện tại không đúng");
+	}
+
+	account.password = newPassword;
+	await account.save({ validateBeforeSave: false });
+
+	return response(res, 200, "success", "Đổi mật khẩu thành công");
+});

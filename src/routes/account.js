@@ -22,4 +22,5 @@ router.post(
 router.use(middleware.protect);
 router.patch("/changePassword", authController.changePassword);
 router.patch("/changeIdCard", fileUpload, authController.changeIdCard);
+router.patch("/changePasswordMe", authController.changePasswordMe);
 module.exports = router;
