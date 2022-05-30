@@ -107,8 +107,11 @@ accountSchema.pre("save", function (next) {
 	next();
 });
 
-accountSchema.methods.comparePassword = function (password) {
-	return bcrypt.compareSync(password, this.password);
+accountSchema.methods.comparePassword = function (
+	candidatePassword,
+	Userpassword
+) {
+	return bcrypt.compareSync(candidatePassword, Userpassword);
 };
 
 accountSchema.methods.createPasswordResetToken = function () {
@@ -132,7 +135,7 @@ accountSchema.methods.loginFailed = function () {
 		this.checkFailLogins++;
 	} else if (this.checkFailLogins === 3) {
 		const dateVietNam = moment.tz(Date.now(), "Asia/Ho_Chi_Minh");
-		this.openLogin = dateVietNam + 30 * 1000;
+		this.openLogin = dateVietNam + 60 * 1000;
 		this.checkFailLogins = 0;
 		this.abnormalLogin++;
 	}
