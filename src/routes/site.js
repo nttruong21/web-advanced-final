@@ -5,6 +5,10 @@ const siteController = require("../app/controllers/SiteController");
 
 route.use(middleware.isLoggedIn);
 
+route.get("/", (req, res) => {
+	res.redirect("/login");
+});
+
 route.get("/login", siteController.login);
 
 route.get("/signUp", siteController.signUpUser);
@@ -31,19 +35,18 @@ route.get("/transactions/buy-phone-card", siteController.buyPhoneCard);
 
 route.get("/transactions/history", siteController.history);
 
-
 /// test
 
-route.get("/transactions/deposit/bill", (req, res) =>{
-    res.render("user/bill/deposit",{
-        layout: "user",
-    });
-})
+route.get("/transactions/deposit/bill", (req, res) => {
+	res.render("user/bill/deposit", {
+		layout: "user",
+	});
+});
 
-route.get("/transactions/withdraw/bill", (req, res) =>{
-    res.render("user/bill/withdraw",{
-        layout: "user",
-    });
-})
+route.get("/transactions/withdraw/bill", (req, res) => {
+	res.render("user/bill/withdraw", {
+		layout: "user",
+	});
+});
 
 module.exports = route;

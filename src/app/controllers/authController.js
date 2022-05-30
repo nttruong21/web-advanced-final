@@ -118,6 +118,7 @@ exports.login = catchAsync(async (req, res, next) => {
 
 	user.password = undefined;
 	req.session.account = user;
+
 	res.status(200).json({
 		status: "success",
 		token,
