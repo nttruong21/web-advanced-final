@@ -6,7 +6,7 @@ require("dotenv").config();
 const credentials = require("./cookie/credentials");
 const route = require("./routes/index");
 const db = require("./config/database/db");
-
+const flash = require("connect-flash");
 const app = express();
 
 // CONNECT TO DATABASE
@@ -153,7 +153,13 @@ app.use(
 		saveUninitialized: true,
 	})
 );
-
+// Flash
+app.use(flash());
+app.use((req, res, next) => {
+	res.locals.success = req.flash("success");
+	res.locals.error = req.flash("error");
+	next();
+});
 // Route
 route(app);
 
