@@ -31,4 +31,19 @@ route.get("/transactions/buy-phone-card", siteController.buyPhoneCard);
 
 route.get("/transactions/history", siteController.history);
 
+
+/// test
+
+route.get("/transactions/deposit/bill", (req, res) =>{
+    res.render("user/bill/deposit",{
+        layout: "user",
+    });
+})
+
+route.get("/transactions/withdraw/bill", (req, res) =>{
+    res.render("user/bill/withdraw",{
+        layout: "user",
+    });
+})
+
 module.exports = route;

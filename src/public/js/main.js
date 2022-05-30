@@ -1,5 +1,7 @@
 // ------------------------ ADMIN --------------------------------
 
+//const { default: axios } = require("axios");
+
 // ------------------------ CLIENT -------------------------------
 
 // ------------------------ Authentication -------------------------------
@@ -44,11 +46,7 @@ const login = async (username, password) => {
 		}
 	} catch (err) {
 		if (!err.response.data.time) {
-			alert(
-				"error",
-				"Đăng nhập thất bại",
-				`${err.response.data.message}!!!`
-			);
+			alert("error", "Đăng nhập thất bại", `${err.response.data.message}!!!`);
 		} else {
 			Swal.fire({
 				title: "Khóa tài khoản",
@@ -62,13 +60,10 @@ const login = async (username, password) => {
 			// setInterval time
 			const interval = setInterval(() => {
 				time--;
-				document.querySelector(
-					"#time_count"
-				).innerHTML = `<strong>${time}</strong>`;
+				document.querySelector("#time_count").innerHTML = `<strong>${time}</strong>`;
 				if (time === 0) {
 					clearInterval(interval);
-					document.querySelector(".btn_login").style.display =
-						"inline-block";
+					document.querySelector(".btn_login").style.display = "inline-block";
 					document.querySelector("#alert_message").style.display = "none";
 				}
 			}, 1000);
@@ -80,7 +75,7 @@ if (form_login) {
 	if (data) {
 		document.querySelector("#username").value = data;
 	}
-	form_login.addEventListener("submit", (e) => {
+	form_login.addEventListener("submit", e => {
 		e.preventDefault();
 		const username = document.querySelector("#username").value;
 		// set sessionStorage for username
@@ -94,7 +89,7 @@ if (form_login) {
 // change password
 const form_changePassword = document.querySelector(".form_changePassword");
 if (form_changePassword) {
-	form_changePassword.addEventListener("submit", async (e) => {
+	form_changePassword.addEventListener("submit", async e => {
 		e.preventDefault();
 		const newPassword = document.querySelector("#newPassword").value;
 		const confirmPassword = document.querySelector("#password_confirm").value;
@@ -118,11 +113,7 @@ if (form_changePassword) {
 				}, 1500);
 			}
 		} catch (err) {
-			alert(
-				"error",
-				"Đổi mật khẩu thất bại",
-				`${err.response.data.message}!!!`
-			);
+			alert("error", "Đổi mật khẩu thất bại", `${err.response.data.message}!!!`);
 		}
 	});
 }
@@ -130,7 +121,7 @@ if (form_changePassword) {
 // forgot password
 const form_forgotPass = document.querySelector(".form_forgotPass");
 if (form_forgotPass) {
-	form_forgotPass.addEventListener("submit", async (e) => {
+	form_forgotPass.addEventListener("submit", async e => {
 		e.preventDefault();
 		const email = document.querySelector("#email").value;
 		try {
@@ -142,18 +133,10 @@ if (form_forgotPass) {
 				},
 			});
 			if (res.data.status === "success") {
-				alert(
-					"success",
-					"Thành công",
-					"Gửi email thành công.Vui long kiểm tra email"
-				);
+				alert("success", "Thành công", "Gửi email thành công.Vui long kiểm tra email");
 			}
 		} catch (err) {
-			alert(
-				"error",
-				"Gửi email thất bại",
-				`${err.response.data.message}!!!`
-			);
+			alert("error", "Gửi email thất bại", `${err.response.data.message}!!!`);
 		}
 	});
 }
@@ -163,7 +146,7 @@ if (form_forgotPass) {
 const form_resetPass = document.querySelector(".form_resetPass");
 
 if (form_resetPass) {
-	form_resetPass.addEventListener("submit", async (e) => {
+	form_resetPass.addEventListener("submit", async e => {
 		e.preventDefault();
 		const password = document.querySelector("#password").value;
 		const confirmPassword = document.querySelector("#password_confirm").value;
@@ -189,11 +172,7 @@ if (form_resetPass) {
 				}, 1500);
 			}
 		} catch (err) {
-			alert(
-				"error",
-				"Đổi mật khẩu thất bại",
-				`${err.response.data.message}!!!`
-			);
+			alert("error", "Đổi mật khẩu thất bại", `${err.response.data.message}!!!`);
 		}
 	});
 }
@@ -201,7 +180,7 @@ if (form_resetPass) {
 // Đăng ký
 const form_signup = document.querySelector(".form_signup");
 if (form_signup) {
-	form_signup.addEventListener("submit", async (e) => {
+	form_signup.addEventListener("submit", async e => {
 		e.preventDefault();
 		const phone = document.querySelector("#phone").value;
 		const email = document.querySelector("#email").value;
@@ -238,11 +217,7 @@ if (form_signup) {
 				},
 			});
 			if (res.data.status === "success") {
-				alert(
-					"success",
-					"Thành công",
-					"Đăng ký thành công.Vui lòng kiểm tra email để lấy tài khoản và mật khẩu"
-				);
+				alert("success", "Thành công", "Đăng ký thành công.Vui lòng kiểm tra email để lấy tài khoản và mật khẩu");
 				window.setTimeout(() => {
 					location.assign("/login");
 				}, 1500);
@@ -256,7 +231,7 @@ if (form_signup) {
 // Đăng xuất
 const logout = document.querySelector("#logout");
 if (logout) {
-	logout.addEventListener("click", async (e) => {
+	logout.addEventListener("click", async e => {
 		e.preventDefault();
 		try {
 			const res = await axios({
@@ -273,6 +248,41 @@ if (logout) {
 }
 
 // ------------------------ End Authentication --------------------------------
+// ------------------------ Transaction---------------------------------------
+//------------------------- Deposit -------------------------------------------
+const btnDeposit = document.getElementById("btn-deposit");
+if (btnDeposit) {
+	btnDeposit.addEventListener("click", async e => {
+		e.preventDefault();
+		const cardNumber = document.getElementById("cardNumber").value;
+		const cardExpirationDate = document.getElementById("cardExpirationDate").value;
+		const cvv = document.getElementById("cvv").value;
+		const price = document.getElementById("price").value;
+
+		axios
+			.post("/transactions/deposit", {
+				cardNumber,
+				cardExpirationDate,
+				cvv,
+				price,
+			})
+			.catch(err => {
+				alert("error", "Thất bại", `${err.response.data.message}!!!`);
+			});
+	});
+}
+
+//------------------------- End Deposit ---------------------------------------
+
+//------------------------- Withdraw ------------------------------------------
+
+//------------------------- End Withdraw --------------------------------------
+
+//------------------------- Transfer ------------------------------------------
+
+//------------------------- End Transfer --------------------------------------
+//------------------------- End Transaction -----------------------------------
+
 /* Data-table */
 $(document).ready(function () {
 	$(".data-table").each(function (_, table) {

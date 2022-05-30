@@ -7,60 +7,25 @@
 					<h2 class="headerText-tinn">Nạp tiền</h2>
 					<form action="/transactions/deposit" method="post">
 						<div class="mb-3">
-							<label for="userName" class="form-label">Họ và tên</label>
-							<input
-								type="email"
-								class="form-control"
-								id="userName"
-								placeholder=""
-							/>
+							<label class="form-label">Số thẻ</label>
+							<input type="text" name="cardNumber" class="form-control" id="cardNumber" />
 						</div>
 						<div class="row g-3 mb-3">
-							<div class="col-sm-6">
-								<label for="cardNumber" class="form-label">Số thẻ</label>
-								<input
-									type="email"
-									class="form-control"
-									id="cardNumber"
-									{{! aria-label="City" }}
-								/>
+							<div class="col-sm">
+								<label class="form-label">Ngày hết hạn</label>
+								<input type="date" name="cardExpirationDate" id="cardExpirationDate" class="form-control" {{! aria-label="State" }} />
 							</div>
 							<div class="col-sm">
-								<label for="cardDate" class="form-label">Ngày hết hạn</label>
-
-								<input
-									type="date"
-									id="cardDate"
-									class="form-control"
-									{{! aria-label="State" }}
-								/>
-							</div>
-							<div class="col-sm">
-								<label for="cardCCV" class="form-label">CCV</label>
-
-								<input
-									type="text"
-									class="form-control"
-									id="cardCCV"
-									{{! aria-label="Zip" }}
-								/>
+								<label class="form-label">CVV</label>
+								<input type="text" class="form-control" id="cvv" name="cvv" />
 							</div>
 							<div class="mb-3">
 								<label for="userName" class="form-label">Số tiền</label>
-								<input
-									type="number"
-									class="form-control"
-									id="userName"
-									placeholder=""
-								/>
+								<input type="number" name="price" class="form-control" id="price" min="0" value="0" placeholder="" />
 							</div>
 						</div>
 						<div class="d-grid gap-2">
-							<button
-								class="btn btn-primary"
-								type="submit"
-								value="Submit"
-							>Hoàn tất</button>
+							<button class="btn btn-primary" type="submit" id="btn-deposit" value="Submit">Hoàn tất</button>
 						</div>
 					</form>
 
