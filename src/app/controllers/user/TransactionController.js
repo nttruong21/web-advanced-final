@@ -214,7 +214,7 @@ class TransactionController {
 				await sender.save();
 				await receiver.save();
 			}
-			await transferTransaction.save((err, transaction) => {
+			await transferTransaction.save( async (err, transaction) => {
 				if (err) {
 					return res.json({
 						status: "fail",
@@ -229,6 +229,29 @@ class TransactionController {
 					});
 				}
 				// Nếu số tiền chuyển < 5tr -> thành công
+				try {
+					const priceString = parseInt(price).toLocaleString(
+						"vi-VN",
+						{
+							style: "currency",
+							currency: "VND",
+						}
+					);
+					const emailMessage = `Biên lai chuyển tiền
+									\n Họ tên người gửi: ${sender.name}
+									\n Số điện thoại người gửi: ${sender.phone}
+									\n Họ tên người nhận: ${receiver.phone}
+									\n Số điện thoại người nhận: ${receiver.phone}
+									\n Số tiền: ${priceString}
+									\n Lời nhắn: ${message}`;
+					await sendMail({
+						email: receiver.email,
+						subject: "Giao dịch chuyển tiền",
+						message: emailMessage,
+					});
+				} catch (error) {
+					console.log(">>> Có lỗi khi gửi email: ", error);
+				}
 				return res.status(200).json({
 					status: "success",
 					message: "Giao dịch chuyển tiền thành công",
