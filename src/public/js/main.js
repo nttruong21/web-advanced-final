@@ -472,7 +472,7 @@ if (btnWithdraw) {
 							document.getElementById("cvv").value = "";
 							document.getElementById("price").value = "";
 							document.getElementById("message").value = "";
-
+							document.getElementById("fee").value = "";
 							alert("success", "Thành công", dt.message);
 						} else {
 							alert("error", "Thất bại", dt.message);

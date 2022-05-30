@@ -206,7 +206,7 @@ class TransactionController {
 				transferTransaction.status = 0;
 			} else {
 				transferTransaction.status = 1;
-				if (isFeeForSender === 0) {
+				if (isFeeForSender === 1) {
 					sender.balance = Number(sender.balance) - Number(price) * 1.05;
 					receiver.balance = Number(receiver.balance) + Number(price);
 				} else {
