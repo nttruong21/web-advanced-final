@@ -11,10 +11,10 @@ class TransactionController {
 		const errors = await validationResult(req);
 		if (!errors.isEmpty()) {
 			console.log(req.body);
-			return res.status(422).json({
+			return res.status(400).json({
 				status: "fail",
-				//message: errors.array()[0].msg,
-				message: errors.array(),
+				message: errors.array()[0].msg,
+				//message: errors.array(),
 			});
 		} else {
 			const { cardNumber, cardExpirationDate, cvv, price } = await req.body;
@@ -66,18 +66,36 @@ class TransactionController {
 						} else {
 							await depositTransaction.save();
 							await acc.save();
-							return res.status(200).json({
+							/* return res.status(200).json({
 								status: "success",
 								message: "Nạp tiền thành công",
+							}); */
+							return res.render("user/bill/deposit", {
+								layout: "user",
+								title: "Giao dịch nạp tiền",
+								name: req.session.account.name,
+								username: req.session.account.username,
+								phone: req.session.account.phone,
+								cardNumber: credit.cardNumber,
+								createdAt: depositTransaction.createdAt,
+								price: price,
+								status: "Thành công",
 							});
 						}
 						// Thẻ 111111
 					} else if (credit.cardNumber === "111111") {
 						await depositTransaction.save();
 						await acc.save();
-						return res.status(200).json({
-							status: "success",
-							message: "Nạp tiền thành công",
+						return res.render("user/bill/deposit", {
+							layout: "user",
+							title: "Giao dịch nạp tiền",
+							name: req.session.account.name,
+							username: req.session.account.username,
+							phone: req.session.account.phone,
+							cardNumber: credit.cardNumber,
+							createdAt: depositTransaction.createdAt,
+							price: price,
+							status: "Thành công",
 						});
 					}
 				} else {
@@ -99,7 +117,7 @@ class TransactionController {
 		const errors = await validationResult(req);
 		if (!errors.isEmpty()) {
 			console.log(req.body);
-			return res.status(422).json({
+			return res.status(400).json({
 				status: "fail",
 				//message: errors.array()[0].msg,
 				message: errors.array(),
@@ -174,7 +192,7 @@ class TransactionController {
 		const errors = await validationResult(req);
 		if (!errors.isEmpty()) {
 			console.log(req.body);
-			return res.status(422).json({
+			return res.status(400).json({
 				status: "fail",
 				//message: errors.array()[0].msg,
 				message: errors.array(),
@@ -244,7 +262,7 @@ class TransactionController {
 		const errors = await validationResult(req);
 		if (!errors.isEmpty()) {
 			console.log(req.body);
-			return res.status(422).json({
+			return res.status(400).json({
 				status: "fail",
 				//message: errors.array()[0].msg,
 				message: errors.array(),
@@ -278,7 +296,7 @@ class TransactionController {
 		const errors = await validationResult(req);
 		if (!errors.isEmpty()) {
 			console.log(req.body);
-			return res.status(422).json({
+			return res.status(400).json({
 				status: "fail",
 				//message: errors.array()[0].msg,
 				message: errors.array(),
@@ -290,7 +308,7 @@ class TransactionController {
 				const current = await new Date();
 				const expire = await new Date(otp_db.expiredAt);
 				if (expire.getTime() < current.getTime() && otp_db.otp == otp) {
-					return res.status(422).json({
+					return res.status(400).json({
 						status: "fail",
 						message: "Mã OTP đã hết hạn. Nhấn gửi lại mã OTP để nhận mã OTP mới",
 					});

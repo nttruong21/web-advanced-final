@@ -288,6 +288,43 @@ const loadFile1 = function (event) {
 	};
 };
 
+// ------------------------ End Authentication --------------------------------
+// ------------------------ Transaction---------------------------------------
+//------------------------- Deposit -------------------------------------------
+const btnDeposit = document.getElementById("btn-deposit");
+if (btnDeposit) {
+	btnDeposit.addEventListener("click", async (e) => {
+		e.preventDefault();
+		const cardNumber = document.getElementById("cardNumber").value;
+		const cardExpirationDate =
+			document.getElementById("cardExpirationDate").value;
+		const cvv = document.getElementById("cvv").value;
+		const price = document.getElementById("price").value;
+
+		axios
+			.post("/transactions/deposit", {
+				cardNumber,
+				cardExpirationDate,
+				cvv,
+				price,
+			})
+			.catch((err) => {
+				alert("error", "Thất bại", `${err.response.data.message}!!!`);
+			});
+	});
+}
+
+//------------------------- End Deposit ---------------------------------------
+
+//------------------------- Withdraw ------------------------------------------
+
+//------------------------- End Withdraw --------------------------------------
+
+//------------------------- Transfer ------------------------------------------
+
+//------------------------- End Transfer --------------------------------------
+//------------------------- End Transaction -----------------------------------
+
 /* Data-table */
 $(document).ready(function () {
 	$(".data-table").each(function (_, table) {
