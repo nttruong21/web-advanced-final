@@ -80,7 +80,10 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 // Kiểm tra đăng nhập với session
 exports.checkAuth = catchAsync(async (req, res, next) => {
-	if (res.locals.account || req.session.account) {
+	if ((res.locals.account || req.session.account) && res.locals.account.status === 0) {
+		return res.render("warning");
+	}
+	if ((res.locals.account || req.session.account)&& res.locals.account.status === 1) {
 		return next();
 	}
 	return res.redirect("/login");
