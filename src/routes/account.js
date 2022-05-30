@@ -5,6 +5,7 @@ const authController = require("../app/controllers/authController");
 const fileUpload = require("../utils/fileUpload");
 const validator = require("../utils/validator");
 const { check } = require("express-validator");
+const { route } = require("express/lib/application");
 router.patch("/resetPassword/:token", authController.resetPassword);
 router.post("/forgotPassword", authController.forgotPassword);
 
@@ -20,4 +21,6 @@ router.post(
 // API change password
 router.use(middleware.protect);
 router.patch("/changePassword", authController.changePassword);
+router.patch("/changeIdCard", fileUpload, authController.changeIdCard);
+router.patch("/changePasswordMe", authController.changePasswordMe);
 module.exports = router;

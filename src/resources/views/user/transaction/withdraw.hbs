@@ -1,40 +1,49 @@
 <main class="mt-5 pt-3">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12 mb-3">
-				<div class="d-flex justify-content-center">
-					<div class="card col-md-8 col-xl-4 col-sm-12 col-xs-12">
-						<div class="card-header">
-							<span><i class="bi bi-table me-2"></i></span>
-							Rút tiền về thẻ tín dụng
+	<div class="mt-5 container-fluid py-4">
+		<div class="col-12 col-lg-10 col-xxl-8 mx-auto">
+			<div class="bd-wrap-tinn">
+
+				<div class="bd-tinn">
+					<h2 class="headerText-tinn">Rút tiền về thẻ tín dụng</h2>
+					<form action="/transactions/withdraw" method="post">
+						<div class="mb-3">
+							<label class="form-label">Số thẻ</label>
+							<input type="text" name="cardNumber" class="form-control" id="cardNumber" />
 						</div>
-						<div class="card-body">
-							<form  method="POST" action="/transactions/withdraw">
-								<div class="mb-3">
-									<label  class="form-label">Số thẻ tín dụng</label>
-									<input type="text" class="form-control" placeholder="" />
-								</div>
-								<div class="mb-3">
-									<label class="form-label">Ngày hết hạn</label>
-									<input type="date" class="form-control" />
-								</div>
-								<div class="mb-3">
-									<label  class="form-label">Mã CVV</label>
-									<input type="password" class="form-control" placeholder="" />
-								</div>
-								<div class="mb-3">
-									<label  class="form-label">Ghi chú</label>
-									<textarea class="form-control"  rows="4"></textarea>
-								</div>
-								<div class="mb-3">
-									<button type="submit" class="btn btn-primary">Rút tiền</button>
-								</div>
-							</form>
+						<div class="row g-3 mb-3">
+							<div class="col-sm">
+								<label class="form-label">Ngày hết hạn</label>
+								<input type="date" name="cardExpirationDate" id="cardExpirationDate" class="form-control" {{! aria-label="State" }} />
+							</div>
+							<div class="col-sm">
+								<label class="form-label">CVV</label>
+								<input type="text" class="form-control" id="cvv" name="cvv" />
+							</div>
 						</div>
-					</div>
+						<div class="row g-3 mb-3">
+							<div class="col-sm col-lg-8">
+								<label for="userName" class="form-label">Số tiền</label>
+								<input type="number" class="form-control" id="price" name="price" placeholder="" />
+							</div>
+							<div class="col-sm col-lg-4">
+								<label class="form-label">Phí giao dịch (5%)</label>
+								<input type="number" id="fee" value="0" class="form-control" disabled />
+							</div>
+						</div>
+						<div class="mb-3">
+							<label for="exampleFormControlTextarea1" class="form-label">Ghi chú</label>
+							<textarea class="form-control" id="message" name="message" rows="4"></textarea>
+						</div>
+						<div class="d-grid gap-2">
+							<button class="btn btn-primary" type="submit" id="btn-withdraw" value="Submit">Hoàn tất</button>
+						</div>
+					</form>
 
 				</div>
 			</div>
+
 		</div>
+
 	</div>
+
 </main>

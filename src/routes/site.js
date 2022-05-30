@@ -3,6 +3,12 @@ const route = express.Router();
 const middleware = require("../middlewares/middleware");
 const siteController = require("../app/controllers/SiteController");
 
+route.use(middleware.isLoggedIn);
+
+route.get("/", (req, res) => {
+	res.redirect("/login");
+});
+
 route.get("/login", siteController.login);
 
 route.get("/signUp", siteController.signUpUser);
@@ -11,9 +17,9 @@ route.get("/forgotPassword", siteController.forgotPassword);
 
 route.get("/resetPassword/:token", siteController.resetPassword);
 
-route.use(middleware.isLoggedIn);
-
 route.get("/changePasswordFirst", siteController.changePasswordFirst);
+
+route.use("/transactions", middleware.checkAuth);
 
 route.get("/accounts", siteController.index);
 

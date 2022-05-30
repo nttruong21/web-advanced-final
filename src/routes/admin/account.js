@@ -3,6 +3,8 @@ const route = express.Router();
 const adminAccountController = require("../../app/controllers/admin/AccountController");
 const middlewares = require("../../middlewares/middleware");
 
+route.use(middlewares.isLoggedIn);
+
 route.get("/", adminAccountController.index);
 route.get(
 	"/waiting-active-accounts",

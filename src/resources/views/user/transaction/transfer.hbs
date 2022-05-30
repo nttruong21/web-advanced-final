@@ -1,51 +1,49 @@
 <main class="mt-5 pt-3">
-	<div class="container-fluid">
-		<div class="row">
-			<div class="col-md-12 mb-3">
-				<div class="d-flex justify-content-center">
-					<div class="card col-md-8 col-xl-4 col-sm-12 col-xs-12">
-						<div class="card-header">
-							<span><i class="bi bi-table me-2"></i></span>
-							Chuyển tiền
-						</div>
-						<div class="card-body">
-							<form action="mb-3" method="POST">
-								<div class="mb-3">
-									<label for="exampleDataList" class="form-label">Số điện thoại người nhận</label>
-                                    <input class="form-control" list="datalistOptions" id="exampleDataList" placeholder="Số điện thoại người nhận">
-                                    <datalist id="datalistOptions">
-                                        <option value="0123456789 Trường">
-                                        <option value="0123456789 Tín">
-                                        <option value="0123456789 Nhân">
-                                        <option value="0123456789 Tuấn">
+	<div class="mt-5 container-fluid py-4">
+		<div class="col-12 col-lg-10 col-xxl-8 mx-auto">
+			<div class="bd-wrap-tinn">
 
-                                    </datalist>
-								</div>
-								<div class="mb-3">
-									<label for="" class="form-label">Số tiền chuyển</label>
-									<input type="number" class="form-control" value="0" min="0" />
-								</div>s
-                                <div class="mb-3">
-                                    <label for="" class="form-label">Phí giao dịch</label>
-                                    <select class="form-select" aria-label="Phí giao dịch">
-                                        <option value="0" selected >Người chuyển trả</option>
-                                        <option value="1">Người nhận trả</option>
-                                    </select>
-                                </div>
-
-                                <div class="mb-3">
-									<label  class="form-label">Ghi chú</label>
-									<textarea class="form-control"  rows="4"></textarea>
-								</div>
-								<div class="mb-3">
-									<button type="submit" class="btn btn-primary">Chuyển tiền</button>
-								</div>
-							</form>
+				<div class="bd-tinn">
+					<h2 class="headerText-tinn">Chuyển tiền</h2>
+					<form action="/transactions/transfer" method="post">
+						<div class="row g-3 mb-3">
+							<div class="col-sm-6">
+								<label class="form-label">Số điện thoại người nhận</label>
+								<input type="text" class="form-control" id="receiverPhone" name="receiverPhone" placeholder="" />
+							</div>
+							<div class="col-sm-6">
+								<label class="form-label">Họ và tên người nhận</label>
+								<input type="text" class="form-control" id="name" placeholder="" disabled />
+							</div>
 						</div>
-					</div>
+						<div class="row g-3 mb-3">
+							<div class="col-sm col-lg-8">
+								<label for="userName" class="form-label">Số tiền</label>
+								<input type="number" class="form-control" id="price" name="price" placeholder="" />
+							</div>
+							<div class="col-sm col-lg-4">
+
+								<label for="feeTypesSelectd" class="form-label">Phí giao dịch (5%)</label>
+								<select class="form-select" id="isFeeForSender" name="isFeeForSender">
+									<option value="0" selected>Người chuyển trả</option>
+									<option value="1">Người nhận trả</option>
+								</select>
+							</div>
+						</div>
+						<div class="mb-4">
+							<label class="form-label">Ghi chú</label>
+							<textarea class="form-control" id="message" name="message" rows="4"></textarea>
+						</div>
+						<div class="d-grid gap-2">
+							<button class="btn btn-primary" type="submit" id="btn-transfer" value="Submit">Hoàn tất</button>
+						</div>
+					</form>
 
 				</div>
 			</div>
+
 		</div>
+
 	</div>
+
 </main>
