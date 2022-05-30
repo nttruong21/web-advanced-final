@@ -150,3 +150,4 @@ exports.checkAdminAuth = (req, res, next) => {
 	}
 	return res.redirect("/not-permission");
 
+}
