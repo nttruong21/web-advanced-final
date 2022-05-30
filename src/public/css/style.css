@@ -276,6 +276,7 @@ header {
 .form-bg {
 	padding: 50px 0px;
 	height: 100vh;
+	overflow: auto;
 	background: radial-gradient(circle, #eeaeca 0%, #94bbe9 100%);
 }
 

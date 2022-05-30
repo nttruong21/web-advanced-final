@@ -1,9 +1,5 @@
 // ------------------------ ADMIN --------------------------------
 
-//const { default: axios } = require("axios");
-
-//const { default: axios } = require("axios");
-
 // ------------------------ CLIENT -------------------------------
 
 // ------------------------ Authentication -------------------------------
@@ -48,7 +44,11 @@ const login = async (username, password) => {
 		}
 	} catch (err) {
 		if (!err.response.data.time) {
-			alert("error", "Đăng nhập thất bại", `${err.response.data.message}!!!`);
+			alert(
+				"error",
+				"Đăng nhập thất bại",
+				`${err.response.data.message}!!!`
+			);
 		} else {
 			Swal.fire({
 				title: "Khóa tài khoản",
@@ -62,10 +62,13 @@ const login = async (username, password) => {
 			// setInterval time
 			const interval = setInterval(() => {
 				time--;
-				document.querySelector("#time_count").innerHTML = `<strong>${time}</strong>`;
+				document.querySelector(
+					"#time_count"
+				).innerHTML = `<strong>${time}</strong>`;
 				if (time === 0) {
 					clearInterval(interval);
-					document.querySelector(".btn_login").style.display = "inline-block";
+					document.querySelector(".btn_login").style.display =
+						"inline-block";
 					document.querySelector("#alert_message").style.display = "none";
 				}
 			}, 1000);
@@ -77,7 +80,7 @@ if (form_login) {
 	if (data) {
 		document.querySelector("#username").value = data;
 	}
-	form_login.addEventListener("submit", e => {
+	form_login.addEventListener("submit", (e) => {
 		e.preventDefault();
 		const username = document.querySelector("#username").value;
 		// set sessionStorage for username
@@ -91,7 +94,7 @@ if (form_login) {
 // change password
 const form_changePassword = document.querySelector(".form_changePassword");
 if (form_changePassword) {
-	form_changePassword.addEventListener("submit", async e => {
+	form_changePassword.addEventListener("submit", async (e) => {
 		e.preventDefault();
 		const newPassword = document.querySelector("#newPassword").value;
 		const confirmPassword = document.querySelector("#password_confirm").value;
@@ -115,7 +118,11 @@ if (form_changePassword) {
 				}, 1500);
 			}
 		} catch (err) {
-			alert("error", "Đổi mật khẩu thất bại", `${err.response.data.message}!!!`);
+			alert(
+				"error",
+				"Đổi mật khẩu thất bại",
+				`${err.response.data.message}!!!`
+			);
 		}
 	});
 }
@@ -123,7 +130,7 @@ if (form_changePassword) {
 // forgot password
 const form_forgotPass = document.querySelector(".form_forgotPass");
 if (form_forgotPass) {
-	form_forgotPass.addEventListener("submit", async e => {
+	form_forgotPass.addEventListener("submit", async (e) => {
 		e.preventDefault();
 		const email = document.querySelector("#email").value;
 		try {
@@ -135,10 +142,18 @@ if (form_forgotPass) {
 				},
 			});
 			if (res.data.status === "success") {
-				alert("success", "Thành công", "Gửi email thành công.Vui long kiểm tra email");
+				alert(
+					"success",
+					"Thành công",
+					"Gửi email thành công.Vui long kiểm tra email"
+				);
 			}
 		} catch (err) {
-			alert("error", "Gửi email thất bại", `${err.response.data.message}!!!`);
+			alert(
+				"error",
+				"Gửi email thất bại",
+				`${err.response.data.message}!!!`
+			);
 		}
 	});
 }
@@ -148,7 +163,7 @@ if (form_forgotPass) {
 const form_resetPass = document.querySelector(".form_resetPass");
 
 if (form_resetPass) {
-	form_resetPass.addEventListener("submit", async e => {
+	form_resetPass.addEventListener("submit", async (e) => {
 		e.preventDefault();
 		const password = document.querySelector("#password").value;
 		const confirmPassword = document.querySelector("#password_confirm").value;
@@ -174,7 +189,11 @@ if (form_resetPass) {
 				}, 1500);
 			}
 		} catch (err) {
-			alert("error", "Đổi mật khẩu thất bại", `${err.response.data.message}!!!`);
+			alert(
+				"error",
+				"Đổi mật khẩu thất bại",
+				`${err.response.data.message}!!!`
+			);
 		}
 	});
 }
@@ -182,7 +201,7 @@ if (form_resetPass) {
 // Đăng ký
 const form_signup = document.querySelector(".form_signup");
 if (form_signup) {
-	form_signup.addEventListener("submit", async e => {
+	form_signup.addEventListener("submit", async (e) => {
 		e.preventDefault();
 		const phone = document.querySelector("#phone").value;
 		const email = document.querySelector("#email").value;
@@ -219,7 +238,11 @@ if (form_signup) {
 				},
 			});
 			if (res.data.status === "success") {
-				alert("success", "Thành công", "Đăng ký thành công.Vui lòng kiểm tra email để lấy tài khoản và mật khẩu");
+				alert(
+					"success",
+					"Thành công",
+					"Đăng ký thành công.Vui lòng kiểm tra email để lấy tài khoản và mật khẩu"
+				);
 				window.setTimeout(() => {
 					location.assign("/login");
 				}, 1500);
@@ -233,7 +256,7 @@ if (form_signup) {
 // Đăng xuất
 const logout = document.querySelector("#logout");
 if (logout) {
-	logout.addEventListener("click", async e => {
+	logout.addEventListener("click", async (e) => {
 		e.preventDefault();
 		try {
 			const res = await axios({
@@ -249,12 +272,65 @@ if (logout) {
 	});
 }
 
+// Thay đổi chứng minh nhân dân
+const btn_js_changeIdCard = document.querySelector(".btn_js_changeIdCard");
+if (btn_js_changeIdCard) {
+	btn_js_changeIdCard.addEventListener("click", async (e) => {
+		e.preventDefault();
+		const frontIdCard = document.querySelector("#cmndmt").files[0];
+		const backIdCard = document.querySelector("#cmndms").files[0];
+		console.log(frontIdCard, backIdCard);
+		const formData = new FormData();
+		formData.append("frontIdCard", frontIdCard);
+		formData.append("backIdCard", backIdCard);
+		try {
+			const res = await axios({
+				method: "PATCH",
+				url: "/api/accounts/changeIdCard",
+				data: formData,
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+			if (res.data.status === "success") {
+				alert(
+					"success",
+					"Thành công",
+					"Thay đổi chứng minh nhân dân thành công"
+				);
+				// set img src to img
+				document.querySelector("#cmndmt").src = res.data.data.frontIdCard;
+				document.querySelector("#cmndms").src = res.data.data.backIdCard;
+				document.querySelector("#alert_cmnd").style.display = "none";
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	});
+}
+// ------------------------ End Authentication -------------------------------------
+// Các hàm sử dụng ------------------------------------------------------------------
+const loadFile = function (event) {
+	const output = document.getElementById("output");
+	output.src = URL.createObjectURL(event.target.files[0]);
+	output.onload = function () {
+		URL.revokeObjectURL(output.src); // free memory
+	};
+};
+const loadFile1 = function (event) {
+	const output1 = document.getElementById("output1");
+	output1.src = URL.createObjectURL(event.target.files[0]);
+	output1.onload = function () {
+		URL.revokeObjectURL(output.src); // free memory
+	};
+};
+
 // ------------------------ End Authentication --------------------------------
 // ------------------------ Transaction---------------------------------------
 //------------------------- Deposit -------------------------------------------
 const btnDeposit = document.getElementById("btn-deposit");
 if (btnDeposit) {
-	btnDeposit.addEventListener("click", async e => {
+	btnDeposit.addEventListener("click", async (e) => {
 		e.preventDefault();
 		Swal.fire({
 			title: "Nạp tiền vào tài khoản",
