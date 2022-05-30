@@ -194,6 +194,8 @@ class TransactionController {
 				status: 0,
 				senderPhone: sender.phone,
 				senderName: sender.name,
+				receiverName: receiver.name,
+				receiverEmail: receiver.email,
 				receiverPhone: receiver.phone,
 				message: message,
 				transactionFee: 5,
@@ -279,6 +281,7 @@ class TransactionController {
 				phone: req.session.account.phone,
 				otp: generateOTP,
 				status: 0,
+				expiredAt: Date.now() + 1000*60*2,
 				email: req.session.account.email,
 			});
 			await otp.save();
