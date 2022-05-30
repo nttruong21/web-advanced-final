@@ -5,6 +5,7 @@ const authController = require("../app/controllers/authController");
 const fileUpload = require("../utils/fileUpload");
 const validator = require("../utils/validator");
 const { check } = require("express-validator");
+const { route } = require("express/lib/application");
 router.patch("/resetPassword/:token", authController.resetPassword);
 router.post("/forgotPassword", authController.forgotPassword);
 

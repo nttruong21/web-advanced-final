@@ -2,6 +2,8 @@
 
 //const { default: axios } = require("axios");
 
+//const { default: axios } = require("axios");
+
 // ------------------------ CLIENT -------------------------------
 
 // ------------------------ Authentication -------------------------------
@@ -254,21 +256,47 @@ const btnDeposit = document.getElementById("btn-deposit");
 if (btnDeposit) {
 	btnDeposit.addEventListener("click", async e => {
 		e.preventDefault();
-		const cardNumber = document.getElementById("cardNumber").value;
-		const cardExpirationDate = document.getElementById("cardExpirationDate").value;
-		const cvv = document.getElementById("cvv").value;
-		const price = document.getElementById("price").value;
+		Swal.fire({
+			title: "Nạp tiền vào tài khoản",
+			icon: "info",
+			text: "Bạn có muốn thực hiện giao dịch nạp tiền này không ?",
+			confirmButtonColor: "#3085d6",
+			showDenyButton: true,
+			denyButtonText: `Hủy`,
+			confirmButtonText: "Xác nhận",
+		}).then(result => {
+			if (result.isConfirmed) {
+				let cardNumber = document.getElementById("cardNumber").value;
+				let cardExpirationDate = document.getElementById("cardExpirationDate").value;
+				let cvv = document.getElementById("cvv").value;
+				let price = document.getElementById("price").value;
 
-		axios
-			.post("/transactions/deposit", {
-				cardNumber,
-				cardExpirationDate,
-				cvv,
-				price,
-			})
-			.catch(err => {
-				alert("error", "Thất bại", `${err.response.data.message}!!!`);
-			});
+				axios
+					.post("/transactions/deposit", {
+						cardNumber,
+						cardExpirationDate,
+						cvv,
+						price,
+					})
+					.then(res => {
+						const dt = res.data;
+						if (dt.status === "success") {
+							document.getElementById("cardNumber").value = "";
+							document.getElementById("cardExpirationDate").value = "";
+							document.getElementById("cvv").value = "";
+							document.getElementById("price").value = "";
+
+							alert("success", "Thành công", dt.message);
+						} else {
+							alert("error", "Thất bại", dt.message);
+						}
+					})
+					.catch(err => {
+						alert("error", "Lỗi", `${err.response}!!!`);
+					});
+			} else if (result.isDenied) {
+			}
+		});
 	});
 }
 
@@ -276,9 +304,205 @@ if (btnDeposit) {
 
 //------------------------- Withdraw ------------------------------------------
 
+const priceWithdraw = document.getElementById("price");
+if (priceWithdraw && document.getElementById("fee")) {
+	priceWithdraw.addEventListener("keyup", e => {
+
+		document.getElementById("fee").value = Math.floor(Number(e.target.value) * 0.05);
+	});
+}
+
+const btnWithdraw = document.getElementById("btn-withdraw");
+if (btnWithdraw) {
+	btnWithdraw.addEventListener("click", async e => {
+		e.preventDefault();
+		Swal.fire({
+			title: "Rút tiền về thẻ tín dụng",
+			icon: "info",
+			text: "Bạn có muốn thực hiện giao dịch rút tiền này không ?",
+			confirmButtonColor: "#3085d6",
+			showDenyButton: true,
+			denyButtonText: `Hủy`,
+			confirmButtonText: "Xác nhận",
+		}).then(result => {
+			if (result.isConfirmed) {
+				let cardNumber = document.getElementById("cardNumber").value;
+				let cardExpirationDate = document.getElementById("cardExpirationDate").value;
+				let cvv = document.getElementById("cvv").value;
+				let price = document.getElementById("price").value;
+				let message = document.getElementById("message").value;
+				axios
+					.post("/transactions/withdraw", {
+						cardNumber,
+						cardExpirationDate,
+						cvv,
+						price,
+						message,
+					})
+					.then(res => {
+						const dt = res.data;
+						if (dt.status === "success") {
+							document.getElementById("cardNumber").value = "";
+							document.getElementById("cardExpirationDate").value = "";
+							document.getElementById("cvv").value = "";
+							document.getElementById("price").value = "";
+							document.getElementById("message").value = "";
+
+							alert("success", "Thành công", dt.message);
+						} else {
+							alert("error", "Thất bại", dt.message);
+						}
+					})
+					.catch(err => {
+						alert("error", "Lỗi", `${err.response}!!!`);
+					});
+			}
+		});
+	});
+}
 //------------------------- End Withdraw --------------------------------------
 
 //------------------------- Transfer ------------------------------------------
+// Get name
+const receiverPhone = document.getElementById("receiverPhone");
+if (receiverPhone) {
+	receiverPhone.addEventListener("keyup", async e => {
+		const name = document.getElementById("name");
+		console.log(receiverPhone.value);
+		axios.post("/accounts/phone", { phone: e.target.value }).then(res => {
+			if (res.data.status === "success") {
+				name.value = res.data.data;
+			} else {
+				name.value = "";
+			}
+		});
+	});
+}
+
+const btnTransfer = document.getElementById("btn-transfer");
+if (btnTransfer) {
+	btnTransfer.addEventListener("click", async e => {
+		e.preventDefault();
+		const receiverPhone = document.getElementById("receiverPhone").value;
+		const name = document.getElementById("name").value;
+		const price = document.getElementById("price").value;
+		const isFeeForSender = document.getElementById("isFeeForSender").value; 
+		const message = document.getElementById("message").value;
+		if(receiverPhone === "" || price <= 0 || message === ""){
+			swal.fire({
+				title: "Thông báo",
+				text: "Vui lòng nhập đầy đủ thông tin",
+				icon: "warning",
+			});
+		} else{
+			Swal.fire({
+				title: "Giao dịch chuyển tiền",
+				icon: "info",
+				showDenyButton: true,
+				confirmButtonColor: "#3085d6",
+				text: `Bạn có muốn thực hiện giao dịch rút tiền này không ?. Người nhận: ${name}, số điện thoại người nhận: ${receiverPhone}.`,
+				denyButtonText: `Hủy`,
+				confirmButtonText: "Xác nhận",
+			}).then( async result => {
+				if (result.isConfirmed) {
+					const res = await axios.post("/transactions/send-otp", {
+						receiverPhone,
+						price,
+						isFeeForSender,
+						message,
+					});
+					if (res.data.status === "success") {
+						Swal.fire({
+							position: 'center',
+							icon: 'success',
+							title: res.data.message,
+							showConfirmButton: false,
+							timer: 3000
+						})
+						.then(() => {
+							localStorage.setItem("receiverPhone", receiverPhone);
+							localStorage.setItem("name", name);
+							localStorage.setItem("price", price);
+							localStorage.setItem("isFeeForSender", isFeeForSender);
+							localStorage.setItem("message", message);	
+							window.location.href = "/transactions/transfer/verify-otp";
+						}).catch(err => {	
+							alert("error", "Lỗi", `${err.response}!!!`);
+						});
+					}else {
+						alert("error", "Thất bại", `${res.data.message}!!!`);
+					}
+				}
+			});
+		} 
+		
+	});
+}
+
+const btnVerifyOTP = document.getElementById("btn-verify-otp");
+if (btnVerifyOTP) {
+	btnVerifyOTP.addEventListener("click", async e => {
+		e.preventDefault();
+		const otp = document.getElementById("otp").value;
+		const receiverPhone = localStorage.getItem("receiverPhone");
+		const name = localStorage.getItem("name");
+		const price = localStorage.getItem("price");
+		const isFeeForSender = localStorage.getItem("isFeeForSender");
+		const message = localStorage.getItem("message");
+		if(receiverPhone== null || name == null || price == null || isFeeForSender == null || message == null){
+			window.location.href = "/transactions/transfer";
+		}
+		if(otp === ""){
+			swal.fire({
+				title: "Thông báo",
+				text: "Vui lòng nhập mã OTP",
+				icon: "warning",
+			});
+		} else{
+			const res = await axios.post("/transactions/transfer", {
+				otp,
+				receiverPhone,
+				name,
+				price,
+				isFeeForSender,
+				message,
+			});
+			if (res.data.status === "success") {
+				await Swal.fire({
+					position: 'center',
+					icon: 'success',
+					title: res.data.message,
+					showConfirmButton: false,
+					timer: 5000
+				  })
+				// clear localStorage	
+				localStorage.clear();
+				window.location.href = "/transactions/history";
+			} else {
+				alert("error", "Thất bại", res.data.message);
+			}
+
+		} 
+	});
+}
+
+btnSendOTP = document.getElementById("btn-send-otp");
+if (btnSendOTP) {
+	btnSendOTP.addEventListener("click", async e => {
+		const res = await axios.get("/transactions/get-otp")
+		if (res.data.status === "success") {
+			Swal.fire({
+				position: 'center',
+				icon: 'success',
+				title: res.data.message,
+				showConfirmButton: false,
+				timer: 3000
+			  })
+		} else {
+			alert("error", "Thất bại", res.data.message);
+		}	
+	});
+}
 
 //------------------------- End Transfer --------------------------------------
 //------------------------- End Transaction -----------------------------------

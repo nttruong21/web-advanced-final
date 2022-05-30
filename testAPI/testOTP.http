@@ -9,17 +9,16 @@ content-type: application/json
 }
 
 
-### POST transfer
-POST http://localhost:3000/transactions/transfer
+### POST tget phone
+POST http://localhost:3000/accounts/phone
 content-type: application/json
 
+    
 {
-    "receiverPhone" :"0927055637",
-    "message": "Test gửi tiền",
-    "price": "5000000",
-    "isFeeForSender": "0"
-
+    "phone": "0927055639"
 }
+    
+
 
 ### POST get-otp
 POST http://localhost:3000/transactions/send-otp

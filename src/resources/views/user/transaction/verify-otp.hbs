@@ -1,0 +1,30 @@
+<main class="mt-5 pt-3">
+	<div class="mt-5 container-fluid py-4">
+		<div class="col-12 col-sm-9 col-md-8 col-lg-7 col-xxl-4 mx-auto">
+			<div class="bd-wrap-tinn">
+				<div class="bd-tinn">
+					<h2 class="headerText-tinn text-center">Xác thực OTP</h2>
+					<form action="/transactions/transfer" method="post">
+						<div class="mb-3">
+							<label for="userName" class="form-label">Mã OTP</label>
+							<input type="text" class="form-control" id="otp" name="otp" placeholder="" />
+						</div>
+						<div class="row">
+							<div class="col-sm-12 col-md-6 d-grid mb-2">
+								<button class="btn btn-primary" type="button" id="btn-send-otp" value="Submit">Gửi lại mã OTP</button>
+							</div>
+							<div class="col-sm-12  col-md-6 d-grid mb-2">
+								<button class="btn btn-primary" type="submit" id="btn-verify-otp" value="Submit">Xác nhận</button>
+							</div>
+						</div>
+
+					</form>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</main>

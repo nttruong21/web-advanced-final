@@ -14,4 +14,8 @@ route.post("/transfer", validator.otpValidator, userTransactionController.verify
 
 route.post("/buy-phone-card", userTransactionController.buyPhoneCard);
 
+route.get("/transfer/verify-otp", userTransactionController.getViewVerifyOTP);
+
+route.get("/get-otp", userTransactionController.sendOTP);
+
 module.exports = route;
