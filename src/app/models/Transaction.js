@@ -11,6 +11,7 @@ const transactionSchema = new Schema(
 		senderName: { type: String },
 		receiverPhone: { type: String },
 		receiverName: { type: String },
+		receiverEmail: { type: String },
 		message: { type: String },
 		phoneCardCode: [{ type: Schema.Types.ObjectId, ref: "PhoneCard" }], // Thẻ cào
 		phoneCardQuantity: { type: Number }, // Số lượng thẻ cào (<=5)

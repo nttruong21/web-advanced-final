@@ -90,3 +90,11 @@ exports.bodyFile = (req, res, next) => {
 	req.body.backIdCard = req.files.backIdCard[0].filename;
 	next();
 };
+
+exports.checkAdminAuth = (req, res, next) => {
+	console.log(">>> Role: ", req.session.role);
+	if (req.session.role !== undefined && req.session.role === 1) {
+		next();
+	}
+	return res.redirect("/not-permission");
+};

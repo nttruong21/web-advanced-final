@@ -1,36 +1,37 @@
 const express = require("express");
 const route = express.Router();
 const adminTransactionController = require("../../app/controllers/admin/TransactionController");
+const middlewares = require("../../middlewares/middleware");
 
 // DANH SÁCH GIAO DỊCH ĐANG CHỜ DUYỆT
 route.get(
-    "/waiting-approve-transactions",
-    adminTransactionController.getWatingApproveTransactionsView
+	"/waiting-approve-transactions",
+	adminTransactionController.getWatingApproveTransactionsView
 );
 // DANH SÁCH GIAO DỊCH ĐÃ ĐƯỢC DUYỆT
 route.get(
-    "/approved-transactions",
-    adminTransactionController.getApproveTransactionsView
+	"/approved-transactions",
+	adminTransactionController.getApproveTransactionsView
 );
 // DANH SÁCH GIAO DỊCH ĐÃ HỦY
 route.get(
-    "/canceled-transactions",
-    adminTransactionController.getCanceledTransactionsView
+	"/canceled-transactions",
+	adminTransactionController.getCanceledTransactionsView
 );
 // CHI TIẾT GIAO DỊCH
 route.get(
-    "/transaction-detail/:id",
-    adminTransactionController.getTransactionDetailView
+	"/transaction-detail/:id",
+	adminTransactionController.getTransactionDetailView
 );
 // PHÊ DUYỆT GIAO DỊCH RÚT TIỀN
 route.post(
-    "/verify-withdrawal-transaction",
-    adminTransactionController.verifyWithdrawalTransaction
+	"/verify-withdrawal-transaction",
+	adminTransactionController.verifyWithdrawalTransaction
 );
 // GIAO DỊCH CHUYỂN TIỀN
 route.post(
-    "/verify-transfer-transaction",
-    adminTransactionController.verifyTransferTransaction
+	"/verify-transfer-transaction",
+	adminTransactionController.verifyTransferTransaction
 );
 
 module.exports = route;
