@@ -1,0 +1,33 @@
+{{#if success}}
+	<div
+		class="alert alert-success alert-dismissible fade show col-12 col-lg-10 col-xxl-8 mx-auto"
+		role="alert"
+	>
+		{{success}}
+		<button
+			type="button"
+			class="btn-close"
+			data-bs-dismiss="alert"
+			aria-label="Close"
+		></button>
+	</div>
+{{/if}}
+
+{{#if error}}
+
+	<div
+		class="alert alert-danger alert-dismissible fade show col-12 col-lg-10 col-xxl-8 mx-auto"
+		role="alert"
+	>
+		<strong>Error:</strong>
+		<br />
+		{{error}}
+		<button
+			type="button"
+			class="btn-close"
+			data-bs-dismiss="alert"
+			aria-label="Close"
+		></button>
+	</div>
+
+{{/if}}
