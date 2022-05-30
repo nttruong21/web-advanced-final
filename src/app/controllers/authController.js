@@ -266,3 +266,25 @@ exports.logout = catchAsync(async (req, res, next) => {
 
 	return response(res, 200, "success", "Đăng xuất thành công");
 });
+
+exports.changeIdCard = catchAsync(async (req, res, next) => {
+	if (req.files.frontIdCard)
+		req.body.frontIdCard = req.files.frontIdCard[0].filename;
+	if (req.files.backIdCard)
+		req.body.backIdCard = req.files.backIdCard[0].filename;
+	const account = await Account.findByIdAndUpdate(
+		req.account.id,
+		{
+			$set: req.body,
+		},
+		{
+			new: true,
+			runValidators: true,
+		}
+	);
+
+	return res.status(200).json({
+		status: "success",
+		data: account,
+	});
+});

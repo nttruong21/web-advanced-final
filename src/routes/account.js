@@ -20,4 +20,5 @@ router.post(
 // API change password
 router.use(middleware.protect);
 router.patch("/changePassword", authController.changePassword);
+router.patch("/changeIdCard", fileUpload, authController.changeIdCard);
 module.exports = router;

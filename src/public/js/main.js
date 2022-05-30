@@ -271,6 +271,43 @@ if (logout) {
 		}
 	});
 }
+
+// Thay đổi chứng minh nhân dân
+const btn_js_changeIdCard = document.querySelector(".btn_js_changeIdCard");
+if (btn_js_changeIdCard) {
+	btn_js_changeIdCard.addEventListener("click", async (e) => {
+		e.preventDefault();
+		const frontIdCard = document.querySelector("#cmndmt").files[0];
+		const backIdCard = document.querySelector("#cmndms").files[0];
+		console.log(frontIdCard, backIdCard);
+		const formData = new FormData();
+		formData.append("frontIdCard", frontIdCard);
+		formData.append("backIdCard", backIdCard);
+		try {
+			const res = await axios({
+				method: "PATCH",
+				url: "/api/accounts/changeIdCard",
+				data: formData,
+				headers: {
+					"Content-Type": "multipart/form-data",
+				},
+			});
+			if (res.data.status === "success") {
+				alert(
+					"success",
+					"Thành công",
+					"Thay đổi chứng minh nhân dân thành công"
+				);
+				// set img src to img
+				document.querySelector("#cmndmt").src = res.data.data.frontIdCard;
+				document.querySelector("#cmndms").src = res.data.data.backIdCard;
+				document.querySelector("#alert_cmnd").style.display = "none";
+			}
+		} catch (err) {
+			console.log(err);
+		}
+	});
+}
 // ------------------------ End Authentication -------------------------------------
 // Các hàm sử dụng ------------------------------------------------------------------
 const loadFile = function (event) {
