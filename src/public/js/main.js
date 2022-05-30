@@ -38,9 +38,15 @@ const login = async (username, password) => {
 				title: "Đăng nhập thành công",
 				showConfirmButton: false,
 			});
-			window.setTimeout(() => {
-				location.assign("/accounts");
-			}, 1500);
+			if (res.data.data.user.role === 1) {
+				window.setTimeout(() => {
+					location.assign("/admin/accounts");
+				}, 1500);
+			} else {
+				window.setTimeout(() => {
+					location.assign("/accounts");
+				}, 1500);
+			}
 		}
 	} catch (err) {
 		if (!err.response.data.time) {

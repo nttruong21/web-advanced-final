@@ -85,10 +85,17 @@ exports.checkAuth = catchAsync(async (req, res, next) => {
 	}
 	if (res.locals.account && res.locals.account.status === 1) {
 		return next();
-	}else if(req.session.account && req.session.account.status === 0){
+	} else if (req.session.account && req.session.account.status === 0) {
 		return res.render("warning");
-	}else if(req.session.account && req.session.account.status === 1){
+	} else if (req.session.account && req.session.account.status === 1) {
 		return next();
+	}
+	return res.redirect("/login");
+});
+
+exports.checkAuthAdmin = catchAsync(async (req, res, next) => {
+	if (req.session.account) {
+		next();
 	}
 	return res.redirect("/login");
 });
