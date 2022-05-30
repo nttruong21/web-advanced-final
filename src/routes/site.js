@@ -2,7 +2,7 @@ const express = require("express");
 const route = express.Router();
 const middleware = require("../middlewares/middleware");
 const siteController = require("../app/controllers/SiteController");
-const { Route } = require("express");
+
 route.use(middleware.isLoggedIn);
 
 route.get("/login", siteController.login);

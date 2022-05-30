@@ -28,7 +28,7 @@ content-type: application/json
 {
     "receiverPhone" :"0927055637",
     "message": "Test gửi tiền",
-    "price": "5000000",
+    "price": "5000",
     "isFeeForSender": "0"
 
 }
@@ -38,7 +38,7 @@ POST http://localhost:3000/transactions/transfer
 content-type: application/json
 
 {
-    "otp" :  "172633",
+    "otp" :  "253984",
     "receiverPhone" :"0927055637",
     "message": "Test gửi tiền",
     "price": "1000",
