@@ -271,8 +271,23 @@ if (logout) {
 		}
 	});
 }
+// ------------------------ End Authentication -------------------------------------
+// Các hàm sử dụng ------------------------------------------------------------------
+const loadFile = function (event) {
+	const output = document.getElementById("output");
+	output.src = URL.createObjectURL(event.target.files[0]);
+	output.onload = function () {
+		URL.revokeObjectURL(output.src); // free memory
+	};
+};
+const loadFile1 = function (event) {
+	const output1 = document.getElementById("output1");
+	output1.src = URL.createObjectURL(event.target.files[0]);
+	output1.onload = function () {
+		URL.revokeObjectURL(output.src); // free memory
+	};
+};
 
-// ------------------------ End Authentication --------------------------------
 /* Data-table */
 $(document).ready(function () {
 	$(".data-table").each(function (_, table) {
