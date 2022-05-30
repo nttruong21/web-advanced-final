@@ -106,8 +106,6 @@ exports.bodyFile = (req, res, next) => {
 	next();
 };
 
-
-
 // Buy Phone Card Validation
 
 exports.buyPhoneCardValidation = catchAsync(async (req, res, next) => {
@@ -125,6 +123,7 @@ exports.buyPhoneCardValidation = catchAsync(async (req, res, next) => {
 	}
 	if (
 		phoneCardQuantity > 5 ||
+		phoneCardQuantity <= 0 ||
 		(price !== "10000" &&
 			price !== "20000" &&
 			price &&
@@ -149,4 +148,4 @@ exports.checkAdminAuth = (req, res, next) => {
 		next();
 	}
 	return res.redirect("/not-permission");
-
+};
