@@ -8,23 +8,25 @@
                     {{#if (isWaitingActiveAccount account.status)}}
                     <button class="btn btn-primary mr-3" data-toggle="modal"
                         data-target="#verify-account-modal" data-account-action="xác minh"
-                        data-status="1">Xác minh</button>
+                        data-newstatus="1" data-oldstatus="0">Xác minh</button>
                     <button class="btn btn-danger mr-3" data-toggle="modal"
                         data-target="#verify-account-modal" data-account-action="hủy"
-                        data-status="2">Hủy</button>
+                        data-newstatus="2" data-oldstatus="0">Hủy</button>
                     <button class="btn btn-info mr-3" data-toggle="modal"
                         data-target="#verify-account-modal"
-                        data-account-action="yêu cầu bổ sung thông tin" data-status="3">Yêu cầu bổ
+                        data-account-action="yêu cầu bổ sung thông tin" data-newstatus="3"
+                        data-oldstatus="0">Yêu cầu
+                        bổ
                         sung
                         thông
                         tin</button>
                     {{/if}}
 
-                    {{!-- NẾU LÀ TÀI KHOẢN ĐANG CHỜ BỊ KHÓA --}}
+                    {{!-- NẾU LÀ TÀI KHOẢN ĐANG BỊ KHÓA --}}
                     {{#if (isLockingAccount account.status)}}
                     <button class="btn btn-primary mr-3" data-toggle="modal"
-                        data-target="#verify-account-modal" data-account-action="mở khóa"
-                        data-status="1">Mở
+                        data-target="#verify-account-modal" data-newstatus="{{account.tempStatus}}"
+                        data-oldstatus="5" data-account-action="mở khóa">Mở
                         khóa</button>
                     {{/if}}
                 </div>
@@ -70,11 +72,11 @@
                 <div class="row">
                     <div class="form-group col-6">
                         <label for="front-id-card">Ảnh CMND mặt trước</label>
-                        <img src="{{account.frontIdCard}}" alt="" width="100%">
+                        <img src="/uploads/{{account.frontIdCard}}" alt="" width="100%">
                     </div>
                     <div class="form-group col-6">
                         <label for="back-id-card">Ảnh CMND mặt sau</label>
-                        <img src="{{account.backIdCard}}" alt="" width="100%">
+                        <img src="/uploads/{{account.backIdCard}}" alt="" width="100%">
                     </div>
                 </div>
             </div>
@@ -162,7 +164,8 @@
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy
                     bỏ</button>
                 <button id="confirm-modal-btn" type="button" class="btn btn-primary"
-                    data-account-id="{{account._id}}" data-account-status="">Chắc
+                    data-account-id="{{account._id}}" data-account-newstatus=""
+                    data-account-oldstatus="">Chắc
                     chắn</button>
             </div>
         </div>
@@ -174,20 +177,24 @@
 
     $('#verify-account-modal').on('show.bs.modal', function (event) {
         const button = $(event.relatedTarget);
-        console.log()
-        const status = button.data('status');
+        const newStatus = button.data('newstatus');
+        const oldStatus = button.data('oldstatus');
+        console.log(newStatus);
         const accountAction = button.data('account-action');
         const modal = $(this);
-        comfirmModalBtn.dataset.accountStatus = status;
+        comfirmModalBtn.dataset.accountNewstatus = newStatus;
+        comfirmModalBtn.dataset.accountOldstatus = oldStatus;
         modal.find('#verify-decision').text(accountAction);
     });
 
     comfirmModalBtn.addEventListener("click", (e) => {
-        const accountStatus = e.target.dataset.accountStatus;
+        const accountNewStatus = e.target.dataset.accountNewstatus;
+        const accountOldStatus = e.target.dataset.accountOldstatus;
         const accountId = e.target.dataset.accountId;
-        const data = {
+        let data = {
             id: accountId,
-            status: accountStatus
+            newStatus: accountNewStatus,
+            oldStatus: accountOldStatus
         };
 
         fetch("http://localhost:3000/admin/accounts/verify-account", {

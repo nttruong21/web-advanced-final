@@ -77,6 +77,7 @@ const accountSchema = mongoose.Schema(
 		openLogin: { type: Date },
 		passwordResetExpires: Date,
 		lockedAt: { type: Date },
+		tempStatus: { type: Number },
 	},
 	{
 		timestamps: true,
@@ -93,10 +94,12 @@ accountSchema.pre("save", async function (next) {
 	if (!this.isModified("password")) {
 		next();
 	}
-	this.password = await bcrypt.hash(this.password, 10);
 
+	this.password = await bcrypt.hash(this.password, 10);
+	console.log(">>> Password: ", this.password);
 	next();
 });
+
 accountSchema.pre("save", function (next) {
 	// console.log(this.abnormalLogin, this.checkFailLogins);
 	if (this.abnormalLogin === 2 && this.checkFailLogins === 0) {
@@ -131,13 +134,17 @@ accountSchema.methods.createPasswordResetToken = function () {
 };
 
 accountSchema.methods.loginFailed = function () {
-	if (this.checkFailLogins < 3) {
+	if (this.checkFailLogins < 2) {
 		this.checkFailLogins++;
-	} else if (this.checkFailLogins === 3) {
+	} else if (this.checkFailLogins === 2) {
 		const dateVietNam = moment.tz(Date.now(), "Asia/Ho_Chi_Minh");
 		this.openLogin = dateVietNam + 60 * 1000;
 		this.checkFailLogins = 0;
 		this.abnormalLogin++;
+
+		if (this.abnormalLogin === 2) {
+			this.tempStatus = this.status;
+		}
 	}
 };
 

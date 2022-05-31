@@ -8,16 +8,16 @@
             <div class="card-body pt-0 col-12">
                 {{!-- HEADING --}}
                 <div class="row mb-3">
-                    <div class="col-3 font-weight-bold">
+                    <div class="col-4 font-weight-bold">
                         Mã giao dịch
                     </div>
-                    <div class="col-3 font-weight-bold">
+                    <div class="col-4 font-weight-bold">
                         Người thực hiện
                     </div>
-                    <div class="col-3 font-weight-bold">
+                    <div class="col-2 font-weight-bold">
                         Loại giao dịch
                     </div>
-                    <div class="col-3 font-weight-bold">
+                    <div class="col-2 font-weight-bold">
                         Thao tác
                     </div>
                 </div>
@@ -26,16 +26,16 @@
                 <div class="list-content">
                     {{#each transactions}}
                     <div class="row mb-2">
-                        <div class="col-3">
+                        <div class="col-4">
                             {{this._id}}
                         </div>
-                        <div class="col-3">
+                        <div class="col-4">
                             {{this.senderName}}
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             {{getTransactionTypeString this.transactionType}}
                         </div>
-                        <div class="col-3">
+                        <div class="col-2">
                             <div class="dropdown show d-inline-block widget-dropdown">
                                 <a class=" text-color dropdown-toggle icon-burger-mini" href=""
                                     role="button" data-toggle="dropdown" aria-haspopup="true"

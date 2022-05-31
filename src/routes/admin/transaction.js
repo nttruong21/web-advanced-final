@@ -3,6 +3,8 @@ const route = express.Router();
 const adminTransactionController = require("../../app/controllers/admin/TransactionController");
 const middlewares = require("../../middlewares/middleware");
 
+route.use(middlewares.isLoggedIn);
+
 // DANH SÁCH GIAO DỊCH ĐANG CHỜ DUYỆT
 route.get(
 	"/waiting-approve-transactions",

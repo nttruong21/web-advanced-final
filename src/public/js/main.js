@@ -70,7 +70,7 @@ const login = async (username, password) => {
 				time--;
 				document.querySelector(
 					"#time_count"
-				).innerHTML = `<strong>${time}</strong>`;
+				).innerHTML = `<strong>${time} giây</strong>`;
 				if (time === 0) {
 					clearInterval(interval);
 					document.querySelector(".btn_login").style.display =
