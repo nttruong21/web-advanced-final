@@ -89,12 +89,12 @@ const accountSchema = mongoose.Schema(
 accountSchema.pre("save", async function (next) {
 	// If này chỉ chạy khi password đã được thay đổi
 	if (!this.isModified("password")) {
-		next();
+		return next();
 	}
 
 	this.password = await bcrypt.hash(this.password, 10);
 	console.log(">>> Password: ", this.password);
-	next();
+	return next();
 });
 
 accountSchema.pre("save", function (next) {
