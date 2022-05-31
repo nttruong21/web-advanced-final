@@ -1,0 +1,165 @@
+<main class=" pt-3">
+	{{>flash}}
+	<div class="mt-5 container-fluid py-4">
+		<div class="col-12 col-lg-10 col-xxl-8 mx-auto">
+			<div class="bd-wrap-tinn">
+
+				<div class="bd-tinn">
+    
+
+					<h2 class="headerText-tinn">Chi tiết giao dịch</h2>
+					<form action="/transactions/phonecard" method="post">
+						<div class="mb-3">
+							<label for="transID" class="form-label">Mã giao dịch</label>
+							<input
+								type="text"
+								class="form-control"
+								id="transID"
+								placeholder=""
+                                value="{{trans._id}}"
+                                disabled
+							/>
+						</div>
+                        <div class="mb-3">
+							<label for="total" class="form-label">Loại giao dịch</label>
+							<input
+								type="total"
+								class="form-control"
+								id="total"
+								placeholder=""
+                                value="{{renderTransactionType trans.transactionType}}"
+                                disabled
+							/>
+						</div>
+                        <div class="mb-3">
+							<label for="total" class="form-label">Số tiền</label>
+							<input
+								type="total"
+								class="form-control"
+								id="total"
+								placeholder=""
+                                value="{{getPriceString trans.price}}"
+                                disabled
+							/>
+						</div>
+                        <div class="mb-3">
+							<label for="total" class="form-label">Phí giao dịch</label>
+							<input
+								type="total"
+								class="form-control"
+								id="total"
+								placeholder=""
+                                value="{{trans.transactionFee}}%"
+                                disabled
+							/>
+						</div>
+                        <div class="mb-3">
+							<label for="total" class="form-label">Trạng thái</label>
+							<input
+								type="total"
+								class="form-control"
+								id="total"
+								placeholder=""
+                                value="{{renderTransactionStatusText trans.status}}"
+                                disabled
+							/>
+						</div>
+                        <div class="mb-3">
+							<label for="total" class="form-label">Ngày giao dịch</label>
+							<input
+								type="total"
+								class="form-control"
+								id="total"
+								placeholder=""
+                                value="{{renderTransactionDate trans.createdAt}}"
+                                disabled
+							/>
+						</div>
+                        {{#ifEqual trans.transactionType 4}}
+                        
+                          <div class="row g-3 mb-3">
+							<div class="col-sm-6">
+                                <label for="cardProvider" class="form-label">Nhà mạng</label>
+                                <input
+                                    type="cardProvider"
+                                    class="form-control"
+                                    id="cardProvider"
+                                    placeholder=""
+                                    value="{{getPhoneCardProviderName trans}}"
+                                    disabled
+                                />
+                            </div>
+                                <div class="col-sm">
+                                    <label for="cardType" class="form-label">Loại thẻ</label>
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="cardType"
+                                        placeholder=""
+                                        value="{{getPhoneCardType trans}}"
+                                        disabled
+                                    />
+                                </div>
+                            </div>
+                         {{#each trans.phoneCardCode}}
+                            <div class="mb-3">
+							<label for="cardType" class="form-label">Code</label>
+							<input
+								type="email"
+								class="form-control"
+								id="cardType"
+                                value="{{this.phoneCardCode}}"
+								placeholder=""
+                                disabled
+							/>
+						</div>
+                        {{/each}}
+                        {{/ifEqual}}
+
+                         {{#ifEqual trans.transactionType 2}}
+                        
+                          <div class="row g-3 mb-3">
+							<div class="col-sm-6">
+                                <label for="cardProvider" class="form-label">Tên người nhận</label>
+                                <input
+                                    type="cardProvider"
+                                    class="form-control"
+                                    id="cardProvider"
+                                    placeholder=""
+                                    value="{{trans.receiverName}}"
+                                    disabled
+                                />
+                            </div>
+                                <div class="col-sm">
+                                    <label for="cardType" class="form-label">Số điện thoại người nhận</label>
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="cardType"
+                                        placeholder=""
+                                        value="{{trans.receiverPhone}}"
+                                        disabled
+                                    />
+                                </div>
+                            </div>
+                            <div class="mb-4">
+                                <label class="form-label">Ghi chú</label>
+                                <textarea class="form-control" id="message" name="message" rows="4" disabled>{{trans.message}}</textarea>
+                            </div>
+                            
+                        {{/ifEqual}}
+
+						<div class="d-grid gap-2">
+						<a href="/transactions/history" type="button" class="btn btn-primary">Trở về</a>
+                        	
+						</div>
+					</form>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</main>

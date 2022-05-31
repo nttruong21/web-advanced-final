@@ -8,6 +8,12 @@ const {
 	createBuyCardTransactions,
 	renderBuyCardBill,
 } = require("../../app/controllers/user/BuyCards");
+
+const {
+	renderHistory,
+	renderHistoryDetail,
+} = require("../../app/controllers/user/TransactionHistory");
+
 const {
 	verifyOTP,
 } = require("../../app/controllers/user/TransactionController");
@@ -43,16 +49,31 @@ route.post(
 	userTransactionController.transfer
 );
 
+route.post(
+	"/deposit",
+	validator.depositValidator,
+	userTransactionController.deposit
+);
 
+route.post(
+	"/withdraw",
+	validator.withdrawValidator,
+	userTransactionController.withdraw
+);
 
-route.post("/deposit", validator.depositValidator, userTransactionController.deposit);
+route.post(
+	"/send-otp",
+	validator.transferValidator,
+	userTransactionController.sendOTP
+);
 
-route.post("/withdraw", validator.withdrawValidator, userTransactionController.withdraw);
-
-route.post("/send-otp", validator.transferValidator, userTransactionController.sendOTP);
-
-route.post("/transfer", validator.otpValidator, userTransactionController.verifyOTP, validator.transferValidator, userTransactionController.transfer);
-
+route.post(
+	"/transfer",
+	validator.otpValidator,
+	userTransactionController.verifyOTP,
+	validator.transferValidator,
+	userTransactionController.transfer
+);
 
 route.post(
 	"/buy-phone-card",
@@ -72,4 +93,6 @@ route.get("/transfer/verify-otp", userTransactionController.getViewVerifyOTP);
 
 route.get("/get-otp", userTransactionController.sendOTP);
 
+route.get("/history", renderHistory);
+route.get("/history/:id", check.checkHistoryDetail, renderHistoryDetail);
 module.exports = route;

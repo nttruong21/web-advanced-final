@@ -1,0 +1,51 @@
+<main class="mt-5 pt-3">
+	{{>flash}}
+
+	<div class="mt-5 container-fluid py-4">
+		<div class="col-12 col-lg-10 col-xxl-10 mx-auto">
+			<div class="bd-wrap-tinn">
+
+				<div class="bd-tinn">
+					<h2 class="headerText-tinn">Lịch sử giao dịch</h2>
+					<div class="table-responsive">
+						<table class="table">
+							<thead class="table-light">
+								<tr>
+									<th scope="col">Loại giao dịch</th>
+									<th scope="col">Số tiền</th>
+									<th scope="col">Thời gian</th>
+									<th scope="col">Trạng thái</th>
+									<th scope="col"></th>
+
+								</tr>
+							</thead>
+							<tbody>
+								{{#each trans}}
+									<tr>
+										<td>{{{renderTransactionType
+												this.transactionType
+											}}}</td>
+										<td>{{getPriceString this.price}}</td>
+										<td>{{renderTransactionDate this.createdAt}}</td>
+										<td>{{{renderTransactionStatus this.status}}}</td>
+										<td><a
+												href="/transactions/history/{{this._id}}"
+											><i
+													class="fa-solid fa-arrow-right-to-bracket"
+												></i></a></td>
+									</tr>
+								{{/each}}
+
+							</tbody>
+						</table>
+
+					</div>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</main>

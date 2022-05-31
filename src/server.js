@@ -60,6 +60,70 @@ app.engine(
 			isHasToApproveTransaction: function (price) {
 				return parseInt(price) >= 5000000 ? true : false;
 			},
+			// RENDER TRANSACTION HISTORY
+			// RETURN TYPE
+			renderTransactionType: function (transactionType) {
+				if (transactionType === 0) {
+					transactionType = "Nạp tiền";
+				} else if (transactionType === 1) {
+					transactionType = "Rút tiền";
+				} else if (transactionType === 2) {
+					transactionType = "Chuyển tiền";
+				} else if (transactionType === 3) {
+					transactionType = "Nhận tiền";
+				} else if (transactionType === 4) {
+					transactionType = "Mua thẻ điện thoại";
+				}
+
+				return transactionType;
+			},
+			// RETURN DATE
+			renderTransactionDate: function (date) {
+				date = new Date(date);
+				dateTransform =
+					date.getHours() +
+					":" +
+					date.getMinutes() +
+					" - " +
+					date.getDate() +
+					"/" +
+					date.getMonth() +
+					"/" +
+					date.getFullYear();
+				return dateTransform;
+			},
+			// RETURN STATUS
+			renderTransactionStatusText: function (status) {
+				if (status === 0) {
+					status = "Chờ duyệt";
+				} else if (status === 1) {
+					status = "Đã duyệt";
+				} else if (status === 2) {
+					status = "Bị hủy";
+				}
+				return status;
+			},
+			getPhoneCardProviderName: function (trans) {
+				return trans.phoneCardCode[0].phoneServiceProviderCode;
+			},
+			getPhoneCardType: function (trans) {
+				return trans.phoneCardCode[0].price;
+			},
+			// RENDER HISTORY DETAIL
+			renderHistoryDetail: function (trans) {
+				switch (trans.transactionType) {
+					case 0:
+						return `<p class="text-primary font-weight-bold mb-0">Đang chờ kích hoạt</p>`;
+					case 1:
+						return `<p class="text-success font-weight-bold mb-0">Đã kích hoạt</p>`;
+					case 2:
+						return `<p class="text-danger font-weight-bold mb-0">Đã bị vô hiệu hóa</p>`;
+					case 3:
+						return `<p class="text-warning font-weight-bold mb-0">Đang bị khóa</p>`;
+					case 4:
+						return `<p class="text-warning font-weight-bold mb-0">Đang bị khóa</p>`;
+				}
+			},
 			// RENDER TRẠNG THÁI TÀI KHOẢN
 			renderAccountStatus: function (status) {
 				switch (status) {
