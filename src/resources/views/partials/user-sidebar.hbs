@@ -9,11 +9,11 @@
 				</li>
 				<li>
 					{{#if account}}
-						<a href="/accounts" class="nav-link nav-link-custom px-3 active">
-							<span>Tên : {{account.name}}</span>
-							<br>
-							<span>Số dư: {{account.balance}}</span>
-						</a>
+					<a href="/accounts" class="nav-link nav-link-custom px-3 active">
+						<span>Tên : {{account.name}}</span>
+						<br>
+						<span>Số dư : {{getPriceString account.balance}}</span>
+					</a>
 					{{/if}}
 				</li>
 				<li class="my-4">

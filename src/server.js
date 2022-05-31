@@ -150,12 +150,24 @@ app.engine(
 			},
 			getDateTimeString: function (lockDateTime) {
 				// return lockDateTime.toLocaleDateString("vi-VI");
+				// var dateTimeString =
+				// 	lockDateTime.getUTCFullYear() +
+				// 	"/" +
+				// 	("0" + (lockDateTime.getUTCMonth() + 1)).slice(-2) +
+				// 	"/" +
+				// 	("0" + lockDateTime.getUTCDate()).slice(-2) +
+				// 	" " +
+				// 	("0" + lockDateTime.getUTCHours()).slice(-2) +
+				// 	":" +
+				// 	("0" + lockDateTime.getUTCMinutes()).slice(-2) +
+				// 	":" +
+				// 	("0" + lockDateTime.getUTCSeconds()).slice(-2);
 				var dateTimeString =
-					lockDateTime.getUTCFullYear() +
+					("0" + lockDateTime.getUTCDate()).slice(-2) +
 					"/" +
 					("0" + (lockDateTime.getUTCMonth() + 1)).slice(-2) +
 					"/" +
-					("0" + lockDateTime.getUTCDate()).slice(-2) +
+					lockDateTime.getUTCFullYear() +
 					" " +
 					("0" + lockDateTime.getUTCHours()).slice(-2) +
 					":" +

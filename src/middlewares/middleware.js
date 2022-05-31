@@ -97,7 +97,7 @@ exports.checkAuth = catchAsync(async (req, res, next) => {
 
 exports.checkAuthAdmin = catchAsync(async (req, res, next) => {
 	if (req.session.account) {
-		next();
+		return next();
 	}
 	return res.redirect("/login");
 });
@@ -159,9 +159,13 @@ exports.checkHistoryDetail = async (req, res, next) => {
 	next();
 };
 exports.checkAdminAuth = (req, res, next) => {
-	console.log(">>> Role: ", req.session.role);
-	if (req.session.role !== undefined && req.session.role === 1) {
-		next();
+	console.log(">>> Role: ", req.session.account.role);
+	res.locals.accountName = req.session.account.name;
+	if (
+		req.session.account.role !== undefined &&
+		parseInt(req.session.account.role) === 1
+	) {
+		return next();
 	}
 	return res.redirect("/not-permission");
 };

@@ -1,84 +1,106 @@
-<main class="mt-5 pt-3">
-	<div class="container rounded bg-white mt-5 mb-5">
-    <div class="row">
-        <div class="col-md-3 border-right">
-            <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img class="rounded-circle mt-5" width="150px" src="./img/avatar.png" alt="avatar">
-			<span class="font-weight-bold">{{{account.name}}}</span>
-			<span class="text-black-50">{{{account.email}}}
-			</span><span> </span></div>
-        </div>
-        <div class="col-md-5 border-right">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h4 class="text-right">Thông tin cá nhân</h4>
-                </div>
-                <div class="row mt-2">
-                    <div class="col-md-6"><label class="labels">Tên</label><input type="text" readonly class="form-control" placeholder="Tên" value="{{account.name}}"></div>
-                    <div class="col-md-6"><label class="labels">Tài khoản</label><input type="text" readonly class="form-control" value="{{account.username}}" placeholder=""></div>
-                </div>
-                <div class="row mt-3">
-                    <div class="col-md-12 "><label class="labels">Số điện thoại</label><input type="text" class="form-control" readonly placeholder="" value="{{account.phone}}"></div>
-                    <div class="col-md-12 mt-3"><label class="labels">Địa chỉ</label><input type="text" readonly class="form-control" placeholder="địa chỉ" value="{{account.address}}"></div>
-                    <div class="col-md-12 mt-3"><label class="labels">Email</label><input type="text" class="form-control" readonly placeholder="email" value="{{account.email}}"></div>
-                    {{#ifEqual account.status 0}}
-                        <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài khoản</label><input type="text" readonly class="form-control text-danger" placeholder="education" value="Đang chờ kích hoạt"></div>
-                    {{/ifEqual}}
-                    {{#ifEqual account.status 1}}
-                        <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài khoản</label><input type="text" class="form-control text-success" placeholder="education" value="Đã kích hoạt"></div>
-                    {{/ifEqual}}
+<main class="pt-2">
+    <div class="container rounded bg-white mt-5 mb-5">
+        <div class="row">
+            <div class="col-md-7 border-right">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h4 class="text-right">Thông tin cá nhân</h4>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-md-6"><label class="labels">Tên</label><input type="text"
+                                readonly class="form-control" placeholder="Tên"
+                                value="{{account.name}}"></div>
+                        <div class="col-md-6"><label class="labels">Tài khoản</label><input
+                                type="text" readonly class="form-control"
+                                value="{{account.username}}" placeholder=""></div>
+                    </div>
+                    <div class="row mt-3">
+                        <div class="col-md-12 "><label class="labels">Số điện thoại</label><input
+                                type="text" class="form-control" readonly placeholder=""
+                                value="{{account.phone}}"></div>
+                        <div class="col-md-12 mt-3"><label class="labels">Địa chỉ</label><input
+                                type="text" readonly class="form-control" placeholder="địa chỉ"
+                                value="{{account.address}}"></div>
+                        <div class="col-md-12 mt-3"><label class="labels">Email</label><input
+                                type="text" class="form-control" readonly placeholder="email"
+                                value="{{account.email}}"></div>
+                        {{#ifEqual account.status 0}}
+                        <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài
+                                khoản</label><input type="text" readonly
+                                class="form-control text-danger" placeholder="education"
+                                value="Đang chờ kích hoạt"></div>
+                        {{/ifEqual}}
+                        {{#ifEqual account.status 1}}
+                        <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài
+                                khoản</label><input type="text" class="form-control text-success"
+                                placeholder="education" value="Đã kích hoạt"></div>
+                        {{/ifEqual}}
+                        {{#ifEqual account.status 3}}
+                        <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài
+                                khoản</label><input type="text" class="form-control text-primary"
+                                placeholder="education" value="Đang chờ cập nhật"></div>
+                        {{/ifEqual}}
+
+                    </div>
+                    <div class="row mt-3" style="overflow-x: hidden;">
+
+                        <div class="col-md-6"><label class="labels">CMND mặt trước:</label>
+                            <img id="output" src="./uploads/{{{account.frontIdCard}}}" width="240px"
+                                height="240px" alt="Chứng minh mặt trước">
+                            {{#ifEqual account.status 3}}
+                            <input type="file" required id="cmndmt" name="frontIdCard"
+                                onchange="loadFile(event)">
+                            {{/ifEqual}}
+                        </div>
+
+                        <div class="col-md-6"><label class="labels">CMND mặt sau:</label>
+                            <img id="output1" src="./uploads/{{{account.backIdCard}}}" width="240px"
+                                height="240px" alt="Chứng minh mặt sau">
+                            {{#ifEqual account.status 3}}
+                            <input type="file" required required="true" id="cmndms"
+                                name="backIdCard" onchange="loadFile1(event)">
+                            {{/ifEqual}}
+                        </div>
+                    </div>
                     {{#ifEqual account.status 3}}
-                        <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài khoản</label><input type="text" class="form-control text-primary" placeholder="education" value="Đang chờ cập nhật"></div>
-                    {{/ifEqual}}
-                   
-                </div>
-                <div class="row mt-3" style="overflow-x: hidden;">
-                    
-                    <div class="col-md-6"><label class="labels">CMND mặt trước:</label>
-                        <img id="output" src="./uploads/{{{account.frontIdCard}}}" width="240px" height="240px" alt="Chứng minh mặt trước">
-                        {{#ifEqual account.status 3}}
-                            <input type="file" required id="cmndmt" name="frontIdCard" onchange="loadFile(event)">
-                        {{/ifEqual}}
-                    </div>
-                
-                    <div class="col-md-6"><label class="labels">CMND mặt sau:</label>
-                        <img id="output1" src="./uploads/{{{account.backIdCard}}}"   width="240px" height="240px" alt="Chứng minh mặt sau">
-                        {{#ifEqual account.status 3}}
-                            <input type="file" required required="true" id="cmndms" name="backIdCard" onchange="loadFile1(event)">
-                        {{/ifEqual}}
-                    </div>
-                </div>
-                 {{#ifEqual account.status 3}}
                     <div class="row mt-3" id="alert_cmnd">
                         <div class="alert alert-danger" role="alert">
-                            Chứng minh nhân dân của bạn chưa hợp lệ! Cần cập nhật chứng minh nhân dân.
+                            Chứng minh nhân dân của bạn chưa hợp lệ! Cần cập nhật chứng minh nhân
+                            dân.
                         </div>
                     </div>
                     <div class="mt-5 text-center">
-                        <button class="btn btn-primary profile-button btn_js_changeIdCard" type="button">
+                        <button class="btn btn-primary profile-button btn_js_changeIdCard"
+                            type="button">
                             Lưu thông tin
                         </button>
                     </div>
-                 {{/ifEqual}}
-                
-                
+                    {{/ifEqual}}
+
+
+                </div>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="p-3 py-5">
-                <div class="d-flex justify-content-between align-items-center experience">
-                    <span>Thay đổi mật khẩu</span>
-                    <button class="border px-3 p-1 add-experience btn-primary btn_changePasswordMe">&nbsp;Đổi mật khẩu</button>
-                </div><br>
-                <div class="col-md-12"><input type="password" id="old_password" class="form-control" placeholder="Nhập mật khảu hiện tại" value=""></div>
-                <div class="col-md-12 mt-3"><input type="password" id="newPassword" class="form-control" placeholder="Nhập mật khẩu mới" value=""></div>
-                <div class="col-md-12 mt-3"><input type="password" id="newPassword_confirm" class="form-control" placeholder="Nhập lại mật khẩu mới" value=""></div>
+            <div class="col-md-5">
+                <div class="p-3 py-5">
+                    <div class="d-flex justify-content-between align-items-center experience">
+                        <h4 class="text-right">Thay đổi mật khẩu</h4>
+                        <button
+                            class="border px-3 p-1 add-experience btn btn-primary btn_changePasswordMe">&nbsp;Đổi
+                            mật khẩu</button>
+                    </div><br>
+                    <div class="col-md-12"><input type="password" id="old_password"
+                            class="form-control" placeholder="Nhập mật khẩu hiện tại" value="">
+                    </div>
+                    <div class="col-md-12 mt-3"><input type="password" id="newPassword"
+                            class="form-control" placeholder="Nhập mật khẩu mới" value=""></div>
+                    <div class="col-md-12 mt-3"><input type="password" id="newPassword_confirm"
+                            class="form-control" placeholder="Nhập lại mật khẩu mới" value=""></div>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</div>
-</div>
+    </div>
+    </div>
 
 
 </main>
-

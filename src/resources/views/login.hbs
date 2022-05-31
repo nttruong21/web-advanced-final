@@ -1,44 +1,29 @@
 <div class="form-bg">
 	<div class="container">
 		<div class="row text-center justify-content-center align-self-center">
-			<div
-				class="col-lg-6 col-md-offset-3 col-md-8 col-sm-offset-2 col-sm-10"
-			>
+			<div class="col-lg-6 col-md-offset-3 col-md-8 col-sm-offset-2 col-sm-10">
 				<div class="form-container">
 					<form class="form-horizontal form-login">
 						<h3 class="title mb-3">Đăng Nhập</h3>
 						<div class="form-group">
-							<input
-								class="form-control"
-								type="text"
-								id="username"
-								placeholder="Enter your Username"
-							/>
+							<input class="form-control" type="text" id="username"
+								placeholder="Tên đăng nhập" />
 						</div>
 						<div class="form-group">
-							<input
-								class="form-control"
-								id="password"
-								type="password"
-								placeholder="Enter your Password"
-							/>
+							<input class="form-control" id="password" type="password"
+								placeholder="Mật khẩu" />
 						</div>
-						<button class="btn btn_login">Login</button>
+						<button class="btn btn_login">Đăng nhập</button>
 						{{! alert message }}
-						<div
-							class="alert alert-danger"
-							id="alert_message"
-							role="alert"
-							style="display: none"
-						>
+						<div class="alert alert-danger" id="alert_message" role="alert"
+							style="display: none">
 							<strong>Tài khoản sẽ mở lại sau</strong>
 							<span id="time_count"></span>
 						</div>
 						<div class="d-flex justify-content-between mt-4">
 							<span class="signup">
-								<a href="/signUp">Sign up</a></span>
-							<span class="forgot"><a href="/forgotPassword">Forgot
-									Password?</a></span>
+								<a href="/signUp">Đăng ký</a></span>
+							<span class="forgot"><a href="/forgotPassword">Quên mật khẩu?</a></span>
 						</div>
 					</form>
 				</div>

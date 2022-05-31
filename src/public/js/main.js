@@ -70,7 +70,7 @@ const login = async (username, password) => {
 				time--;
 				document.querySelector(
 					"#time_count"
-				).innerHTML = `<strong>${time}</strong>`;
+				).innerHTML = `<strong>${time} giây</strong>`;
 				if (time === 0) {
 					clearInterval(interval);
 					document.querySelector(".btn_login").style.display =
@@ -286,6 +286,13 @@ if (btn_js_changeIdCard) {
 		const frontIdCard = document.querySelector("#cmndmt").files[0];
 		const backIdCard = document.querySelector("#cmndms").files[0];
 		console.log(frontIdCard, backIdCard);
+		if (!frontIdCard || frontIdCard) {
+			return alert(
+				"error",
+				"Lỗi",
+				"Hãy upload đầy đủ các chứng minh nhân dân trước và sau"
+			);
+		}
 		const formData = new FormData();
 		formData.append("frontIdCard", frontIdCard);
 		formData.append("backIdCard", backIdCard);

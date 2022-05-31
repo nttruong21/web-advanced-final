@@ -1,0 +1,43 @@
+<div class="col-10">
+    <div class="container pt-5">
+        <div class="card card-default">
+            <div
+                class="card-header card-header-border-bottom d-flex justify-content-between align-items-center">
+
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="name">Họ tên</label>
+                        <input type="text" value="{{account.name}}" name="name" id="name"
+                            class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="phone">Số điện thoại</label>
+                        <input type="number" value="{{account.phone}}" name="phone" id="phone"
+                            class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="address">Địa chỉ</label>
+                        <input type="text" value="{{account.address}}" name="address" id="address"
+                            class="form-control" disabled>
+                    </div>
+                    <div class="form-group col-6">
+                        <label for="email">Email</label>
+                        <input type="text" value="{{account.email}}" name="email" id="email"
+                            class="form-control" disabled>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-6">
+                        <label for="birthday">Ngày sinh</label>
+                        <input type="text" value="{{getDateFormat account.birthday}}"
+                            name="birthday" id="birthday" class="form-control" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

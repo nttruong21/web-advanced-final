@@ -67,7 +67,7 @@ exports.login = catchAsync(async (req, res, next) => {
 				res,
 				401,
 				"lockAcc",
-				"Tài khoản đã bị khóa!Vui lòng liên hệ quản trị viên để mở khóa !"
+				"Tài khoản đã bị khóa! Vui lòng liên hệ quản trị viên để mở khóa !"
 			);
 		}
 
@@ -85,7 +85,7 @@ exports.login = catchAsync(async (req, res, next) => {
 		let date = new Date(user.openLogin);
 		return res.status(401).json({
 			status: "fail",
-			message: `Do bạn nhập sai mật khẩu quá 3 lần , tài khoản khoản của bạn đã bị khóa trong 30s!`,
+			message: `Do bạn nhập sai mật khẩu 3 lần liên tiếp, tài khoản của bạn sẽ bị khóa trong 1 phút!`,
 			time: `${date.getTime()}`,
 		});
 	}
@@ -147,7 +147,7 @@ exports.signup = catchAsync(async (req, res, next) => {
 	// random 10 number
 	const username = Math.floor(Math.random() * 10000000000).toString();
 	const password = randomPassword(6);
-	console.log(password);
+	console.log(">>> Mật khẩu đăng ký tài khoản: ", password);
 	// 3) Send it to user's email
 
 	const resetURL = `${req.protocol}://${req.get("host")}/login`;
@@ -161,6 +161,10 @@ exports.signup = catchAsync(async (req, res, next) => {
 			message,
 		});
 
+		newUser.username = username;
+		newUser.password = password;
+		await newUser.save();
+
 		res.status(200).json({
 			status: "success",
 			message: " sent to email!",
@@ -173,9 +177,6 @@ exports.signup = catchAsync(async (req, res, next) => {
 
 		return response(res, 500, "fail", "Không thể gửi mail");
 	}
-	newUser.username = username;
-	newUser.password = password;
-	await newUser.save();
 });
 
 // forgot password
