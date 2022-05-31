@@ -1,4 +1,4 @@
-const Account = require("../models/Account");
+const Account = require("../models/account");
 const catchAsync = require("../../utils/catchAsync");
 const crypto = require("crypto");
 const jwt = require("jsonwebtoken");

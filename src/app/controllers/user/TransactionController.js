@@ -1,7 +1,7 @@
 const Transaction = require("../../models/Transaction");
 const Credit = require("../../models/Credit");
 const PhoneCard = require("../../models/PhoneCard");
-const Account = require("../../models/Account");
+const Account = require("../../models/account");
 const OTP = require("../../models/OTP");
 const { validationResult } = require("express-validator");
 const sendMail = require("../../../utils/email");
@@ -292,7 +292,7 @@ class TransactionController {
 				phone: req.session.account.phone,
 				otp: generateOTP,
 				status: 0,
-				expiredAt: Date.now() + 1000*60*2,
+				expiredAt: Date.now() + 1000 * 60 * 2,
 				email: req.session.account.email,
 			});
 			await otp.save();
@@ -307,7 +307,8 @@ class TransactionController {
 
 			return res.status(200).json({
 				status: "success",
-				message: "Mã OTP đã được gửi tới địa chỉ email của bạn. LƯU Ý: Mã OTP có hiệu lực trong vòng 1 phút.",
+				message:
+					"Mã OTP đã được gửi tới địa chỉ email của bạn. LƯU Ý: Mã OTP có hiệu lực trong vòng 1 phút.",
 			});
 		}
 	}

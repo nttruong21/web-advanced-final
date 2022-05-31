@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
 const { promisify } = require("util");
-const Account = require("../app/models/Account");
+const Account = require("../app/models/account");
 const { reverse } = require("dns");
 
 const response = (res, statusCode, status, message) => {
