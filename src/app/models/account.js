@@ -86,9 +86,6 @@ const accountSchema = mongoose.Schema(
 );
 
 accountSchema.pre("save", async function (next) {
-	if (!this.password) {
-		next();
-	}
 	// If này chỉ chạy khi password đã được thay đổi
 	if (!this.isModified("password")) {
 		next();
