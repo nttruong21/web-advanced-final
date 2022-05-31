@@ -211,6 +211,15 @@ app.engine(
 				}
 				return options.inverse(this);
 			},
+			// Helpers if not equal
+			renderHistoryDetailFee: function (fee) {
+                switch (fee) {
+                    case 0:
+                        return `Người nhận`;
+                    case 1:
+                        return `Người gửi`;
+                }
+            },
 		},
 	})
 );

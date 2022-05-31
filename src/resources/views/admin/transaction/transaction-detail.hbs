@@ -270,8 +270,8 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy
                     bỏ</button>
-                <button id="confirm-modal-btn" type="button" class="btn btn-primary"
-                    data-transaction-id="{{transaction._id}}"
+                <button id="admin-transaction-confirm-modal-btn" type="button"
+                    class="btn btn-primary" data-transaction-id="{{transaction._id}}"
                     data-transaction-type="{{transaction.transactionType}}"
                     data-transaction-status=""
                     data-transaction-senderPhone="{{transaction.senderPhone}}"
@@ -288,101 +288,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    const comfirmModalBtn = document.getElementById("confirm-modal-btn");
-
-    $('#verify-transaction-modal').on('show.bs.modal', function (event) {
-        const button = $(event.relatedTarget);
-        console.log()
-        const status = button.data('status');
-        const transactionAction = button.data('transaction-action');
-        // const transactionType = button.data('transaction-type');
-        const modal = $(this);
-        comfirmModalBtn.dataset.transactionStatus = status;
-        // comfirmModalBtn.dataset.transactionType = transactionType;
-        modal.find('#verify-decision').text(transactionAction);
-    });
-
-    comfirmModalBtn.addEventListener("click", (e) => {
-        const transactionId = e.target.dataset.transactionId;
-        const transactionStatus = e.target.dataset.transactionStatus;
-        const transactionType = e.target.dataset.transactionType;
-        const transactionSenderPhone = e.target.dataset.transactionSenderphone;
-        const transactionSenderName = e.target.dataset.transactionSendername;
-        const transactionReceiverName = e.target.dataset.transactionReceivername;
-        const transactionReceiverPhone = e.target.dataset.transactionReceiverphone;
-        const transactionReceiverEmail = e.target.dataset.transactionReceiveremail;
-        const transactionPrice = e.target.dataset.transactionPrice;
-        const transactionTransactionFee = e.target.dataset.transactionTransactionfee;
-        const isFeeForSender = e.target.dataset.transactionIsfeeforsender;
-        const message = e.target.dataset.transactionMessage;
-        let data;
-        // NẾU LÀ RÚT TIỀN
-        if (parseInt(transactionType) === 1) {
-            data = {
-                id: transactionId,
-                status: transactionStatus,
-                senderPhone: transactionSenderPhone,
-                price: transactionPrice,
-                transactionFee: transactionTransactionFee
-            };
-            // console.log(data);
-            // FETCH
-            fetch("http://localhost:3000/admin/transactions/verify-withdrawal-transaction", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(res => res.json())
-                .then(json => {
-                    if (json.code === 1) {
-                        location.reload();
-                        console.log(json);
-                    } else {
-                        console.log(">>> Có lỗi ở dòng 239 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền");
-                    }
-                })
-                .catch(error => console.log(">>> Có lỗi ở dòng 242 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền"));
-        }
-        // NẾU LÀ CHUYỂN TIỀN 
-        else if (parseInt(transactionType) === 2) {
-            data = {
-                id: transactionId,
-                status: parseInt(transactionStatus),
-                senderPhone: transactionSenderPhone,
-                senderName: transactionSenderName,
-                receiverName: transactionReceiverName,
-                receiverPhone: transactionReceiverPhone,
-                receiverEmail: transactionReceiverEmail,
-                price: parseInt(transactionPrice),
-                transactionFee: parseInt(transactionTransactionFee),
-                isFeeForSender: parseInt(isFeeForSender),
-                message: message
-            }
-            console.log(data);
-            // FETCH
-            fetch("http://localhost:3000/admin/transactions/verify-transfer-transaction", {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            })
-                .then(res => res.json())
-                .then(json => {
-                    if (json.code === 1) {
-                        location.reload();
-                        console.log(json);
-                    } else {
-                        console.log(">>> Có lỗi ở dòng 239 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền");
-                    }
-                })
-                .catch(error => console.log(">>> Có lỗi ở dòng 242 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền"));
-        }
-
-
-    })
-</script>

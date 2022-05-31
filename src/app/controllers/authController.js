@@ -142,6 +142,16 @@ exports.signup = catchAsync(async (req, res, next) => {
 	if (req.body.username) req.body.username = undefined;
 	if (req.body.password) req.body.password = undefined;
 
+	const checkMail = await Account.findOne({ email: req.body.email });
+	if (checkMail) {
+		return response(
+			res,
+			400,
+			"fail",
+			"Email đã được sử dụng, vui lòng chọn email khác!"
+		);
+	}
+	
 	const newUser = await Account.create(req.body);
 
 	// random 10 number
@@ -284,6 +294,8 @@ exports.changeIdCard = catchAsync(async (req, res, next) => {
 			runValidators: true,
 		}
 	);
+	account.status = 0;
+	await account.save({ validateBeforeSave: false });
 
 	return res.status(200).json({
 		status: "success",

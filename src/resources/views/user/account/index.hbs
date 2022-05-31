@@ -26,18 +26,20 @@
                                 value="{{account.email}}"></div>
                         {{#ifEqual account.status 0}}
                         <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài
-                                khoản</label><input type="text" readonly
-                                class="form-control text-danger" placeholder="education"
-                                value="Đang chờ kích hoạt"></div>
+                                khoản</label><input type="text" disabled
+                                class="form-control text-danger font-weight-bold"
+                                placeholder="education" value="Đang chờ kích hoạt"></div>
                         {{/ifEqual}}
                         {{#ifEqual account.status 1}}
                         <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài
-                                khoản</label><input type="text" class="form-control text-success"
+                                khoản</label><input type="text"
+                                class="form-control text-success font-weight-bold" disabled
                                 placeholder="education" value="Đã kích hoạt"></div>
                         {{/ifEqual}}
                         {{#ifEqual account.status 3}}
                         <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài
-                                khoản</label><input type="text" class="form-control text-primary"
+                                khoản</label><input type="text"
+                                class="form-control text-primary font-weight-bold" disabled
                                 placeholder="education" value="Đang chờ cập nhật"></div>
                         {{/ifEqual}}
 
@@ -48,7 +50,7 @@
                             <img id="output" src="./uploads/{{{account.frontIdCard}}}" width="240px"
                                 height="240px" alt="Chứng minh mặt trước">
                             {{#ifEqual account.status 3}}
-                            <input type="file" required id="cmndmt" name="frontIdCard"
+                            <input type="file" accept="image/*" required id="cmndmt" name="frontIdCard"
                                 onchange="loadFile(event)">
                             {{/ifEqual}}
                         </div>
@@ -57,7 +59,7 @@
                             <img id="output1" src="./uploads/{{{account.backIdCard}}}" width="240px"
                                 height="240px" alt="Chứng minh mặt sau">
                             {{#ifEqual account.status 3}}
-                            <input type="file" required required="true" id="cmndms"
+                            <input type="file" required accept="image/*" required="true" id="cmndms"
                                 name="backIdCard" onchange="loadFile1(event)">
                             {{/ifEqual}}
                         </div>
