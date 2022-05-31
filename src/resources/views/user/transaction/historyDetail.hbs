@@ -42,6 +42,7 @@
                                 disabled
 							/>
 						</div>
+                        
                         <div class="mb-3">
 							<label for="total" class="form-label">Phí giao dịch</label>
 							<input
@@ -142,6 +143,61 @@
                                     />
                                 </div>
                             </div>
+                            <div class="mb-3">
+							<label for="transID" class="form-label">Người chịu phí</label>
+							<input
+								type="text"
+								class="form-control"
+								id="transID"
+								placeholder=""
+                                value="{{renderHistoryDetailFee trans.isFeeForSender}}"
+                                disabled
+							/>
+						</div>
+                            <div class="mb-4">
+                                <label class="form-label">Ghi chú</label>
+                                <textarea class="form-control" id="message" name="message" rows="4" disabled>{{trans.message}}</textarea>
+                            </div>
+                            
+                        {{/ifEqual}}
+
+                        {{#ifEqual trans.transactionType 3}}
+                        
+                          <div class="row g-3 mb-3">
+							<div class="col-sm-6">
+                                <label for="cardProvider" class="form-label">Tên người nhận</label>
+                                <input
+                                    type="cardProvider"
+                                    class="form-control"
+                                    id="cardProvider"
+                                    placeholder=""
+                                    value="{{trans.receiverName}}"
+                                    disabled
+                                />
+                            </div>
+                                <div class="col-sm">
+                                    <label for="cardType" class="form-label">Số điện thoại người nhận</label>
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="cardType"
+                                        placeholder=""
+                                        value="{{trans.receiverPhone}}"
+                                        disabled
+                                    />
+                                </div>
+                            </div>
+                            <div class="mb-3">
+							<label for="transID" class="form-label">Người chịu phí</label>
+							<input
+								type="text"
+								class="form-control"
+								id="transID"
+								placeholder=""
+                                value="{{renderHistoryDetailFee trans.isFeeForSender}}"
+                                disabled
+							/>
+						</div>
                             <div class="mb-4">
                                 <label class="form-label">Ghi chú</label>
                                 <textarea class="form-control" id="message" name="message" rows="4" disabled>{{trans.message}}</textarea>

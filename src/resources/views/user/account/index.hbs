@@ -50,7 +50,7 @@
                             <img id="output" src="./uploads/{{{account.frontIdCard}}}" width="240px"
                                 height="240px" alt="Chứng minh mặt trước">
                             {{#ifEqual account.status 3}}
-                            <input type="file" required id="cmndmt" name="frontIdCard"
+                            <input type="file" accept="image/*" required id="cmndmt" name="frontIdCard"
                                 onchange="loadFile(event)">
                             {{/ifEqual}}
                         </div>
@@ -59,7 +59,7 @@
                             <img id="output1" src="./uploads/{{{account.backIdCard}}}" width="240px"
                                 height="240px" alt="Chứng minh mặt sau">
                             {{#ifEqual account.status 3}}
-                            <input type="file" required required="true" id="cmndms"
+                            <input type="file" required accept="image/*" required="true" id="cmndms"
                                 name="backIdCard" onchange="loadFile1(event)">
                             {{/ifEqual}}
                         </div>

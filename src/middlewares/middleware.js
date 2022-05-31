@@ -82,12 +82,12 @@ exports.isLoggedIn = async (req, res, next) => {
 };
 // Kiểm tra đăng nhập với session
 exports.checkAuth = catchAsync(async (req, res, next) => {
-	if (res.locals.account && res.locals.account.status === 0) {
+	if (res.locals.account && (res.locals.account.status === 0 || res.locals.account.status === 3)) {
 		return res.render("warning");
 	}
 	if (res.locals.account && res.locals.account.status !== 0) {
 		return next();
-	} else if (req.session.account && req.session.account.status === 0) {
+	} else if (req.session.account && (req.session.account.status === 0 || req.session.account.status === 3 )) {
 		return res.render("warning");
 	} else if (req.session.account && req.session.account.status !== 0) {
 		return next();

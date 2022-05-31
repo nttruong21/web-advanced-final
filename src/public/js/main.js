@@ -387,14 +387,11 @@ if (form_signup) {
 		// value file
 		const frontIdCard = document.querySelector("#frontIdCard").files[0];
 		const backIdCard = document.querySelector("#backIdCard").files[0];
-		// if (!frontIdCard || !backIdCard) {
-		// 	return alert(
-		// 		"error",
-		// 		"Lỗi",
-		// 		"Hãy upload đầy đủ các chứng minh nhân dân trước và sau"
-		// 	);
-		// }
-		// form data
+
+		if(phone === "" || email === "" || name === "" || birthday === "" || address === "" ) {
+			alert("error", "Lỗi", "Vui lòng nhập đầy đủ thông tin");
+			return;
+		}
 		const formData = new FormData();
 		formData.append("phone", phone);
 		formData.append("email", email);
@@ -424,7 +421,15 @@ if (form_signup) {
 				}, 1500);
 			}
 		} catch (err) {
-			alert("error", "Đăng ký thất bại", `${err.response.data.errors}!!!`);
+			if(err.response.data.errors){
+				alert("error", "Đăng ký thất bại", `${err.response.data.errors}!!!`);
+			}else {
+				alert(
+					"error",
+					"Đăng ký thất bại",
+					`${err.response.data.message}!!!`
+				);
+			}
 		}
 	});
 }
@@ -456,7 +461,7 @@ if (btn_js_changeIdCard) {
 		const frontIdCard = document.querySelector("#cmndmt").files[0];
 		const backIdCard = document.querySelector("#cmndms").files[0];
 		console.log(frontIdCard, backIdCard);
-		if (!frontIdCard || frontIdCard) {
+		if (!frontIdCard || !backIdCard) {
 			return alert(
 				"error",
 				"Lỗi",

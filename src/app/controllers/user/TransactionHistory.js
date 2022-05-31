@@ -33,7 +33,12 @@ module.exports.renderHistoryDetail = async (req, res, next) => {
 	const trans = await Transaction.findById(req.params.id)
 		.populate("phoneCardCode")
 		.lean();
-	console.log(trans);
+        if (
+            trans.transactionType === 2 &&
+            trans.receiverPhone === req.session.account.phone
+        ) {
+            trans.transactionType = 3;
+        }
 	res.render(`user/transaction/historyDetail`, {
 		trans: trans,
 		layout: "user",
