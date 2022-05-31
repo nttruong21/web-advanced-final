@@ -26,18 +26,20 @@
                                 value="{{account.email}}"></div>
                         {{#ifEqual account.status 0}}
                         <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài
-                                khoản</label><input type="text" readonly
-                                class="form-control text-danger" placeholder="education"
-                                value="Đang chờ kích hoạt"></div>
+                                khoản</label><input type="text" disabled
+                                class="form-control text-danger font-weight-bold"
+                                placeholder="education" value="Đang chờ kích hoạt"></div>
                         {{/ifEqual}}
                         {{#ifEqual account.status 1}}
                         <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài
-                                khoản</label><input type="text" class="form-control text-success"
+                                khoản</label><input type="text"
+                                class="form-control text-success font-weight-bold" disabled
                                 placeholder="education" value="Đã kích hoạt"></div>
                         {{/ifEqual}}
                         {{#ifEqual account.status 3}}
                         <div class="col-md-12 mt-3"><label class="labels">Trạng thái tài
-                                khoản</label><input type="text" class="form-control text-primary"
+                                khoản</label><input type="text"
+                                class="form-control text-primary font-weight-bold" disabled
                                 placeholder="education" value="Đang chờ cập nhật"></div>
                         {{/ifEqual}}
 

@@ -189,7 +189,7 @@ class TransactionController {
 		) {
 			// DUYỆT
 			if (parseInt(status) === 1) {
-				// GET REAL PRICE OF TRANSACTION (INCLUDE FEE)
+				// GET FEE
 				const fee = (parseInt(price) * parseInt(transactionFee)) / 100;
 
 				// console.log(">>> Fee: ", fee);

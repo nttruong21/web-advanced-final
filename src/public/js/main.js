@@ -1,4 +1,174 @@
 // ------------------------ ADMIN --------------------------------
+// account-detail.hbs
+const adminAccountComfirmModalBtn = document.getElementById(
+	"admin-account-confirm-modal-btn"
+);
+
+$("#verify-account-modal").on("show.bs.modal", function (event) {
+	const button = $(event.relatedTarget);
+	const newStatus = button.data("newstatus");
+	const oldStatus = button.data("oldstatus");
+	// console.log(newStatus);
+	const accountAction = button.data("account-action");
+	const modal = $(this);
+	adminAccountComfirmModalBtn.dataset.accountNewstatus = newStatus;
+	adminAccountComfirmModalBtn.dataset.accountOldstatus = oldStatus;
+	modal.find("#verify-decision").text(accountAction);
+});
+
+if (adminAccountComfirmModalBtn) {
+	adminAccountComfirmModalBtn.addEventListener("click", (e) => {
+		const accountNewStatus = e.target.dataset.accountNewstatus;
+		const accountOldStatus = e.target.dataset.accountOldstatus;
+		const accountId = e.target.dataset.accountId;
+		let data = {
+			id: accountId,
+			newStatus: accountNewStatus,
+			oldStatus: accountOldStatus,
+		};
+
+		fetch("http://localhost:3000/admin/accounts/verify-account", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(data),
+		})
+			.then((res) => res.json())
+			.then((json) => {
+				if (json.code === 1) {
+					location.reload();
+				} else {
+					console.log(
+						">>> Code 0 - Had error when change the account status"
+					);
+				}
+			})
+			.catch((error) =>
+				console.log(">>> Had error when change the account status")
+			);
+	});
+}
+
+// transaction-detail.hbs
+const adminTransactionComfirmModalBtn = document.getElementById(
+	"admin-transaction-confirm-modal-btn"
+);
+
+$("#verify-transaction-modal").on("show.bs.modal", function (event) {
+	const button = $(event.relatedTarget);
+	console.log();
+	const status = button.data("status");
+	const transactionAction = button.data("transaction-action");
+	// const transactionType = button.data('transaction-type');
+	const modal = $(this);
+	adminTransactionComfirmModalBtn.dataset.transactionStatus = status;
+	// adminTransactionComfirmModalBtn.dataset.transactionType = transactionType;
+	modal.find("#verify-decision").text(transactionAction);
+});
+
+if (adminTransactionComfirmModalBtn) {
+	adminTransactionComfirmModalBtn.addEventListener("click", (e) => {
+		const transactionId = e.target.dataset.transactionId;
+		const transactionStatus = e.target.dataset.transactionStatus;
+		const transactionType = e.target.dataset.transactionType;
+		const transactionSenderPhone = e.target.dataset.transactionSenderphone;
+		const transactionSenderName = e.target.dataset.transactionSendername;
+		const transactionReceiverName = e.target.dataset.transactionReceivername;
+		const transactionReceiverPhone =
+			e.target.dataset.transactionReceiverphone;
+		const transactionReceiverEmail =
+			e.target.dataset.transactionReceiveremail;
+		const transactionPrice = e.target.dataset.transactionPrice;
+		const transactionTransactionFee =
+			e.target.dataset.transactionTransactionfee;
+		const isFeeForSender = e.target.dataset.transactionIsfeeforsender;
+		const message = e.target.dataset.transactionMessage;
+		let data;
+		// NẾU LÀ RÚT TIỀN
+		if (parseInt(transactionType) === 1) {
+			data = {
+				id: transactionId,
+				status: transactionStatus,
+				senderPhone: transactionSenderPhone,
+				price: transactionPrice,
+				transactionFee: transactionTransactionFee,
+			};
+			// console.log(data);
+			// FETCH
+			fetch(
+				"http://localhost:3000/admin/transactions/verify-withdrawal-transaction",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(data),
+				}
+			)
+				.then((res) => res.json())
+				.then((json) => {
+					if (json.code === 1) {
+						location.reload();
+						console.log(json);
+					} else {
+						console.log(
+							">>> Có lỗi ở dòng 239 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền"
+						);
+					}
+				})
+				.catch((error) =>
+					console.log(
+						">>> Có lỗi ở dòng 242 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền"
+					)
+				);
+		}
+		// NẾU LÀ CHUYỂN TIỀN
+		else if (parseInt(transactionType) === 2) {
+			data = {
+				id: transactionId,
+				status: parseInt(transactionStatus),
+				senderPhone: transactionSenderPhone,
+				senderName: transactionSenderName,
+				receiverName: transactionReceiverName,
+				receiverPhone: transactionReceiverPhone,
+				receiverEmail: transactionReceiverEmail,
+				price: parseInt(transactionPrice),
+				transactionFee: parseInt(transactionTransactionFee),
+				isFeeForSender: parseInt(isFeeForSender),
+				message: message,
+			};
+			console.log(data);
+			// FETCH
+			fetch(
+				"http://localhost:3000/admin/transactions/verify-transfer-transaction",
+				{
+					method: "POST",
+					headers: {
+						"Content-Type": "application/json",
+					},
+					body: JSON.stringify(data),
+				}
+			)
+				.then((res) => res.json())
+				.then((json) => {
+					if (json.code === 1) {
+						location.reload();
+						console.log(json);
+					} else {
+						console.log(
+							">>> Có lỗi ở dòng 239 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền"
+						);
+					}
+				})
+				.catch((error) =>
+					console.log(
+						">>> Có lỗi ở dòng 242 - transaction-detail.hbs -> Phê duyệt giao dịch rút tiền"
+					)
+				);
+		}
+	});
+}
 
 // ------------------------ CLIENT -------------------------------
 

@@ -163,7 +163,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" data-dismiss="modal">Hủy
                     bỏ</button>
-                <button id="confirm-modal-btn" type="button" class="btn btn-primary"
+                <button id="admin-account-confirm-modal-btn" type="button" class="btn btn-primary"
                     data-account-id="{{account._id}}" data-account-newstatus=""
                     data-account-oldstatus="">Chắc
                     chắn</button>
@@ -171,47 +171,3 @@
         </div>
     </div>
 </div>
-
-<script>
-    const comfirmModalBtn = document.getElementById("confirm-modal-btn");
-
-    $('#verify-account-modal').on('show.bs.modal', function (event) {
-        const button = $(event.relatedTarget);
-        const newStatus = button.data('newstatus');
-        const oldStatus = button.data('oldstatus');
-        console.log(newStatus);
-        const accountAction = button.data('account-action');
-        const modal = $(this);
-        comfirmModalBtn.dataset.accountNewstatus = newStatus;
-        comfirmModalBtn.dataset.accountOldstatus = oldStatus;
-        modal.find('#verify-decision').text(accountAction);
-    });
-
-    comfirmModalBtn.addEventListener("click", (e) => {
-        const accountNewStatus = e.target.dataset.accountNewstatus;
-        const accountOldStatus = e.target.dataset.accountOldstatus;
-        const accountId = e.target.dataset.accountId;
-        let data = {
-            id: accountId,
-            newStatus: accountNewStatus,
-            oldStatus: accountOldStatus
-        };
-
-        fetch("http://localhost:3000/admin/accounts/verify-account", {
-            method: "POST",
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data)
-        })
-            .then(res => res.json())
-            .then(json => {
-                if (json.code === 1) {
-                    location.reload();
-                } else {
-                    console.log(">>> Code 0 - Had error when change the account status")
-                }
-            })
-            .catch(error => console.log(">>> Had error when change the account status"))
-    })
-</script>
