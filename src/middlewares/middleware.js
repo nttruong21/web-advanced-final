@@ -1,7 +1,7 @@
 const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
 const { promisify } = require("util");
-const Account = require("../app/models/Account");
+const Account = require("../app/models/account");
 const { reverse } = require("dns");
 
 const response = (res, statusCode, status, message) => {
@@ -105,6 +105,42 @@ exports.bodyFile = (req, res, next) => {
 	req.body.backIdCard = req.files.backIdCard[0].filename;
 	next();
 };
+
+// Buy Phone Card Validation
+
+exports.buyPhoneCardValidation = catchAsync(async (req, res, next) => {
+	const { phoneCardQuantity, price, phoneServiceProviderCode } = req.body;
+	if (
+		phoneCardQuantity === "" ||
+		price === "" ||
+		phoneServiceProviderCode === ""
+	) {
+		req.flash(
+			"error",
+			"Mua thẻ thất bại: Thông tin mua thẻ điện thoại trống!"
+		);
+		return res.redirect("/transactions/buy-phone-card");
+	}
+	if (
+		phoneCardQuantity > 5 ||
+		phoneCardQuantity <= 0 ||
+		(price !== "10000" &&
+			price !== "20000" &&
+			price &&
+			"50000" &&
+			price !== "100000") ||
+		(phoneServiceProviderCode !== "Viettel" &&
+			phoneServiceProviderCode !== "Mobiphone" &&
+			phoneServiceProviderCode !== "Vinaphone")
+	) {
+		req.flash(
+			"error",
+			"Mua thẻ thất bại: Thông tin mua thẻ điện thoại không hợp lệ!"
+		);
+		return res.redirect("/transactions/buy-phone-card");
+	}
+	next();
+});
 
 exports.checkAdminAuth = (req, res, next) => {
 	console.log(">>> Role: ", req.session.account.role);

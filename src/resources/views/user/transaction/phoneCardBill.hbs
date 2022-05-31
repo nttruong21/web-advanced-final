@@ -1,0 +1,79 @@
+<main class=" pt-3">
+	{{>flash}}
+	<div class="mt-5 container-fluid py-4">
+		<div class="col-12 col-lg-10 col-xxl-8 mx-auto">
+			<div class="bd-wrap-tinn">
+
+				<div class="bd-tinn">
+    
+
+					<h2 class="headerText-tinn">Hóa đơn</h2>
+					<form action="/transactions/phonecard" method="post">
+						<div class="mb-3">
+							<label for="total" class="form-label">Đã thanh toán</label>
+							<input
+								type="total"
+								class="form-control"
+								id="total"
+								placeholder=""
+                                value="{{cardInfo.price}}"
+                                disabled
+							/>
+						</div>
+                          <div class="row g-3 mb-3">
+							<div class="col-sm-6">
+                                <label for="cardProvider" class="form-label">Nhà mạng</label>
+                                <input
+                                    type="cardProvider"
+                                    class="form-control"
+                                    id="cardProvider"
+                                    placeholder=""
+                                    value="{{cardInfo.cardProvider}}"
+                                    disabled
+                                />
+                            </div>
+                                <div class="col-sm">
+                                    <label for="cardType" class="form-label">Loại thẻ</label>
+                                    <input
+                                        type="email"
+                                        class="form-control"
+                                        id="cardType"
+                                        placeholder=""
+                                        value="{{cardInfo.cardType}}"
+                                        disabled
+                                    />
+                                </div>
+                            </div>
+                        
+                        <div class="mb-3">
+                            <h4>Thẻ của bạn</h4>
+                        </div>
+                          
+                        {{#each cardInfo.code}}
+                            <div class="mb-3">
+							<label for="cardType" class="form-label">Code</label>
+							<input
+								type="email"
+								class="form-control"
+								id="cardType"
+                                value="{{this}}"
+								placeholder=""
+                                disabled
+							/>
+						</div>
+                        {{/each}}
+
+						<div class="d-grid gap-2">
+						<a href="/transactions/buy-phone-card" type="button" class="btn btn-primary">Trở về</a>
+                        	
+						</div>
+					</form>
+
+				</div>
+			</div>
+
+		</div>
+
+	</div>
+
+</main>

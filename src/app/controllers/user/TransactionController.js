@@ -1,7 +1,7 @@
 const Transaction = require("../../models/Transaction");
 const Credit = require("../../models/Credit");
 const PhoneCard = require("../../models/PhoneCard");
-const Account = require("../../models/Account");
+const Account = require("../../models/account");
 const OTP = require("../../models/OTP");
 const { validationResult } = require("express-validator");
 const sendMail = require("../../../utils/email");
@@ -39,7 +39,9 @@ class TransactionController {
 			if (checkDate) {
 				// Kiểm tra mã cvv
 				if (checkCVV) {
-					const acc = await Account.findOne({ _id: req.session.account._id });
+					const acc = await Account.findOne({
+						_id: req.session.account._id,
+					});
 					const depositTransaction = await new Transaction({
 						transactionType: 0,
 						price: price,
@@ -110,18 +112,25 @@ class TransactionController {
 				//message: errors.array(),
 			});
 		} else {
-			const { cardNumber, cardExpirationDate, cvv, message, price } = req.body;
+			const { cardNumber, cardExpirationDate, cvv, message, price } =
+				req.body;
 			const acc = await Account.findOne({ _id: req.session.account._id });
 
-			let numberDepositTransactionToday = await Transaction.count({ phone: req.session.account.phone, createdAt: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) } })
+			let numberDepositTransactionToday = await Transaction.count({
+				phone: req.session.account.phone,
+				createdAt: { $gte: new Date(new Date().setHours(0, 0, 0, 0)) },
+			})
 				.where("transactionType")
 				.equals(1);
-			console.log("Số giao dịch rút tiền hôm nay: " + numberDepositTransactionToday);
+			console.log(
+				"Số giao dịch rút tiền hôm nay: " + numberDepositTransactionToday
+			);
 			// Kiểm tra số giao dịch rút tiền hôm nay >= 2 thì không cho rút
 			if (numberDepositTransactionToday >= 2) {
 				return res.json({
 					status: "fail",
-					message: "Mỗi ngày chỉ được thực hiện tối đa 2 giao dịch rút tiền.",
+					message:
+						"Mỗi ngày chỉ được thực hiện tối đa 2 giao dịch rút tiền.",
 				});
 			}
 			// Số dư < số tiền rút + phí giao dịch 5%
@@ -185,7 +194,8 @@ class TransactionController {
 				message: errors.array(),
 			});
 		} else {
-			const { receiverPhone, price, message, isFeeForSender } = await req.body;
+			const { receiverPhone, price, message, isFeeForSender } =
+				await req.body;
 			const sender = await Account.findOne({ _id: req.session.account._id });
 			const receiver = await Account.findOne({ phone: receiverPhone });
 			const transferTransaction = await new Transaction({
@@ -206,12 +216,13 @@ class TransactionController {
 				transferTransaction.status = 0;
 			} else {
 				transferTransaction.status = 1;
-				if (isFeeForSender === 0) {
+				if (isFeeForSender === 1) {
 					sender.balance = Number(sender.balance) - Number(price) * 1.05;
 					receiver.balance = Number(receiver.balance) + Number(price);
 				} else {
 					sender.balance = Number(sender.balance) - Number(price);
-					receiver.balance = Number(receiver.balance) + Number(price) * 0.95;
+					receiver.balance =
+						Number(receiver.balance) + Number(price) * 0.95;
 				}
 				await sender.save();
 				await receiver.save();
@@ -281,7 +292,7 @@ class TransactionController {
 				phone: req.session.account.phone,
 				otp: generateOTP,
 				status: 0,
-				expiredAt: Date.now() + 1000*60*2,
+				expiredAt: Date.now() + 1000 * 60 * 2,
 				email: req.session.account.email,
 			});
 			await otp.save();
@@ -296,7 +307,8 @@ class TransactionController {
 
 			return res.status(200).json({
 				status: "success",
-				message: "Mã OTP đã được gửi tới địa chỉ email của bạn. LƯU Ý: Mã OTP có hiệu lực trong vòng 1 phút.",
+				message:
+					"Mã OTP đã được gửi tới địa chỉ email của bạn. LƯU Ý: Mã OTP có hiệu lực trong vòng 1 phút.",
 			});
 		}
 	}
@@ -323,7 +335,8 @@ class TransactionController {
 				if (expire.getTime() < current.getTime() && otp_db.otp == otp) {
 					return res.json({
 						status: "fail",
-						message: "Mã OTP đã hết hạn. Nhấn gửi lại mã OTP để nhận mã OTP mới",
+						message:
+							"Mã OTP đã hết hạn. Nhấn gửi lại mã OTP để nhận mã OTP mới",
 					});
 				} else {
 					if (otp_db.otp == otp) {
@@ -339,7 +352,8 @@ class TransactionController {
 			} else {
 				return res.json({
 					status: "fail",
-					message: "Bạn chưa gửi mã OTP. Vui lòng nhấn gửi mã OTP để nhận mã OTP mới",
+					message:
+						"Bạn chưa gửi mã OTP. Vui lòng nhấn gửi mã OTP để nhận mã OTP mới",
 				});
 			}
 		}

@@ -1,10 +1,10 @@
-const Account = require("../../models/Account");
+const Account = require("../../models/account");
 
 /* User */
 class AccountController {
 	async getNameByPhone(req, res) {
 		const { phone } = req.body;
-		const acc = await Account.findOne({ phone: phone , role: 0 });
+		const acc = await Account.findOne({ phone: phone, role: 0 });
 		if (acc) {
 			return res.json({
 				status: "success",

@@ -1,5 +1,5 @@
 const Transaction = require("../../models/Transaction");
-const Account = require("../../models/Account");
+const Account = require("../../models/account");
 const sendMail = require("../../../utils/email");
 
 class TransactionController {

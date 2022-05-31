@@ -42,6 +42,7 @@ class SiteController {
 			layout: "user",
 		});
 	}
+
 	//[GET] /user/transactions/history
 	history(req, res) {
 		res.render("user/transaction/history", {
