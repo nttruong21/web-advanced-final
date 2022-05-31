@@ -286,6 +286,13 @@ if (btn_js_changeIdCard) {
 		const frontIdCard = document.querySelector("#cmndmt").files[0];
 		const backIdCard = document.querySelector("#cmndms").files[0];
 		console.log(frontIdCard, backIdCard);
+		if (!frontIdCard || frontIdCard) {
+			return alert(
+				"error",
+				"Lỗi",
+				"Hãy upload đầy đủ các chứng minh nhân dân trước và sau"
+			);
+		}
 		const formData = new FormData();
 		formData.append("frontIdCard", frontIdCard);
 		formData.append("backIdCard", backIdCard);

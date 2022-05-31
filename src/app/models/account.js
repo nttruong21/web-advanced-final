@@ -131,9 +131,9 @@ accountSchema.methods.createPasswordResetToken = function () {
 };
 
 accountSchema.methods.loginFailed = function () {
-	if (this.checkFailLogins < 3) {
+	if (this.checkFailLogins < 2) {
 		this.checkFailLogins++;
-	} else if (this.checkFailLogins === 3) {
+	} else if (this.checkFailLogins === 2) {
 		const dateVietNam = moment.tz(Date.now(), "Asia/Ho_Chi_Minh");
 		this.openLogin = dateVietNam + 60 * 1000;
 		this.checkFailLogins = 0;
