@@ -1,5 +1,6 @@
 const PhoneCard = require("../../models/PhoneCard");
 const Transaction = require("../../models/Transaction");
+const Account = require("../../models/account");
 
 const getPhoneCard = (cardType) => {
 	let phoneCardCode = 0;
@@ -17,6 +18,8 @@ const getPhoneCard = (cardType) => {
 };
 module.exports.createBuyCardTransactions = async (req, res, next) => {
 	const trans = await new Transaction();
+	const account = await Account.findOne({ _id: req.session.account._id });
+
 	trans.transactionType = 4;
 	trans.status = 1;
 	trans.senderPhone = req.session.account.phone;
@@ -35,8 +38,12 @@ module.exports.createBuyCardTransactions = async (req, res, next) => {
 		trans.phoneCardCode.push(card);
 		await card.save();
 	}
+	account.balance = account.balance - parseInt(req.body.price) * cardQuantity;
+	console.log(parseInt(req.body.price) * cardQuantity);
+	await account.save();
 	await trans.save();
 	// console.log(trans.id);
+
 	req.flash("success", "Mua thẻ điện thoại thành công thành công");
 	res.redirect(`/transactions/phonecard/${trans._id}`);
 };

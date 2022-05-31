@@ -112,6 +112,12 @@ exports.bodyFile = (req, res, next) => {
 
 exports.buyPhoneCardValidation = catchAsync(async (req, res, next) => {
 	const { phoneCardQuantity, price, phoneServiceProviderCode } = req.body;
+	const account = await Account.findOne({ _id: req.session.account._id });
+
+	if (account.balance < phoneCardQuantity * price) {
+		req.flash("error", "Mua thẻ thất bại: Số dư không đủ!");
+		return res.redirect("/transactions/buy-phone-card");
+	}
 	if (
 		phoneCardQuantity === "" ||
 		price === "" ||
@@ -128,8 +134,7 @@ exports.buyPhoneCardValidation = catchAsync(async (req, res, next) => {
 		phoneCardQuantity <= 0 ||
 		(price !== "10000" &&
 			price !== "20000" &&
-			price &&
-			"50000" &&
+			price !== "50000" &&
 			price !== "100000") ||
 		(phoneServiceProviderCode !== "Viettel" &&
 			phoneServiceProviderCode !== "Mobiphone" &&

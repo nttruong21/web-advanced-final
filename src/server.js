@@ -124,6 +124,14 @@ app.engine(
 						return `<p class="text-warning font-weight-bold mb-0">Đang bị khóa</p>`;
 				}
 			},
+			renderHistoryDetailFee: function (fee) {
+				switch (fee) {
+					case 0:
+						return `Người nhận`;
+					case 1:
+						return `Người gửi`;
+				}
+			},
 			// RENDER TRẠNG THÁI TÀI KHOẢN
 			renderAccountStatus: function (status) {
 				switch (status) {
