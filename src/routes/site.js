@@ -33,7 +33,7 @@ route.get("/transactions/transfer", siteController.transfer);
 
 route.get("/transactions/buy-phone-card", siteController.buyPhoneCard);
 
-route.get("/transactions/history", siteController.history);
+// route.get("/transactions/history", siteController.history);
 
 route.get("/not-permission", siteController.getNotPermissionView);
 

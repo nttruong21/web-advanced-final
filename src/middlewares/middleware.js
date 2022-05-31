@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const catchAsync = require("../utils/catchAsync");
 const { promisify } = require("util");
 const Account = require("../app/models/account");
+const Transaction = require("../app/models/Transaction");
+
 const { reverse } = require("dns");
 
 const response = (res, statusCode, status, message) => {
@@ -83,11 +85,11 @@ exports.checkAuth = catchAsync(async (req, res, next) => {
 	if (res.locals.account && res.locals.account.status === 0) {
 		return res.render("warning");
 	}
-	if (res.locals.account && res.locals.account.status === 1) {
+	if (res.locals.account && res.locals.account.status !== 0) {
 		return next();
 	} else if (req.session.account && req.session.account.status === 0) {
 		return res.render("warning");
-	} else if (req.session.account && req.session.account.status === 1) {
+	} else if (req.session.account && req.session.account.status !== 0) {
 		return next();
 	}
 	return res.redirect("/login");
@@ -141,7 +143,21 @@ exports.buyPhoneCardValidation = catchAsync(async (req, res, next) => {
 	}
 	next();
 });
-
+exports.checkHistoryDetail = async (req, res, next) => {
+	const { id } = req.params;
+	const trans = await Transaction.findById(id);
+	if (
+		trans.receiverPhone !== req.session.account.phone &&
+		trans.senderPhone !== req.session.account.phone
+	) {
+		req.flash(
+			"error",
+			"Bạn không có quyền để truy cập vào trang lịch sử giao dịch này!"
+		);
+		return res.redirect("/transactions/history");
+	}
+	next();
+};
 exports.checkAdminAuth = (req, res, next) => {
 	console.log(">>> Role: ", req.session.account.role);
 	res.locals.accountName = req.session.account.name;

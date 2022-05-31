@@ -15,7 +15,7 @@ const transactionSchema = new Schema(
 		message: { type: String },
 		phoneCardCode: [{ type: Schema.Types.ObjectId, ref: "PhoneCard" }], // Thẻ cào
 		phoneCardQuantity: { type: Number }, // Số lượng thẻ cào (<=5)
-		transactionFee: { type: Number },
+		transactionFee: { type: Number, default: 0 },
 		isFeeForSender: { type: Number }, // 0 người gửi, 1 người nhận
 		cardNumber: { type: String },
 		cardExpirationDate: { type: Date },

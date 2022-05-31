@@ -44,11 +44,11 @@ class SiteController {
 	}
 
 	//[GET] /user/transactions/history
-	history(req, res) {
-		res.render("user/transaction/history", {
-			layout: "user",
-		});
-	}
+	// history(req, res) {
+	// 	res.render("user/transaction/history", {
+	// 		layout: "user",
+	// 	});
+	// }
 
 	//[GET] /user/accounts/template
 	template(req, res, next) {

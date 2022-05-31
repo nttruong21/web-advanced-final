@@ -18,7 +18,7 @@ const getPhoneCard = (cardType) => {
 module.exports.createBuyCardTransactions = async (req, res, next) => {
 	const trans = await new Transaction();
 	trans.transactionType = 4;
-	trans.status = 0;
+	trans.status = 1;
 	trans.senderPhone = req.session.account.phone;
 	trans.senderName = req.session.account.name;
 	trans.transactionFee = 0;
