@@ -1,31 +1,20 @@
 <header class="container-fluid">
 	<div class="row height-100-percent">
-		<div
-			class="col-2 d-flex justify-content-center align-items-center"
-			style="background-color: #e3c46f"
-		>
+		<div class="col-2 d-flex justify-content-center align-items-center"
+			style="background-color: #e3c46f">
 			<h3 class="m-0 d-inline-block font-weight-bold">ADMIN</h3>
 		</div>
 		<div class="col-10 border-bottom">
-			<div
-				class="container height-100-percent d-flex justify-content-end align-items-center"
-			>
+			<div class="container height-100-percent d-flex justify-content-end align-items-center">
 				<div class="dropdown">
-					<span
-						style="color: #212529"
-						class="dropdown-toggle cursor-pointer"
-						id="dropdownMenuButton"
-						data-toggle="dropdown"
-						aria-haspopup="true"
-						aria-expanded="false"
-					>
-						<b style="color: #212529">{{account.name}}</b>
+					<span style="color: #212529" class="dropdown-toggle cursor-pointer"
+						id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+						aria-expanded="false">
+						<b style="color: #212529">{{accountName}}</b>
 					</span>
 
 					<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-						<a class="dropdown-item" href="#">Thông tin</a>
-						<a class="dropdown-item" href="#">Cài đặt</a>
-						<a class="dropdown-item" href="#">Tùy chỉnh</a>
+						<a class="dropdown-item" href="/admin/profile">Thông tin</a>
 						<a class="dropdown-item" href="" id="logout">Đăng xuất</a>
 					</div>
 				</div>
@@ -34,19 +23,19 @@
 	</div>
 </header>
 {{! <header class="d-flex justify-content-end px-32-px align-items-center"
-    style="background-color: #3d3d3d">
+	style="background-color: #3d3d3d">
 
-    <div class="dropdown">
-        <span style="color: #ffd154" class="dropdown-toggle cursor-pointer" id="dropdownMenuButton"
-            data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <b style="color: #ffd154">Nguyễn Thế Trường</b>
-        </span>
+	<div class="dropdown">
+		<span style="color: #ffd154" class="dropdown-toggle cursor-pointer" id="dropdownMenuButton"
+			data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			<b style="color: #ffd154">Nguyễn Thế Trường</b>
+		</span>
 
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Thông tin</a>
-            <a class="dropdown-item" href="#">Cài đặt</a>
-            <a class="dropdown-item" href="#">Tùy chỉnh</a>
-            <a class="dropdown-item" href="#">Đăng xuất</a>
-        </div>
-    </div>
+		<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+			<a class="dropdown-item" href="#">Thông tin</a>
+			<a class="dropdown-item" href="#">Cài đặt</a>
+			<a class="dropdown-item" href="#">Tùy chỉnh</a>
+			<a class="dropdown-item" href="#">Đăng xuất</a>
+		</div>
+	</div>
 </header> }}
